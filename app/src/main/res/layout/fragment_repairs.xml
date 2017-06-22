@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_frist_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f4f1f1"
-    android:orientation="vertical"
     tools:context="com.guanchao.app.fragmet.FristFragment">
 
     <!--toolbar标题-->
@@ -27,6 +26,8 @@
 
 
     <RelativeLayout
+        android:id="@+id/rle1"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
@@ -54,6 +55,8 @@
 
 
     <LinearLayout
+        android:id="@+id/rle2"
+        android:layout_below="@+id/rle1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -142,6 +145,8 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rle3"
+        android:layout_below="@+id/rle2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
@@ -168,6 +173,8 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rle4"
+        android:layout_below="@+id/rle3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -199,6 +206,7 @@
 
     <Button
         android:id="@+id/btn_user_repairs_ok"
+        android:layout_below="@+id/rle4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="6dp"
@@ -211,4 +219,37 @@
         android:text="保存"
         android:textColor="#ffffff"
         android:textSize="22sp" />
-</LinearLayout>
+
+
+    <!--加载页面-->
+    <RelativeLayout
+        android:id="@+id/rel_repairs_ref"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/shape_login_rel">
+
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifView_login"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-15px"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_login_r"></pl.droidsonroids.gif.GifImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="请稍后..."
+            android:textColor="#fff"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

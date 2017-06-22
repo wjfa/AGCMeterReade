@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,8 @@ public class WatchFragment extends Fragment {
     Toolbar toolbar;
     @BindView(R.id.recyView_watch)
     RecyclerView recyView;
+    @BindView(R.id.rel_watch_ref)
+    RelativeLayout relRefresh;//刷新页面
     private WatchAdapter watchAdapter;
     private ActivityUtils activityUtils;
     private TimePickerView pvCustomTime;
@@ -78,6 +81,7 @@ public class WatchFragment extends Fragment {
         tvShowTime.setText(CurrtrnstrTime);
 
         //网络请求
+        relRefresh.setVisibility(View.VISIBLE);
         setWatchNetRequest();
         //设置一下actionbar
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -133,6 +137,9 @@ public class WatchFragment extends Fragment {
         OkHttpClientEM.getInstance().watchTask(cbUserID, newStrTime).enqueue(new UICallBack() {
             @Override
             public void onFailureUI(Call call, IOException e) {
+                if (relRefresh.getVisibility()==View.VISIBLE){
+                    relRefresh.setVisibility(View.GONE);
+                }
                 activityUtils.showToast("网络异常，请重试！");
             }
 
@@ -142,6 +149,9 @@ public class WatchFragment extends Fragment {
                 //解析json
                 parserWatchList = Parser.parserWatch(json);
                 if (parserWatchList.getSuccess() == true) {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     //将信息存储到本地
                   /*  String areaId = parserWatchList.getData().get(postionID).getAreaId();
                     Watch watch=new Watch(areaId);
@@ -155,11 +165,20 @@ public class WatchFragment extends Fragment {
                     //设置监听
                     watchAdapter.setonNewItemClickListener(newItemClickListener);
                     if (parserWatchList.getData().size() == 0) {
+                        if (relRefresh.getVisibility()==View.VISIBLE){
+                            relRefresh.setVisibility(View.GONE);
+                        }
                         activityUtils.showToast("该月份无抄表任务记录");
                     } else {
-                        activityUtils.showToast(parserWatchList.getMessage());
+                        if (relRefresh.getVisibility()==View.VISIBLE){
+                            relRefresh.setVisibility(View.GONE);
+                        }
+                        //activityUtils.showToast(parserWatchList.getMessage());
                     }
                 } else {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     activityUtils.showToast(parserWatchList.getMessage());
                 }
 

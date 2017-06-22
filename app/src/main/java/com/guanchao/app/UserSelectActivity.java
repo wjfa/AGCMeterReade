@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +56,8 @@ public class UserSelectActivity extends AppCompatActivity {
     RecyclerView recylerView;
     @BindView(R.id.xrefreshview)
     XRefreshView xRefreshView;//刷新数据
-
+    @BindView(R.id.rel_repairs_ref)
+    RelativeLayout relRefresh;//刷新页面
     private ActivityUtils activityUtils;
     private UserSelectAdapter userSelectdapter;
     private int pagesize = 10;//每页记录数
@@ -77,6 +79,7 @@ public class UserSelectActivity extends AppCompatActivity {
 //        Log.e("数据收集", "onCreate: "+listBeen.size() );
 
 
+        relRefresh.setVisibility(View.VISIBLE);
         initRefreshDate();//数据刷新
         edtHouseName.addTextChangedListener(textWatcher);
         edtDoorNumber.addTextChangedListener(textWatcher);
@@ -186,9 +189,13 @@ public class UserSelectActivity extends AppCompatActivity {
         //获取存储本地的抄表区域areaId
         Watch userWatch = SharePreferencesUtils.getUserWatch();
         String areaId = userWatch.getAreaId();
+        relRefresh.setVisibility(View.VISIBLE);
         OkHttpClientEM.getInstance().userSelect(pagesize, pagenum, areaId, customerName, customerNo).enqueue(new UICallBack() {
             @Override
             public void onFailureUI(Call call, IOException e) {
+                if (relRefresh.getVisibility()==View.VISIBLE){
+                    relRefresh.setVisibility(View.GONE);
+                }
                 activityUtils.showToast("网络异常，请稍后重试");
             }
 
@@ -197,6 +204,9 @@ public class UserSelectActivity extends AppCompatActivity {
                 Log.e("用户选择", "onResponseUI: " + json);
                 BaseEntity<UserSelect> entity = Parser.parserUserSelect(json);
                 if (entity.getSuccess() == true) {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     //获取总记录数
                     count = entity.getData().getCount();
                     Log.e("rrrrrrrrrrrrrrrrrr选择", "onResponseUI: ");
@@ -218,8 +228,11 @@ public class UserSelectActivity extends AppCompatActivity {
                     //设置监听
                     userSelectdapter.setonNewItemClickListener(newItemClickListener);
 
-                    activityUtils.showToast(entity.getMessage());
+                   // activityUtils.showToast(entity.getMessage());
                 } else {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     activityUtils.showToast(entity.getMessage());
                 }
 
@@ -232,9 +245,13 @@ public class UserSelectActivity extends AppCompatActivity {
      * 用户选择后抄表页面获取用户信息  网络请求
      */
     private void okHttpUserSelectWatch() {
+        relRefresh.setVisibility(View.VISIBLE);
         OkHttpClientEM.getInstance().userSelectWatchInform(watermeterId).enqueue(new UICallBack() {
             @Override
             public void onFailureUI(Call call, IOException e) {
+                if (relRefresh.getVisibility()==View.VISIBLE){
+                    relRefresh.setVisibility(View.GONE);
+                }
                 activityUtils.showToast("网络异常，请稍后重试");
             }
 
@@ -243,6 +260,9 @@ public class UserSelectActivity extends AppCompatActivity {
                 Log.e("用户选择后抄表页面获取用户信息", "onResponseUI: " + json);
                 BaseEntity<UserSelcetWatchMessage> entity = Parser.parserUserSelectWatchMsg(json);
                 if (entity.getSuccess() == true) {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     UserSelcetWatchMessage userWatchMsg = entity.getData();
                     String customerNo = userWatchMsg.getCustomerNo();
                     String customerName = userWatchMsg.getName();
@@ -262,6 +282,11 @@ public class UserSelectActivity extends AppCompatActivity {
                     finish();
 
 
+                }else {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
+                    activityUtils.showToast(entity.getMessage());
                 }
             }
         });

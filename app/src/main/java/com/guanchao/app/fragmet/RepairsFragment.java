@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.guanchao.app.MainActivity;
@@ -47,6 +48,8 @@ public class RepairsFragment extends Fragment {
     EditText edtUserContext;//输入内容
     @BindView(R.id.btn_user_repairs_ok)
     Button btnOk;
+    @BindView(R.id.rel_repairs_ref)
+    RelativeLayout relRefresh;//刷新页面
     public static int stutesOK;//点击保存后设置跳转到维修页面
     private ActivityUtils activityUtils;
 
@@ -124,6 +127,7 @@ public class RepairsFragment extends Fragment {
         String mobile=edtUserPhone.getText().toString().trim();
         String addres=edtUserAddres.getText().toString().trim();
         String callContent=edtUserContext.getText().toString().trim();
+        relRefresh.setVisibility(View.VISIBLE);
         if (!"".equals(callMan)||!"".equals(mobile)||!"".equals(addres)||!"".equals(callContent)) {
             //获取本地存储的登入人ID
             User user = SharePreferencesUtils.getUser();
@@ -131,6 +135,9 @@ public class RepairsFragment extends Fragment {
             OkHttpClientEM.getInstance().userRepairs(callMan,mobile,addres,callContent,repairStaffID).enqueue(new UICallBack() {
                 @Override
                 public void onFailureUI(Call call, IOException e) {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     activityUtils.showToast("网络异常，请稍后重试");
                 }
 
@@ -140,10 +147,16 @@ public class RepairsFragment extends Fragment {
                     BaseEntity baseEntity = Parser.parserUserRepairs(json);
                     if (baseEntity.getSuccess()==true){
                         stutesOK=1;//设置点击保存后跳转到维修页面
+                        if (relRefresh.getVisibility()==View.VISIBLE){
+                            relRefresh.setVisibility(View.GONE);
+                        }
                         startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().finish();
-                        activityUtils.showToast(baseEntity.getMessage());
+                        //activityUtils.showToast(baseEntity.getMessage());
                     }else {
+                        if (relRefresh.getVisibility()==View.VISIBLE){
+                            relRefresh.setVisibility(View.GONE);
+                        }
                         activityUtils.showToast(baseEntity.getMessage());
                     }
 

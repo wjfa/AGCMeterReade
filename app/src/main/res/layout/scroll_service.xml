@@ -431,4 +431,37 @@
         android:text="保存"
         android:textColor="#ffffff"
         android:textSize="22sp" />
+
+
+    <!--加载页面-->
+    <RelativeLayout
+        android:id="@+id/rel_service_fault_ref"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:background="@drawable/shape_login_rel">
+
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifView_login"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-15px"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_login_r"></pl.droidsonroids.gif.GifImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="请稍后..."
+            android:textColor="#fff"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
 </RelativeLayout>

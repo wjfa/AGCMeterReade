@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_user_select"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.guanchao.app.UserSelectActivity">
     <!--toolbar标题-->
     <android.support.v7.widget.Toolbar
@@ -35,6 +34,8 @@
     </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
+        android:id="@+id/reln1"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
@@ -112,6 +113,8 @@
 
     <!--分界线-->
     <TextView
+        android:id="@+id/view1"
+        android:layout_below="@+id/reln1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#d8d8d8" />
@@ -119,6 +122,7 @@
 
     <com.andview.refreshview.XRefreshView
         android:id="@+id/xrefreshview"
+        android:layout_below="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -131,5 +135,36 @@
     </com.andview.refreshview.XRefreshView>
 
 
+    <!--加载页面-->
+    <RelativeLayout
+        android:id="@+id/rel_user_select_ref"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:background="@drawable/shape_login_rel">
 
-</LinearLayout>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifView_login"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-15px"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_login_r"></pl.droidsonroids.gif.GifImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="请稍后..."
+            android:textColor="#fff"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

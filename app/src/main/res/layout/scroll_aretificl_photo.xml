@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_frist_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.guanchao.app.fragmet.FristFragment">
 
     <LinearLayout
+        android:id="@+id/ln1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
@@ -94,9 +94,10 @@
     <!--资料-->
     <RelativeLayout
         android:id="@+id/re1"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/line7"
+        android:layout_below="@+id/ln1"
         android:layout_marginTop="7dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
@@ -625,6 +626,7 @@
 
     <Button
         android:id="@+id/btn_aretific_ok"
+        android:layout_below="@+id/linnn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -638,4 +640,38 @@
         android:textSize="22sp"
         android:clickable="false"
         android:background="@color/color_no_click"/>
-</LinearLayout>
+
+
+
+    <!--加载页面-->
+    <RelativeLayout
+        android:id="@+id/rel_artficl_ref"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:background="@drawable/shape_login_rel">
+
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifView_login"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-15px"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_login_r"></pl.droidsonroids.gif.GifImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="请稍后..."
+            android:textColor="#fff"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

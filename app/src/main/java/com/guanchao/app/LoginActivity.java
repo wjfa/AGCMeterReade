@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.guanchao.app.entery.BaseEntity;
@@ -36,8 +38,9 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox cboxLogin;
     @BindView(R.id.btn_login)
     Button btnLogin;
+    @BindView(R.id.rel_login_ref)
+    RelativeLayout relLogin;//刷新页面
     private ActivityUtils activityUtils;
-
 
 
     @Override
@@ -50,9 +53,9 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword.setText("123456");
         //SystemStatusCompat.compat(this);
 //         SystemStatusCompat.compat(this, getResources().getColor(R.color.color_yes_click));
-        SystemStatusCompat.setStatusBarBg(this,R.color.white);
+        SystemStatusCompat.setStatusBarBg(this, R.color.white);
         //设置状态栏字体的颜色
-        SystemBarCompat.setFlymeStatusBarDarkIcon(this,true);
+        SystemBarCompat.setFlymeStatusBarDarkIcon(this, true);
     }
 
     @OnClick(R.id.btn_login)
@@ -75,14 +78,24 @@ public class LoginActivity extends AppCompatActivity {
         String passmd5 = MD5(password);//密码需要用MD5加密  32位
         Log.e("加密", passmd5);
 
+        relLogin.setVisibility(View.VISIBLE);//展示刷新页面
         if ("".equals(username)) {
+            if (relLogin.getVisibility()==View.VISIBLE){
+                relLogin.setVisibility(View.GONE);//隐藏刷新页面
+            }
             activityUtils.showToast("用户名不能为空");
         } else if ("".equals(password)) {
+            if (relLogin.getVisibility()==View.VISIBLE){
+                relLogin.setVisibility(View.GONE);//隐藏刷新页面
+            }
             activityUtils.showToast("密码不能为空");
         } else {
             OkHttpClientEM.getInstance().login(username, passmd5).enqueue(new UICallBack() {
                 @Override
                 public void onFailureUI(Call call, IOException e) {
+                    if (relLogin.getVisibility()==View.VISIBLE){
+                        relLogin.setVisibility(View.GONE);//隐藏刷新页面
+                    }
                     activityUtils.showToast("网络异常，请重试！");
                 }
 
@@ -92,14 +105,20 @@ public class LoginActivity extends AppCompatActivity {
                     //解析json
                     BaseEntity<User> watch = Parser.parserLogin(json);
                     if (watch.getSuccess() == true) {
+                        if (relLogin.getVisibility()==View.VISIBLE){
+                            relLogin.setVisibility(View.GONE);//隐藏刷新页面
+                        }
                         String id = watch.getData().getId();
                         //将用户信息保存到本地配置里
                         User watchSh = new User(id);
                         SharePreferencesUtils.setUser(watchSh);
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
-                        activityUtils.showToast(watch.getMessage());
-                    }else {
+                     //   activityUtils.showToast(watch.getMessage());
+                    } else {
+                        if (relLogin.getVisibility()==View.VISIBLE){
+                            relLogin.setVisibility(View.GONE);//隐藏刷新页面
+                        }
                         activityUtils.showToast(watch.getMessage());
                     }
 

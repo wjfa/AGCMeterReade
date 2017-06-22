@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.guanchao.app.R;
 import com.guanchao.app.ServiceFaultActivity;
@@ -40,6 +41,8 @@ public class ServiceRepairsFragment extends Fragment {
     Toolbar toolbar;
     @BindView(R.id.reylerview_service_repairs)
     RecyclerView reylerview;
+    @BindView(R.id.rel_service_ref)
+    RelativeLayout relRefresh;//刷新页面
     private ServiceAdapter serviceAdapter;
     private List<String> list = new ArrayList<>();
     private ActivityUtils activityUtils;
@@ -56,6 +59,7 @@ public class ServiceRepairsFragment extends Fragment {
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
 
+        relRefresh.setVisibility(View.VISIBLE);
         okHttpService();//维修列表  请求
         return view;
     }
@@ -102,6 +106,9 @@ public class ServiceRepairsFragment extends Fragment {
         OkHttpClientEM.getInstance().serviceList(userId).enqueue(new UICallBack() {
             @Override
             public void onFailureUI(Call call, IOException e) {
+                if (relRefresh.getVisibility()==View.VISIBLE){
+                    relRefresh.setVisibility(View.GONE);
+                }
                 activityUtils.showToast("网络异常，请重试！");
             }
 
@@ -109,6 +116,9 @@ public class ServiceRepairsFragment extends Fragment {
             public void onResponseUI(Call call, String json) {
                 BaseEntity<List<ServiceRepair>> entity = Parser.parserServiceList(json);
                 if (entity.getSuccess() == true) {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     serviceList = entity.getData();
 
                     //设置适配器
@@ -119,8 +129,11 @@ public class ServiceRepairsFragment extends Fragment {
                     reylerview.setItemAnimator(new DefaultItemAnimator());
                     //设置监听
                     serviceAdapter.setonNewItemClickListener(newItemClickListener);
-                    activityUtils.showToast(entity.getMessage());
+                   // activityUtils.showToast(entity.getMessage());
                 } else {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     activityUtils.showToast(entity.getMessage());
                 }
             }

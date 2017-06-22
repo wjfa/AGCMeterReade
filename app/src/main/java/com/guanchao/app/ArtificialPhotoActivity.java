@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.guanchao.app.entery.BaseEntity;
@@ -94,6 +95,8 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
     EditText edtRemark;//备注
     @BindView(R.id.btn_aretific_ok)
     Button btnOk;
+    @BindView(R.id.rel_artficl_ref)
+    RelativeLayout relRefresh;//刷新页面
     private boolean isSet = false;
     private static int REQUEST_CODE = 100;
     private int IMAGEVIEWSTATUS;//设置控件状态
@@ -206,9 +209,13 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
      */
     private void okHttpPhotoUpdate(String filePath) {
 
+        relRefresh.setVisibility(View.VISIBLE);
         OkHttpClientEM.getInstance().photoUpdate(filePath).enqueue(new UICallBack() {
             @Override
             public void onFailureUI(Call call, IOException e) {
+                if (relRefresh.getVisibility()==View.VISIBLE){
+                    relRefresh.setVisibility(View.GONE);
+                }
                 activityUtils.showToast("网络异常，请稍后重试");
             }
 
@@ -217,11 +224,17 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
 
                 BaseEntity<ImgUpdate> imgUpdate = Parser.parserImgUpdate(json);
                 if (imgUpdate.getSuccess() == true) {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     ImgUpdate imgData = imgUpdate.getData();
                     //获取文件ID
                     fileId = imgData.getFileId();
-                    activityUtils.showToast(imgUpdate.getMessage());
+                   // activityUtils.showToast(imgUpdate.getMessage());
                 } else {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     activityUtils.showToast(imgUpdate.getMessage());
                 }
             }
@@ -236,12 +249,16 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
         String watermeterId = UserSelectActivity.watermeterId;
         String longtude = edtLongitude.getText().toString().trim();
         String latude = edtLatude.getText().toString().trim();
+        relRefresh.setVisibility(View.VISIBLE);
         if ("".equals(longtude) || "".equals(latude)) {
             return;
         } else {
             OkHttpClientEM.getInstance().setWaterLatLtude(watermeterId, longtude, latude).enqueue(new UICallBack() {
                 @Override
                 public void onFailureUI(Call call, IOException e) {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     activityUtils.showToast("网络异常，请稍后重试");
                 }
 
@@ -249,8 +266,14 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                 public void onResponseUI(Call call, String json) {
                     BaseEntity entity = Parser.parserWaterLatLutde(json);
                     if (entity.getSuccess() == true) {
-                        activityUtils.showToast(entity.getMessage());//查询成功
+                        if (relRefresh.getVisibility()==View.VISIBLE){
+                            relRefresh.setVisibility(View.GONE);
+                        }
+                       // activityUtils.showToast(entity.getMessage());//查询成功
                     } else {
+                        if (relRefresh.getVisibility()==View.VISIBLE){
+                            relRefresh.setVisibility(View.GONE);
+                        }
                         activityUtils.showToast(entity.getMessage());
                     }
                 }
@@ -267,17 +290,27 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
         String waterId = UserSelectActivity.watermeterId;//获取水表ID  在用户选择抄表信息请求存储
         String waterReading = edtNewReade.getText().toString().trim();
         String remark = edtRemark.getText().toString().trim();
+        relRefresh.setVisibility(View.VISIBLE);
         if (edtHouseNumber.getText().toString().length() == 0 || edtHouseName.getText().toString().length() == 0 || edtDoorNumber.getText().toString().length() == 0
                 || edtPhone.getText().toString().length() == 0 || edtAddres.getText().toString().length() == 0 || edtOldtReade.getText().toString().length() == 0
                 || edtWaterNumber.getText().toString().length() == 0 || edtLongitude.getText().toString().length() == 0
                 || edtLatude.getText().toString().length() == 0 || edtInstallPosition.getText().toString().length() == 0) {
+            if (relRefresh.getVisibility()==View.VISIBLE){
+                relRefresh.setVisibility(View.GONE);
+            }
             activityUtils.showToast("信息不完整");
         } else if (waterReading.length() == 0 || edtNewDosage.getText().toString().length() == 0 || edtRemark.getText().toString().length() == 0) {
+            if (relRefresh.getVisibility()==View.VISIBLE){
+                relRefresh.setVisibility(View.GONE);
+            }
             activityUtils.showToast("请补全信息");
         } else {
             OkHttpClientEM.getInstance().peoplePhoto(taskId, waterId, waterReading, remark, fileId).enqueue(new UICallBack() {
                 @Override
                 public void onFailureUI(Call call, IOException e) {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     activityUtils.showToast("网络异常，请稍后重试");
                 }
 
@@ -285,8 +318,14 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                 public void onResponseUI(Call call, String json) {
                     BaseEntity entity = Parser.parserPeoplePhoto(json);
                     if (entity.getSuccess() == true) {
-                        activityUtils.showToast(entity.getMessage());//抄表成功
+                        if (relRefresh.getVisibility()==View.VISIBLE){
+                            relRefresh.setVisibility(View.GONE);
+                        }
+                        //activityUtils.showToast(entity.getMessage());//抄表成功
                     } else {
+                        if (relRefresh.getVisibility()==View.VISIBLE){
+                            relRefresh.setVisibility(View.GONE);
+                        }
                         activityUtils.showToast(entity.getMessage());
                     }
 

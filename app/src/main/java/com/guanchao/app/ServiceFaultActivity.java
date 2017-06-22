@@ -88,6 +88,8 @@ public class ServiceFaultActivity extends AppCompatActivity {
     TextView tvPrmopt2;
     @BindView(R.id.tv_prmopt3)
     TextView tvPrmopt3;
+    @BindView(R.id.rel_service_fault_ref)
+    RelativeLayout relRefresh;//刷新页面
     private ServiceRepair serviceRepair;
     private Uri tempUri;
     private ActivityUtils activityUtils;
@@ -202,9 +204,13 @@ public class ServiceFaultActivity extends AppCompatActivity {
      * 图片上传　　网络请求
      */
     private void okHttpPhotoUpdate(List<File> path) {
+        relRefresh.setVisibility(View.VISIBLE);
         OkHttpClientEM.getInstance().photoUpdate2(path).enqueue(new UICallBack() {
             @Override
             public void onFailureUI(Call call, IOException e) {
+                if (relRefresh.getVisibility()==View.VISIBLE){
+                    relRefresh.setVisibility(View.GONE);
+                }
                 activityUtils.showToast("网络异常，请稍后重试");
             }
 
@@ -213,9 +219,15 @@ public class ServiceFaultActivity extends AppCompatActivity {
                 Log.e("图片上传2", "onResponseUI: " + json);
                 BaseEntity<ImgUpdate> imgUpdate = Parser.parserImgUpdate(json);
                 if (imgUpdate.getSuccess() == true) {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     //获取文件ID
-                    activityUtils.showToast(imgUpdate.getMessage());
+                    //activityUtils.showToast(imgUpdate.getMessage());
                 } else {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     activityUtils.showToast(imgUpdate.getMessage());
                 }
             }
@@ -232,10 +244,14 @@ public class ServiceFaultActivity extends AppCompatActivity {
         String inPic = serviceRepair.getRepairInPic() + "";
         String afterPic = serviceRepair.getRepairAfterPic() + "";
         String repairsContent = edtServiceContent.getText().toString().trim();
+        relRefresh.setVisibility(View.VISIBLE);
         if (repairsContent.length() != 0) {
             OkHttpClientEM.getInstance().serviceFault(id, beforePic, inPic, afterPic, repairsContent).enqueue(new UICallBack() {
                 @Override
                 public void onFailureUI(Call call, IOException e) {
+                    if (relRefresh.getVisibility()==View.VISIBLE){
+                        relRefresh.setVisibility(View.GONE);
+                    }
                     activityUtils.showToast("网络异常，请稍后重试  " + "");
                 }
 
@@ -243,10 +259,16 @@ public class ServiceFaultActivity extends AppCompatActivity {
                 public void onResponseUI(Call call, String json) {
                     BaseEntity entity = Parser.parserServiceFault(json);
                     if (entity.getSuccess() == true) {
+                        if (relRefresh.getVisibility()==View.VISIBLE){
+                            relRefresh.setVisibility(View.GONE);
+                        }
 //                        startActivity(new Intent(ServiceFaultActivity.this,MainActivity.class));
 //                        finish();
-                        activityUtils.showToast(entity.getMessage());
+                        //activityUtils.showToast(entity.getMessage());
                     } else {
+                        if (relRefresh.getVisibility()==View.VISIBLE){
+                            relRefresh.setVisibility(View.GONE);
+                        }
                         activityUtils.showToast(entity.getMessage());
                     }
                 }

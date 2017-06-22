@@ -54,4 +54,6 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'//ImageLoader图片加载
     //toolbar和手机状态栏颜色一致
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    //Gif加载动画
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.4'
 }
