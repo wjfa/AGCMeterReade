@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_frist_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.guanchao.app.fragmet.FristFragment">
+
+    <RelativeLayout
+        android:id="@+id/rel_watch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/sel_background">
+
+        <ImageView
+            android:id="@+id/img_watch_photo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_watch_icon"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_item_watch_serial_number"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="编号：100000000"
+            android:textSize="16sp"
+            android:layout_toRightOf="@+id/img_watch_photo"
+            android:layout_alignTop="@+id/img_watch_photo"
+            android:layout_marginLeft="10dp"
+            android:textColor="#333333"/>
+        <TextView
+            android:id="@+id/tv_item_watch_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="区域：猫村一组"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@+id/tv_item_watch_serial_number"
+            android:layout_alignTop="@+id/tv_item_watch_serial_number"
+            android:layout_marginLeft="10dp"
+            android:textColor="#333333"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_item_watch_house_number"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="户数：11111"
+            android:textSize="16sp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/tv_item_watch_serial_number"
+            android:layout_alignLeft="@+id/tv_item_watch_serial_number"
+            android:textColor="#333333"/>
+        <TextView
+            android:id="@+id/tv_item_watch_copied"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="已抄：888"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"
+            android:layout_alignTop="@+id/tv_item_watch_house_number"
+            android:layout_below="@+id/tv_item_watch_position"
+            android:layout_alignLeft="@+id/tv_item_watch_position"
+            android:textColor="#333333"/>
+    </RelativeLayout>
+</RelativeLayout>

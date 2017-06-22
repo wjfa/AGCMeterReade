@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="color_main_select">#27A5F9</color>
+    <color name="color_main_no_select">#707070</color>
+    <color name="color_frist_textdrwable">#d4d9d3</color>
+    <color name="color_dianji_bg">#c3c3c3</color>
+    <color name="white">#ffffff</color>
+    <color name="color_title_bg">#b4c7e2</color>93eab2
+    <color name="color_title_bg2">#93eab2</color>
+    <color name="writh">#ffffff</color>
+    <color name="color_save_before">#2cd468</color>
+    <color name="color_save_after">#2ec468</color>
+    <color name="color_no_click">#b5b5b4</color>
+    <color name="color_yes_click">#2dc551</color>
+
+
+
+
+</resources>

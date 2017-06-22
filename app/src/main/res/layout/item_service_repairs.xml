@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_frist_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.guanchao.app.fragmet.FristFragment">
+
+    <RelativeLayout
+        android:id="@+id/rel_service_p"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/sel_background">
+        <ImageView
+            android:id="@+id/img_service_photo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_complete"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_item_service_peploe"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="报修人：沙皇菲"
+            android:textSize="16sp"
+            android:layout_toRightOf="@+id/img_service_photo"
+            android:layout_alignTop="@+id/img_service_photo"
+            android:layout_marginLeft="10dp"
+            android:textColor="#333333"/>
+        <TextView
+            android:id="@+id/tv_item_service_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="电话：18888888888"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@+id/tv_item_service_peploe"
+            android:layout_alignTop="@+id/tv_item_service_peploe"
+            android:layout_marginLeft="12dp"
+            android:textColor="#333333"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_item_service_emile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="地址：南京市建邺区西一堂12组"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="18dp"
+            android:layout_below="@+id/tv_item_service_peploe"
+            android:layout_alignLeft="@+id/tv_item_service_peploe"
+            android:textColor="#333333"/>
+    </RelativeLayout>
+</RelativeLayout>

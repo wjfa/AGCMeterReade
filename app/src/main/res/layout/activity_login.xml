@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context="com.guanchao.app.LoginActivity">
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="80dp"
+        android:paddingBottom="10dp"
+        android:src="@mipmap/ic_login_log"></ImageView>
+
+
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#d6e7f5"
+        android:layout_below="@+id/iv"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="8dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_login_user"/>
+
+        <EditText
+            android:id="@+id/edt_user"
+            android:hint="请输入您的手机号"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:background="@null"
+            android:inputType="phone"
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/img1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl2"
+        android:layout_below="@+id/rl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#d6e7f5"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
+
+        <ImageView
+            android:id="@+id/img2"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="8dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_login_password"/>
+
+        <EditText
+            android:id="@+id/edt_password"
+            android:hint="请输入您的密码"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:inputType="textPassword"
+            android:background="@null"
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/img2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/vi"
+        android:layout_below="@+id/rl2"
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="#0092DA"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="15dp"></View>
+
+    <RelativeLayout
+        android:id="@+id/rl3"
+        android:layout_below="@+id/vi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+        <CheckBox
+            android:id="@+id/cbox_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="35dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="自动登录"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/cbox_login"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_below="@+id/rl3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:text="登录"
+        android:textSize="22sp"
+        android:textColor="#ffffff"
+        android:background="@drawable/sel_btn_login"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="22dp"
+        android:textColor="#777777"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="技术支持：南京贯超信息科技有限公司"/>
+</RelativeLayout>

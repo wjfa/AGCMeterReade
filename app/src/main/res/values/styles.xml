@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--设置toolbar和状态栏一致-->
+        <item name="android:windowIsTranslucent">true</item>
+
+    </style>
+
+    <style name="app_wrap_content">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+</resources>
