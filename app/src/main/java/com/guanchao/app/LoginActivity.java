@@ -27,7 +27,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
-
+/**
+ * 登入页面
+ */
 public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.edt_user)
@@ -60,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_login)
     public void onClick() {
-        setLogin();
+        OkHttpLogin();
 //        startActivity(new Intent(LoginActivity.this,MainActivity.class));
 //        finish();
     }
@@ -71,32 +73,29 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this).unbind();
     }
 
-
-    private void setLogin() {
+    /**
+     * 登入  网络请求
+     */
+    private void OkHttpLogin() {
         String username = edtUser.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
         String passmd5 = MD5(password);//密码需要用MD5加密  32位
         Log.e("加密", passmd5);
 
-        relLogin.setVisibility(View.VISIBLE);//展示刷新页面
+
         if ("".equals(username)) {
-            if (relLogin.getVisibility()==View.VISIBLE){
-                relLogin.setVisibility(View.GONE);//隐藏刷新页面
-            }
-            activityUtils.showToast("用户名不能为空");
+            activityUtils.showDialog("用户登入","用户名不能为空");
         } else if ("".equals(password)) {
-            if (relLogin.getVisibility()==View.VISIBLE){
-                relLogin.setVisibility(View.GONE);//隐藏刷新页面
-            }
-            activityUtils.showToast("密码不能为空");
+            activityUtils.showDialog("用户登入","密码不能为空");
         } else {
+            relLogin.setVisibility(View.VISIBLE);//展示刷新页面
             OkHttpClientEM.getInstance().login(username, passmd5).enqueue(new UICallBack() {
                 @Override
                 public void onFailureUI(Call call, IOException e) {
                     if (relLogin.getVisibility()==View.VISIBLE){
                         relLogin.setVisibility(View.GONE);//隐藏刷新页面
                     }
-                    activityUtils.showToast("网络异常，请重试！");
+                    activityUtils.showDialog("用户登入","网络异常，请重试");
                 }
 
                 @Override
@@ -119,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (relLogin.getVisibility()==View.VISIBLE){
                             relLogin.setVisibility(View.GONE);//隐藏刷新页面
                         }
-                        activityUtils.showToast(watch.getMessage());
+                        activityUtils.showDialog("用户登入",watch.getMessage());
                     }
 
                 }
@@ -127,7 +126,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    // MD5加密，32位
+    /**
+     *MD5密码加密，32位
+     * @param str
+     * @return
+     */
     public static String MD5(String str) {
         MessageDigest md5 = null;
         try {

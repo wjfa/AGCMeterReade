@@ -4,6 +4,7 @@
     android:id="@+id/activity_frist_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="com.guanchao.app.fragmet.FristFragment">
 
     <LinearLayout
@@ -23,6 +24,7 @@
                 android:id="@+id/img_aretificl_photo"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
+                android:scaleType="fitXY"
                 android:background="@drawable/shape_border3"
                 android:src="@drawable/ic_photo_kuang" />
 
@@ -41,12 +43,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/line5"
+
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_artific_select"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
@@ -61,12 +64,12 @@
             <TextView
                 android:id="@+id/tv_artific_get_position"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:drawableLeft="@mipmap/ic_artfic4"
+                android:drawableLeft="@mipmap/ic_artfic2"
                 android:gravity="center"
                 android:text="获取位置"
                 android:textColor="#000000"
@@ -76,13 +79,13 @@
             <TextView
                 android:id="@+id/tv_artific_photo_collect"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:drawableLeft="@mipmap/ic_artfic2"
+                android:drawableLeft="@mipmap/ic_artfic3"
                 android:gravity="center"
                 android:text="照片采集"
                 android:textColor="#000000"
@@ -98,18 +101,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ln1"
-        android:layout_marginTop="7dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:background="@color/color_title_bg2">
 
         <ImageView
             android:id="@+id/img7"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@mipmap/ic_artfic3" />
+            android:src="@mipmap/ic_artfic4" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -119,7 +121,7 @@
             android:layout_toRightOf="@+id/img7"
             android:text="资料信息"
             android:textColor="#000000"
-            android:textSize="22sp" />
+            android:textSize="20sp" />
     </RelativeLayout>
     <!--详情信息-->
     <LinearLayout
@@ -142,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="5dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="12dp"
                 android:layout_toLeftOf="@+id/view"
                 android:background="@drawable/shape_border4">
 
@@ -155,7 +157,7 @@
                     android:gravity="center_vertical"
                     android:text="户号："
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/artficl_means_size" />
 
                 <EditText
                     android:id="@+id/edt_artific_house_number"
@@ -164,7 +166,7 @@
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@+id/tv1"
                     android:textColor="#333333"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
                     android:focusable="false"/>
@@ -183,7 +185,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="12dp"
                 android:layout_toRightOf="@+id/view"
                 android:background="@drawable/shape_border4">
 
@@ -196,7 +198,7 @@
                     android:gravity="center_vertical"
                     android:text="户名："
                     android:textColor="#000000"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/artficl_means_size"/>
 
                 <EditText
                     android:id="@+id/edt_artific_house_name"
@@ -205,7 +207,7 @@
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@+id/tv2"
                     android:textColor="#333333"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
                     android:focusable="false"/>
@@ -237,7 +239,7 @@
                     android:gravity="center_vertical"
                     android:text="门牌号："
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/artficl_means_size" />
 
                 <EditText
                     android:id="@+id/edt_artific_house_door_number"
@@ -246,7 +248,7 @@
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@+id/tv3"
                     android:textColor="#333333"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
                     android:focusable="false"/>
@@ -278,14 +280,14 @@
                     android:gravity="center_vertical"
                     android:text="电话："
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/artficl_means_size" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="2dp"
                     android:textColor="#333333"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/artficl_means_size"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_toRightOf="@+id/tv4"
@@ -318,14 +320,14 @@
                     android:gravity="center_vertical"
                     android:text="详细地址："
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/artficl_means_size" />
 
                 <EditText
                     android:id="@+id/edt_artific_addres"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_toRightOf="@+id/tv5"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
                     android:focusable="false"/>
@@ -357,7 +359,7 @@
                     android:gravity="center_vertical"
                     android:text="上次读数："
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/artficl_means_size" />
 
                 <EditText
                     android:id="@+id/edt_artific_last_reade"
@@ -366,7 +368,7 @@
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@+id/tv6"
                     android:textColor="#333333"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
                     android:focusable="false"/>
@@ -397,8 +399,8 @@
                     android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:text="本次读数："
-                    android:textColor="#2cd468"
-                    android:textSize="18sp" />
+                    android:textColor="#27A5F9"
+                    android:textSize="@dimen/artficl_means_size" />
 
                 <EditText
                     android:id="@+id/edt_artific_now_reade"
@@ -406,8 +408,8 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@+id/tv7"
-                    android:textColor="#2cd468"
-                    android:textSize="17sp"
+                    android:textColor="#27A5F9"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"/>
             </RelativeLayout>
@@ -437,7 +439,7 @@
                     android:gravity="center_vertical"
                     android:text="水表钢号："
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/artficl_means_size" />
 
                 <EditText
                     android:id="@+id/edt_artific_water_number"
@@ -446,7 +448,7 @@
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@+id/tv22"
                     android:textColor="#333333"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
                     android:focusable="false"/>
@@ -477,8 +479,8 @@
                     android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:text="本次用量："
-                    android:textColor="#2cd468"
-                    android:textSize="18sp" />
+                    android:textColor="#27A5F9"
+                    android:textSize="@dimen/artficl_means_size" />
 
                 <EditText
                     android:id="@+id/edt_artific_now_amouter"
@@ -486,8 +488,8 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@+id/tv12"
-                    android:textColor="#2cd468"
-                    android:textSize="17sp"
+                    android:textColor="#27A5F9"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
                     android:focusable="false"/>
@@ -515,7 +517,7 @@
                     android:gravity="center_vertical"
                     android:text="经纬度："
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/artficl_means_size" />
 
                 <LinearLayout
                     android:layout_toRightOf="@+id/tv13"
@@ -527,7 +529,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
                     android:focusable="false"/>
@@ -537,7 +539,7 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:layout_toRightOf="@+id/edt_artific_longitude"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
                     android:focusable="false"/>
@@ -567,14 +569,14 @@
                     android:gravity="center_vertical"
                     android:text="安装位置："
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/artficl_means_size" />
 
                 <EditText
                     android:id="@+id/edt_artific_installation_position"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_toRightOf="@+id/tv14"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
                     android:focusable="false"/>
@@ -592,6 +594,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+
                 android:layout_marginTop="10dp">
 
                 <TextView
@@ -602,16 +605,16 @@
                     android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:text="备注："
-                    android:textColor="#2cd468"
-                    android:textSize="18sp" />
+                    android:textColor="#27A5F9"
+                    android:textSize="@dimen/artficl_means_size" />
 
                 <EditText
                     android:id="@+id/edt_artific_note"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="60dp"
                     android:layout_marginTop="5dp"
                     android:layout_toRightOf="@+id/tv15"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/artficl_means_size"
                     android:background="@null"/>
 
                 <View
@@ -619,7 +622,7 @@
                     android:layout_height="2dp"
                     android:layout_alignLeft="@+id/edt_artific_note"
                     android:layout_below="@+id/edt_artific_note"
-                    android:background="#2cd468"></View>
+                    android:background="#27A5F9"></View>
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -628,17 +631,15 @@
         android:id="@+id/btn_aretific_ok"
         android:layout_below="@+id/linnn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_height="@dimen/btn_commit_height"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
         android:text="保存"
         android:textColor="#ffffff"
-        android:textSize="22sp"
-        android:clickable="false"
+        android:textSize="20sp"
+        android:enabled="false"
         android:background="@color/color_no_click"/>
 
 

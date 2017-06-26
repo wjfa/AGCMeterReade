@@ -10,6 +10,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 通知公告
+ */
 public class NoticeaAnounceActivity extends AppCompatActivity {
 
     @BindView(R.id.ig_back)

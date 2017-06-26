@@ -18,13 +18,14 @@
             android:layout_gravity="center"
             android:text="维修任务"
             android:textColor="#ffffff"
-            android:textSize="20sp" />
+            android:textSize="@dimen/toolbar_title_size" />
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/reylerview_service_repairs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#dbdbd8"
         android:layout_below="@+id/toolbar"></android.support.v7.widget.RecyclerView>
 
 

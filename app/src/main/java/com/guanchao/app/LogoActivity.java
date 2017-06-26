@@ -24,7 +24,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.guanchao.app.R.id.viewpage;
-
+/**
+ * 欢迎页面
+ */
 public class LogoActivity extends AppCompatActivity {
 
     @BindView(viewpage)

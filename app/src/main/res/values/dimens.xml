@@ -2,4 +2,19 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+    <!--itemd的文字尺寸-->
+    <dimen name="item_textsize">15sp</dimen>
+
+    <!--保存  提交控件高度-->
+    <dimen name="btn_commit_height">48dp</dimen>
+    <!--toolbar-->
+    <dimen name="toolbar_title_size">20sp</dimen>
+    <dimen name="toolbar_back_size">15sp</dimen>
+
+    <!--人工拍照中个人资料    故障维修资料-->
+    <dimen name="artficl_means_size">16sp</dimen>
+    <!--主页-->
+    <dimen name="frist_main_size">16sp</dimen>
 </resources>

@@ -39,7 +39,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
-
+/**
+ * 用户选择
+ */
 public class UserSelectActivity extends AppCompatActivity {
 
     @BindView(R.id.ig_back)
@@ -56,7 +58,7 @@ public class UserSelectActivity extends AppCompatActivity {
     RecyclerView recylerView;
     @BindView(R.id.xrefreshview)
     XRefreshView xRefreshView;//刷新数据
-    @BindView(R.id.rel_repairs_ref)
+    @BindView(R.id.rel_user_select_ref)
     RelativeLayout relRefresh;//刷新页面
     private ActivityUtils activityUtils;
     private UserSelectAdapter userSelectdapter;
@@ -79,7 +81,7 @@ public class UserSelectActivity extends AppCompatActivity {
 //        Log.e("数据收集", "onCreate: "+listBeen.size() );
 
 
-        relRefresh.setVisibility(View.VISIBLE);
+
         initRefreshDate();//数据刷新
         edtHouseName.addTextChangedListener(textWatcher);
         edtDoorNumber.addTextChangedListener(textWatcher);
@@ -165,7 +167,7 @@ public class UserSelectActivity extends AppCompatActivity {
                         if (sizeO >= count) {//当加载的数量大于等于总记录数时，加载完成，取消加载
                             // xRefreshView.setLoadComplete(true);
                             xRefreshView.stopLoadMore();
-                            activityUtils.showToast("没有数据了");
+                            activityUtils.showToast("没有新数据了");
 
                         } else {
                             //10  1+
@@ -196,12 +198,12 @@ public class UserSelectActivity extends AppCompatActivity {
                 if (relRefresh.getVisibility()==View.VISIBLE){
                     relRefresh.setVisibility(View.GONE);
                 }
-                activityUtils.showToast("网络异常，请稍后重试");
+                activityUtils.showDialog("用户选择","网络异常，请稍后重试");
             }
 
             @Override
             public void onResponseUI(Call call, String json) {
-                Log.e("用户选择", "onResponseUI: " + json);
+                //Log.e("用户选择", "onResponseUI: " + json);
                 BaseEntity<UserSelect> entity = Parser.parserUserSelect(json);
                 if (entity.getSuccess() == true) {
                     if (relRefresh.getVisibility()==View.VISIBLE){
@@ -209,7 +211,7 @@ public class UserSelectActivity extends AppCompatActivity {
                     }
                     //获取总记录数
                     count = entity.getData().getCount();
-                    Log.e("rrrrrrrrrrrrrrrrrr选择", "onResponseUI: ");
+                  //  Log.e("rrrrrrrrrrrrrrrrrr选择", "onResponseUI: ");
                     listBeen = entity.getData().getList();
 
                     userSelectdapter = new UserSelectAdapter(UserSelectActivity.this, listBeen);
@@ -233,7 +235,7 @@ public class UserSelectActivity extends AppCompatActivity {
                     if (relRefresh.getVisibility()==View.VISIBLE){
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showToast(entity.getMessage());
+                    activityUtils.showDialog("用户选择",entity.getMessage());
                 }
 
             }
@@ -252,12 +254,12 @@ public class UserSelectActivity extends AppCompatActivity {
                 if (relRefresh.getVisibility()==View.VISIBLE){
                     relRefresh.setVisibility(View.GONE);
                 }
-                activityUtils.showToast("网络异常，请稍后重试");
+                activityUtils.showDialog("获取用户信息","网络异常，请稍后重试");
             }
 
             @Override
             public void onResponseUI(Call call, String json) {
-                Log.e("用户选择后抄表页面获取用户信息", "onResponseUI: " + json);
+                //Log.e("用户选择后抄表页面获取用户信息", "onResponseUI: " + json);
                 BaseEntity<UserSelcetWatchMessage> entity = Parser.parserUserSelectWatchMsg(json);
                 if (entity.getSuccess() == true) {
                     if (relRefresh.getVisibility()==View.VISIBLE){
@@ -278,6 +280,7 @@ public class UserSelectActivity extends AppCompatActivity {
 
                     Intent intent = new Intent();
                     UserSelcetWatchMessage userSelcetWatchMessage = new UserSelcetWatchMessage(customerNo, customerName, houseNumber, phone, address, oldReading, watermeterNo, location, longitude, latitude);
+                    //返回结果
                     setResult(RESULT_CODE, new Intent().putExtra("UserWatchMessage", userSelcetWatchMessage));
                     finish();
 
@@ -286,7 +289,7 @@ public class UserSelectActivity extends AppCompatActivity {
                     if (relRefresh.getVisibility()==View.VISIBLE){
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showToast(entity.getMessage());
+                    activityUtils.showDialog("获取用户信息",entity.getMessage());
                 }
             }
         });

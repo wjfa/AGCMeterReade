@@ -59,7 +59,7 @@ public class ServiceRepairsFragment extends Fragment {
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
 
-        relRefresh.setVisibility(View.VISIBLE);
+
         okHttpService();//维修列表  请求
         return view;
     }
@@ -86,6 +86,7 @@ public class ServiceRepairsFragment extends Fragment {
             Object afterPic = service.getRepairAfterPic();
             ServiceRepair serviceRepair = new ServiceRepair(repairsId, callMan, mobile, repairTime, address, callContent,beforePic,inPic,afterPic);
 
+            //跳转返回结果
             startActivity(new Intent(getActivity(), ServiceFaultActivity.class).putExtra("ServiceRepair", serviceRepair));
         }
 
@@ -103,13 +104,14 @@ public class ServiceRepairsFragment extends Fragment {
         //获取本地存储的登入人ID
         User user = SharePreferencesUtils.getUser();
         String userId = user.getId();
+        relRefresh.setVisibility(View.VISIBLE);
         OkHttpClientEM.getInstance().serviceList(userId).enqueue(new UICallBack() {
             @Override
             public void onFailureUI(Call call, IOException e) {
                 if (relRefresh.getVisibility()==View.VISIBLE){
                     relRefresh.setVisibility(View.GONE);
                 }
-                activityUtils.showToast("网络异常，请重试！");
+                activityUtils.showDialog("维修列表","网络异常，请重试！");
             }
 
             @Override
@@ -134,7 +136,7 @@ public class ServiceRepairsFragment extends Fragment {
                     if (relRefresh.getVisibility()==View.VISIBLE){
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showToast(entity.getMessage());
+                    activityUtils.showDialog("维修列表",entity.getMessage());
                 }
             }
         });

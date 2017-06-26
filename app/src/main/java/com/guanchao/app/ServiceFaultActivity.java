@@ -1,11 +1,17 @@
 package com.guanchao.app;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -20,11 +26,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.guanchao.app.entery.BaseEntity;
 import com.guanchao.app.entery.ImgUpdate;
 import com.guanchao.app.entery.ServiceRepair;
-import com.guanchao.app.fragmet.ServiceRepairsFragment;
 import com.guanchao.app.network.OkHttpClientEM;
 import com.guanchao.app.network.UICallBack;
 import com.guanchao.app.network.parser.Parser;
@@ -36,8 +42,6 @@ import com.orhanobut.dialogplus.ViewHolder;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,12 +49,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-import static android.R.attr.path;
 import static com.guanchao.app.ArtificialPhotoActivity.CHOOSE_PICTURE;
 import static com.guanchao.app.ArtificialPhotoActivity.TAKE_PICTURE;
-import static com.guanchao.app.ArtificialPhotoActivity.imagePath;
-import static com.guanchao.app.ArtificialPhotoActivity.portraitPath;
-
+/**
+ * 故障维修
+ */
 public class ServiceFaultActivity extends AppCompatActivity {
 
 
@@ -74,8 +77,7 @@ public class ServiceFaultActivity extends AppCompatActivity {
     EditText edtServiceAddres;//地址
     @BindView(R.id.edt_repairs_content)
     EditText edtRepairsContent;//报修内容
-    @BindView(R.id.tv_service_content)
-    TextView tvSContent;//维修内容提示
+
     @BindView(R.id.edt_service_content)
     EditText edtServiceContent;//维修内容
     @BindView(R.id.btn_service_ok)
@@ -103,9 +105,11 @@ public class ServiceFaultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_service_repairs);
+        setContentView(R.layout.activity_service_fault);
         ButterKnife.bind(this);
         activityUtils = new ActivityUtils(this);
+        //相机允许权限
+        photoCamertPermissions();
         initControls();
     }
 
@@ -120,10 +124,10 @@ public class ServiceFaultActivity extends AppCompatActivity {
         edtRepairsContent.setText(serviceRepair.getCallContent());
 
         edtServiceContent.addTextChangedListener(textWatcher);
-        // 取控件当前的布局参数
+       /* // 取控件当前的布局参数
         ViewGroup.LayoutParams layoutParams = tvSContent.getLayoutParams();
         layoutParams.height = 380;// 当控件的高强制设成300象素
-        tvSContent.setLayoutParams(layoutParams);// 使设置好的布局参数应用到控件
+        tvSContent.setLayoutParams(layoutParams);// 使设置好的布局参数应用到控件*/
     }
 
     private TextWatcher textWatcher = new TextWatcher() {
@@ -134,15 +138,20 @@ public class ServiceFaultActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
             if (edtServiceContent.length() != 0) {
                 //设置button可点击;
-                btnServiceOk.setClickable(true);
+                btnServiceOk.setEnabled(true);
                 btnServiceOk.setBackgroundColor(getResources().getColor(R.color.color_yes_click));
             } else {
-                btnServiceOk.setClickable(false);
+                btnServiceOk.setEnabled(false);
                 btnServiceOk.setBackgroundColor(getResources().getColor(R.color.color_no_click));
             }
-            if (edtServiceContent.length() != 0) {
+            /*if (edtServiceContent.length() != 0) {
                 tvSContent.setHint("");
 
             } else {
@@ -152,12 +161,7 @@ public class ServiceFaultActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams layoutParams2 = edtServiceContent.getLayoutParams();
                 layoutParams2.height = 380;// 当控件的高强制设成300象素
                 edtServiceContent.setLayoutParams(layoutParams2);// 使设置好的布局参数应用到控件
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
+            }*/
         }
     };
 
@@ -211,7 +215,7 @@ public class ServiceFaultActivity extends AppCompatActivity {
                 if (relRefresh.getVisibility()==View.VISIBLE){
                     relRefresh.setVisibility(View.GONE);
                 }
-                activityUtils.showToast("网络异常，请稍后重试");
+                activityUtils.showDialog("图片上传","网络异常，请稍后重试");
             }
 
             @Override
@@ -228,7 +232,7 @@ public class ServiceFaultActivity extends AppCompatActivity {
                     if (relRefresh.getVisibility()==View.VISIBLE){
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showToast(imgUpdate.getMessage());
+                    activityUtils.showDialog("图片上传",imgUpdate.getMessage());
                 }
             }
         });
@@ -252,7 +256,7 @@ public class ServiceFaultActivity extends AppCompatActivity {
                     if (relRefresh.getVisibility()==View.VISIBLE){
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showToast("网络异常，请稍后重试  " + "");
+                    activityUtils.showDialog("故障维修","网络异常，请稍后重试  " + "");
                 }
 
                 @Override
@@ -262,19 +266,65 @@ public class ServiceFaultActivity extends AppCompatActivity {
                         if (relRefresh.getVisibility()==View.VISIBLE){
                             relRefresh.setVisibility(View.GONE);
                         }
-//                        startActivity(new Intent(ServiceFaultActivity.this,MainActivity.class));
+//                        startActivity(new Intent(ServiceFaultActivity.this,ServiceRepairsFragment.class));
 //                        finish();
-                        //activityUtils.showToast(entity.getMessage());
+                        activityUtils.showToast(entity.getMessage());
                     } else {
                         if (relRefresh.getVisibility()==View.VISIBLE){
                             relRefresh.setVisibility(View.GONE);
                         }
-                        activityUtils.showToast(entity.getMessage());
+                        activityUtils.showDialog("故障维修",entity.getMessage());
                     }
                 }
             });
         }
     }
+
+    /**
+     * 相册和相机访问权限
+     */
+    private void photoCamertPermissions() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            int checkCallPhonePermission = ContextCompat.checkSelfPermission(ServiceFaultActivity.this, Manifest.permission.CAMERA);
+            // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义)
+            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(ServiceFaultActivity.this, new String[]{Manifest.permission.CAMERA}, 222);
+
+                Log.e("权限1", "photoCamertPermissions: " );
+                return;
+            } else {
+
+                Log.e("权限2", "photoCamertPermissions: " );
+                //setShowDialogPlus();
+            }
+        } else {
+            Log.e("权限3", "photoCamertPermissions: " );
+            //setShowDialogPlus();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            //就像onActivityResult一样这个地方就是判断你是从哪来的。
+            case 222:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//允许
+                    Log.e("权限4", "photoCamertPermissions: " );
+                    //setShowDialogPlus();
+
+                    break;
+                } else {
+                    // Permission Denied
+                    Toast.makeText(ServiceFaultActivity.this, "很遗憾，你把相机权限禁用了", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
 
     /**
      * 拍照  对话框显示:弹出对话框不会有黑屏现象（AlertDialog会出现）
@@ -355,11 +405,11 @@ public class ServiceFaultActivity extends AppCompatActivity {
                             //设置第三张图片后上传
                             // TODO: 2017/6/18 判断三张图片都存在后上传
                             //图片文件集合
-                            List<File> fileList = new ArrayList<>();
-                            fileList.add(new File(repairsBefore));
-                            fileList.add(new File(repairsIN));
-                            fileList.add(new File(repairsAfter));
-                            okHttpPhotoUpdate(fileList);//将图片上传服务器
+//                            List<File> fileList = new ArrayList<>();
+//                            fileList.add(new File(repairsBefore));
+//                            fileList.add(new File(repairsIN));
+//                            fileList.add(new File(repairsAfter));
+                            //okHttpPhotoUpdate(fileList);//将图片上传服务器
                         }
 
                         // Log.e("路径2：", "uploadPic: " + portraitPath);
@@ -378,7 +428,7 @@ public class ServiceFaultActivity extends AppCompatActivity {
         // 上传至服务器
         //imagePath指的是从相册或相机中选取照片点击“确定”时将裁剪的图片复制一份到指定的路径
 
-        imgPath = ImageUtils.savePhoto(bitmap, Environment
+        imgPath = ImageUtils.savePhoto(this,bitmap, Environment
                 .getExternalStorageDirectory().getAbsolutePath(), String
                 .valueOf(System.currentTimeMillis()));
         Log.e("路径：", "uploadPic: " + imgPath);

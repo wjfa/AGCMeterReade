@@ -7,13 +7,15 @@
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
-            android:layout_height="110px"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:paddingTop="10px"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:background="@drawable/shape_comit_title"
             android:text="标题"
             android:textColor="#000000"
-            android:textSize="42px" />
+            android:textSize="20sp" />
 
 
 </RelativeLayout>

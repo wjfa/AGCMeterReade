@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_frist_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.guanchao.app.fragmet.FristFragment">
+
+    <TextView
+        android:id="@+id/tvt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_prompt"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp"
+        android:gravity="center_vertical"
+        android:text="使用过程中有什么问题或者意见建议请及时留言给我们，我们会尽快为您解决。"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:id="@+id/rey1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvt"
+        android:paddingBottom="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_tag"
+            android:text="标题："
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edt_problem_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv1"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_border4"
+            android:hint="请输入您的问题或者意见标题。"
+            android:paddingBottom="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="10dp"
+            android:paddingTop="13dp"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rey2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rey1"
+        android:paddingBottom="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_tag"
+            android:text="问题描述："
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edt_problem_details"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_below="@+id/tv2"
+            android:layout_marginTop="10dp"
+            android:inputType="textMultiLine"
+            android:background="@drawable/shape_border4"
+            android:hint="请输入您的问题或者意见问题描述。"
+            android:gravity="top"
+            android:padding="7dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_below="@+id/rey2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图片上传"
+            android:layout_marginLeft="15dp"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+
+       <ImageView
+           android:id="@+id/img_up_photo"
+           android:layout_below="@+id/tv3"
+           android:layout_width="200dp"
+           android:layout_height="160dp"
+           android:layout_marginTop="10dp"
+           android:layout_marginLeft="22dp"
+           android:scaleType="fitXY"
+           android:src="@mipmap/ic_up_photo"/>
+
+        <Button
+            android:id="@+id/btn_problem_photo"
+            android:layout_width="90dp"
+            android:layout_height="42dp"
+            android:text="本地相册"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toRightOf="@+id/img_up_photo"
+            android:layout_alignTop="@+id/img_up_photo"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/sel_btn_photo"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:id="@+id/btn_problem_camear"
+            android:layout_width="90dp"
+            android:layout_height="42dp"
+            android:text="相机"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/img_up_photo"
+            android:layout_alignBottom="@+id/img_up_photo"
+            android:background="@drawable/sel_btn_photo" />
+
+    <RelativeLayout
+        android:id="@+id/rey3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_up_photo"
+        android:paddingBottom="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="联系方式："
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edt_problem_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv4"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_border4"
+            android:hint="请输入您的联系方式 (手机号或邮箱)"
+            android:paddingBottom="13dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="10dp"
+            android:paddingTop="13dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_problem_ok"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_commit_height"
+        android:layout_below="@+id/rey3"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:enabled="false"
+        android:textSize="20sp"
+        android:background="@color/color_no_click"
+        android:text="提交"
+        android:textColor="#ffffff"/>
+</RelativeLayout>

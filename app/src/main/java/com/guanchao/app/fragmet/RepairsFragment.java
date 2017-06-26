@@ -32,6 +32,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+/**
+ * 用户报修
+ */
 public class RepairsFragment extends Fragment {
     View view;
     @BindView(R.id.toolbar)
@@ -42,8 +45,6 @@ public class RepairsFragment extends Fragment {
     EditText edtUserPhone;
     @BindView(R.id.edt_user_repairs_email)
     EditText edtUserAddres;
-    @BindView(R.id.tv_user_repairs_context)
-    TextView tvContext;//内容提示
     @BindView(R.id.edt_user_repairs_context)
     EditText edtUserContext;//输入内容
     @BindView(R.id.btn_user_repairs_ok)
@@ -68,10 +69,10 @@ public class RepairsFragment extends Fragment {
         edtUserPhone.addTextChangedListener(textWatcher);
         edtUserAddres.addTextChangedListener(textWatcher);
         edtUserContext.addTextChangedListener(textWatcher);
-        // 取控件当前的布局参数
-        ViewGroup.LayoutParams layoutParams = tvContext.getLayoutParams();
-        layoutParams.height = 320;// 当控件的高强制设成300象素
-        tvContext.setLayoutParams(layoutParams);// 使设置好的布局参数应用到控件
+//        // 取控件当前的布局参数
+//        ViewGroup.LayoutParams layoutParams = tvContext.getLayoutParams();
+//        layoutParams.height = 420;// 当控件的高强制设成300象素
+//        tvContext.setLayoutParams(layoutParams);// 使设置好的布局参数应用到控件
 
     }
 
@@ -85,24 +86,24 @@ public class RepairsFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             if (edtUserName.length()==0||edtUserPhone.length()==0||edtUserAddres.length()==0||edtUserContext.length()==0){
-                btnOk.setClickable(false);
+                btnOk.setEnabled(false);
                 btnOk.setBackgroundColor(getResources().getColor(R.color.color_no_click));
             }else {
                 //设置button可点击
-                btnOk.setClickable(true);
+                btnOk.setEnabled(true);
                 btnOk.setBackgroundColor(getResources().getColor(R.color.color_yes_click));
             }
-            if (edtUserContext.length()!=0){
+            /*if (edtUserContext.length()!=0){
                 tvContext.setHint("");
 
             }else {
                 tvContext.setHint("暂无报修内容");
             }
-            if (edtUserContext.length()>180) {//当输入的长度>180时设置控件高度300px像素
+            if (edtUserContext.length()>250) {//当输入的长度>180时设置控件高度300px像素
                 ViewGroup.LayoutParams layoutParams2 = edtUserContext.getLayoutParams();
-                layoutParams2.height = 320;// 当控件的高强制设成300象素
+                layoutParams2.height = 420;// 当控件的高强制设成300象素
                 edtUserContext.setLayoutParams(layoutParams2);// 使设置好的布局参数应用到控件
-            }/*else {
+            }*//*else {
                 ViewGroup.LayoutParams layoutParams2 = edtUserContext.getLayoutParams();
                 layoutParams2.height = R.style.app_wrap_content;// 当控件的高强制设成300象素
                 edtUserContext.setLayoutParams(layoutParams2);// 使设置好的布局参数应用到控件
@@ -138,7 +139,7 @@ public class RepairsFragment extends Fragment {
                     if (relRefresh.getVisibility()==View.VISIBLE){
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showToast("网络异常，请稍后重试");
+                    activityUtils.showDialog("用户报修","网络异常，请稍后重试");
                 }
 
                 @Override
@@ -157,7 +158,7 @@ public class RepairsFragment extends Fragment {
                         if (relRefresh.getVisibility()==View.VISIBLE){
                             relRefresh.setVisibility(View.GONE);
                         }
-                        activityUtils.showToast(baseEntity.getMessage());
+                        activityUtils.showDialog("用户报修",baseEntity.getMessage());
                     }
 
                 }

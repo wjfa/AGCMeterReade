@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 /**
  * Created by 王建法 on 2017/6/14.
+ * 初始化页面
  */
 
 public class MyApplication extends Application {

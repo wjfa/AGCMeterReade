@@ -10,9 +10,10 @@
             android:background="#D4D4D4"></View>
         <TextView
             android:text="取消"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:gravity="center"
-            android:padding="15dp"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
             android:background="@drawable/sel_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

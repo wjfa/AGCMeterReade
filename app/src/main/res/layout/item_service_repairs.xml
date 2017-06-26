@@ -16,18 +16,18 @@
         android:background="@drawable/sel_background">
         <ImageView
             android:id="@+id/img_service_photo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:src="@mipmap/ic_complete"
             android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/tv_item_service_peploe"
-            android:layout_width="140dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:text="报修人：沙皇菲"
-            android:textSize="16sp"
+            android:textSize="@dimen/item_textsize"
             android:layout_toRightOf="@+id/img_service_photo"
             android:layout_alignTop="@+id/img_service_photo"
             android:layout_marginLeft="10dp"
@@ -37,11 +37,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="电话：18888888888"
-            android:textSize="16sp"
+            android:textSize="@dimen/item_textsize"
             android:gravity="center_vertical"
             android:layout_toRightOf="@+id/tv_item_service_peploe"
             android:layout_alignTop="@+id/tv_item_service_peploe"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="5dp"
             android:textColor="#333333"
             android:layout_marginRight="10dp"/>
 
@@ -50,9 +50,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="地址：南京市建邺区西一堂12组"
-            android:textSize="16sp"
+            android:textSize="@dimen/item_textsize"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="13dp"
             android:layout_below="@+id/tv_item_service_peploe"
             android:layout_alignLeft="@+id/tv_item_service_peploe"
             android:textColor="#333333"/>

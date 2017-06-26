@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#d1dbe0"
+    android:background="#dbdbd8"
     tools:context="com.guanchao.app.fragmet.FristFragment">
 
     <!--toolbar标题-->
@@ -21,7 +21,7 @@
             android:text="APP移动互联抄表系统"
             android:layout_gravity="center"
             android:textColor="#ffffff"
-            android:textSize="18sp"
+            android:textSize="@dimen/toolbar_title_size"
             android:layout_marginRight="5dp"/>
         <TextView
             android:id="@+id/tv_first_unlogin"
@@ -31,7 +31,7 @@
             android:layout_gravity="right"
             android:drawableLeft="@drawable/ic_login_user2"
             android:text=" 退出登录"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="#ffffff"
             android:layout_marginRight="6dp"/>
     </android.support.v7.widget.Toolbar>
@@ -44,7 +44,7 @@
         android:layout_weight="1.5"></com.jorge.circlelibrary.ImageCycleView>
     <RelativeLayout
         android:layout_weight="1"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="10dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:background="@drawable/shape_color_top">
@@ -62,10 +62,10 @@
                 android:id="@+id/tv_watch"
                 android:layout_width="60dp"
                 android:layout_height="100dp"
-                android:drawableTop="@mipmap/ic_watch2"
+                android:drawableTop="@mipmap/ic_main1"
                 android:text="抄表任务"
                 android:textColor="#000000"
-                android:textSize="17sp"
+                android:textSize="@dimen/frist_main_size"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:background="@drawable/sel_frist_text"/>
@@ -73,22 +73,22 @@
                 android:id="@+id/tv_repairs"
                 android:layout_width="60dp"
                 android:layout_height="100dp"
-                android:drawableTop="@mipmap/ic_watch2"
+                android:drawableTop="@mipmap/ic_main2"
                 android:text="故障维修"
                 android:textColor="#000000"
                 android:layout_weight="1"
-                android:textSize="17sp"
+                android:textSize="@dimen/frist_main_size"
                 android:gravity="center"
                 android:background="@drawable/sel_frist_text"/>
             <TextView
                 android:id="@+id/tv_service_repairs"
                 android:layout_width="60dp"
                 android:layout_height="100dp"
-                android:drawableTop="@mipmap/ic_watch2"
+                android:drawableTop="@mipmap/ic_main3"
                 android:text="维修任务"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:textSize="17sp"
+                android:textSize="@dimen/frist_main_size"
                 android:gravity="center"
                 android:background="@drawable/sel_frist_text"/>
         </LinearLayout>
@@ -103,36 +103,38 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:background="#ffffff">
+
             <TextView
                 android:id="@+id/tv_user_message"
                 android:layout_width="60dp"
-                android:layout_height="140dp"
-                android:drawableTop="@mipmap/ic_userm"
-                android:text="用户信息"
+                android:layout_height="100dp"
+                android:drawableTop="@mipmap/ic_main4"
+                android:text="打卡签到"
                 android:textColor="#000000"
-                android:textSize="17sp"
+                android:textSize="@dimen/frist_main_size"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:background="@drawable/sel_frist_text"/>
+
             <TextView
                 android:id="@+id/tv_artifical_photo"
                 android:layout_width="60dp"
-                android:layout_height="140dp"
-                android:drawableTop="@mipmap/ic_repairs1"
-                android:text="人工拍照"
+                android:layout_height="100dp"
+                android:drawableTop="@mipmap/ic_main5"
+                android:text="物资申请"
                 android:textColor="#000000"
                 android:layout_weight="1"
-                android:textSize="17sp"
+                android:textSize="@dimen/frist_main_size"
                 android:gravity="center"
                 android:background="@drawable/sel_frist_text"/>
             <TextView
                 android:layout_width="60dp"
-                android:layout_height="140dp"
-                android:drawableTop="@mipmap/ic_repairs2"
+                android:layout_height="100dp"
+                android:drawableTop="@mipmap/ic_main6"
                 android:text="便利服务"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:textSize="17sp"
+                android:textSize="@dimen/frist_main_size"
                 android:gravity="center"
                 android:background="@drawable/sel_frist_text"/>
         </LinearLayout>
@@ -150,32 +152,34 @@
             <TextView
                 android:id="@+id/tv_noticea"
                 android:layout_width="60dp"
-                android:layout_height="140dp"
-                android:drawableTop="@mipmap/ic_watch"
+                android:layout_height="100dp"
+                android:drawableTop="@mipmap/ic_main7"
                 android:text="通知公告"
                 android:textColor="#000000"
-                android:textSize="17sp"
+                android:textSize="@dimen/frist_main_size"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:background="@drawable/sel_frist_text"/>
             <TextView
+                android:id="@+id/tv_operation"
                 android:layout_width="60dp"
-                android:layout_height="140dp"
-                android:drawableTop="@mipmap/ic_repairs1"
+                android:layout_height="100dp"
+                android:drawableTop="@mipmap/ic_main8"
                 android:text="操作手册"
                 android:textColor="#000000"
                 android:layout_weight="1"
-                android:textSize="17sp"
+                android:textSize="@dimen/frist_main_size"
                 android:gravity="center"
                 android:background="@drawable/sel_frist_text"/>
             <TextView
+                android:id="@+id/tv_problem_feedback"
                 android:layout_width="60dp"
-                android:layout_height="140dp"
-                android:drawableTop="@mipmap/ic_repairs2"
-                android:text="留言天地"
+                android:layout_height="100dp"
+                android:drawableTop="@mipmap/ic_main9"
+                android:text="问题反馈"
                 android:layout_weight="1"
                 android:textColor="#000000"
-                android:textSize="17sp"
+                android:textSize="@dimen/frist_main_size"
                 android:gravity="center"
                 android:background="@drawable/sel_frist_text"/>
         </LinearLayout>

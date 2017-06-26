@@ -49,7 +49,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-
+/**
+ * 抄表页面
+ */
 public class WatchFragment extends Fragment {
     View view;
     @BindView(R.id.tv_show_time)
@@ -80,8 +82,7 @@ public class WatchFragment extends Fragment {
         String CurrtrnstrTime = formatter.format(curDate);
         tvShowTime.setText(CurrtrnstrTime);
 
-        //网络请求
-        relRefresh.setVisibility(View.VISIBLE);
+
         setWatchNetRequest();
         //设置一下actionbar
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -134,13 +135,15 @@ public class WatchFragment extends Fragment {
         //获取本地保存的数据
         User watchId = SharePreferencesUtils.getUser();
         String cbUserID = watchId.getId();
+        //网络请求
+        relRefresh.setVisibility(View.VISIBLE);
         OkHttpClientEM.getInstance().watchTask(cbUserID, newStrTime).enqueue(new UICallBack() {
             @Override
             public void onFailureUI(Call call, IOException e) {
                 if (relRefresh.getVisibility()==View.VISIBLE){
                     relRefresh.setVisibility(View.GONE);
                 }
-                activityUtils.showToast("网络异常，请重试！");
+                activityUtils.showDialog("抄表任务列表","网络异常，请重试！");
             }
 
             @Override
@@ -168,7 +171,7 @@ public class WatchFragment extends Fragment {
                         if (relRefresh.getVisibility()==View.VISIBLE){
                             relRefresh.setVisibility(View.GONE);
                         }
-                        activityUtils.showToast("该月份无抄表任务记录");
+                        activityUtils.showDialog("抄表任务列表","该月份无抄表任务记录");
                     } else {
                         if (relRefresh.getVisibility()==View.VISIBLE){
                             relRefresh.setVisibility(View.GONE);
@@ -179,7 +182,7 @@ public class WatchFragment extends Fragment {
                     if (relRefresh.getVisibility()==View.VISIBLE){
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showToast(parserWatchList.getMessage());
+                    activityUtils.showDialog("抄表任务列表",parserWatchList.getMessage());
                 }
 
             }
@@ -223,7 +226,7 @@ public class WatchFragment extends Fragment {
                 .setTextColorOut(Color.parseColor("#112079"))//设置选中项以外的颜色#64AE4A
                 // .setLineSpacingMultiplier(1.6f)//设置两横线之间的间隔倍数
                 .setTitleBgColor(Color.DKGRAY)//标题背景颜色 Night mode
-                .setBgColor(Color.parseColor("#c4ccab"))//背景颜色(必须是16进制) Night mode
+                .setBgColor(Color.parseColor("#dbdbd8"))//背景颜色(必须是16进制) Night mode
                 .setSubmitColor(Color.WHITE)
                 .setCancelColor(Color.WHITE)
                 .gravity(Gravity.CENTER)//设置控件显示位置 default is center*/

@@ -17,6 +17,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.guanchao.app.R;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
+
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -184,7 +189,7 @@ public class ActivityUtils {
      * @param title  标题
      * @param msg   内容
      */
-   /* public void showDialog(String title,String msg){
+    public void showDialog(String title,String msg){
         //header头部
         View viewHeader = LayoutInflater.from(activiy).inflate(R.layout.alter_dialog_header, null);
         TextView tvTitle= (TextView) viewHeader.findViewById(R.id.tv_title);
@@ -204,7 +209,6 @@ public class ActivityUtils {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
                         dialog.dismiss();
-
                     }
                 })
                 .setGravity(Gravity.CENTER)
@@ -213,6 +217,6 @@ public class ActivityUtils {
 
                 .create();
         dialogPlus.show();
-    }*/
+    }
 
 }

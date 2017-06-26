@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#EEEEEE">
+        android:background="@color/color_main_select">
 
         <View
             android:layout_width="match_parent"
@@ -30,8 +30,8 @@
             android:layout_centerHorizontal="true"
             android:text="当前时间"
             android:gravity="center"
-            android:textColor="#2dc551"
-            android:textSize="18sp" />
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_finish"
@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:text="完成"
             android:gravity="center"
-            android:textColor="#2dc551"
+            android:textColor="#ffffff"
             android:textSize="18sp" />
 
         <View

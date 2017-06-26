@@ -16,7 +16,9 @@ import me.majiajie.pagerbottomtabstrip.MaterialMode;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageBottomTabLayout;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
-
+/**
+ * Fragment替换页面
+ */
 public class MainActivity extends AppCompatActivity {
     private FristFragment fristFragment;
     private WatchFragment watchFragment;
@@ -59,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initBottom() {
-
-
         PageBottomTabLayout pageBottomTabLayout = (PageBottomTabLayout) findViewById(R.id.tab);
         //未选中状态的颜色
         mNavigationController = pageBottomTabLayout.material()

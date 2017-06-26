@@ -4,7 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d1dbe0"
+    android:background="#dbdbd8"
     tools:context="com.guanchao.app.MainActivity">
 
     <FrameLayout

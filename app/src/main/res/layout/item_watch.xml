@@ -17,18 +17,18 @@
 
         <ImageView
             android:id="@+id/img_watch_photo"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:src="@mipmap/ic_watch_icon"
             android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/tv_item_watch_serial_number"
-            android:layout_width="150dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:text="编号：100000000"
-            android:textSize="16sp"
+            android:text="编号：12345678"
+            android:textSize="@dimen/item_textsize"
             android:layout_toRightOf="@+id/img_watch_photo"
             android:layout_alignTop="@+id/img_watch_photo"
             android:layout_marginLeft="10dp"
@@ -38,11 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="区域：猫村一组"
-            android:textSize="16sp"
+            android:textSize="@dimen/item_textsize"
             android:gravity="center_vertical"
             android:layout_toRightOf="@+id/tv_item_watch_serial_number"
             android:layout_alignTop="@+id/tv_item_watch_serial_number"
-            android:layout_marginLeft="10dp"
             android:textColor="#333333"
             android:layout_marginRight="10dp"/>
 
@@ -51,7 +50,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="户数：11111"
-            android:textSize="16sp"
+            android:textSize="@dimen/item_textsize"
             android:layout_marginTop="15dp"
             android:layout_below="@+id/tv_item_watch_serial_number"
             android:layout_alignLeft="@+id/tv_item_watch_serial_number"
@@ -61,7 +60,7 @@
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:text="已抄：888"
-            android:textSize="16sp"
+            android:textSize="@dimen/item_textsize"
             android:layout_marginRight="10dp"
             android:layout_alignTop="@+id/tv_item_watch_house_number"
             android:layout_below="@+id/tv_item_watch_position"
