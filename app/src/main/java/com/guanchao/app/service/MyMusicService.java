@@ -10,7 +10,6 @@ import com.guanchao.app.R;
 public class MyMusicService extends Service {
 
     private MediaPlayer mp;
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -22,12 +21,12 @@ public class MyMusicService extends Service {
         //获取音乐资源
         mp = MediaPlayer.create(this, R.raw.pm4);
 
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+       /* mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp.release();// 释放资源。让资源得到释放;;
             }
-        });
+        });*/
     }
 
     @Override
@@ -40,5 +39,6 @@ public class MyMusicService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mp.stop();
+        mp.release();
     }
 }
