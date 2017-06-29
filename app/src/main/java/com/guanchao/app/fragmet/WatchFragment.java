@@ -49,6 +49,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+import static com.guanchao.app.utils.ActivityUtils.StringDataDay;
+
 /**
  * 抄表页面
  */
@@ -231,6 +233,7 @@ public class WatchFragment extends Fragment {
                 .setCancelColor(Color.WHITE)
                 .gravity(Gravity.CENTER)//设置控件显示位置 default is center*/
                 .isDialog(true)//设置显示位置(屏幕中心)
+                .setOutSideCancelable(false)
 
                 //.setLabel("年", "月", "日", "", "", "") //设置空字符串以隐藏单位提示   hide label
                 // 六种选择模式，年月日时分秒，年月日，时分，月日时分，年月，年月日时分
@@ -247,8 +250,8 @@ public class WatchFragment extends Fragment {
                         final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
                         TextView currtenTime = (TextView) v.findViewById(R.id.tv_content_time);
                         ImageView ivCancel = (ImageView) v.findViewById(R.id.iv_cancel);
-                        //设置当前时间
-                        currtenTime.setText("" + StringDataDay());
+                        //设置当前时间转换成星期几
+                        currtenTime.setText("" + ActivityUtils.StringDataDay(true));
                         tvSubmit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -283,34 +286,5 @@ public class WatchFragment extends Fragment {
         return format.format(date);
     }
 
-    /**
-     * 获取系统当前时间 以及转换成星期几
-     *
-     * @return
-     */
-    public static String StringDataDay() {
 
-        final Calendar c = Calendar.getInstance();
-        c.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
-        String mYear = String.valueOf(c.get(Calendar.YEAR));// 获取当前年份
-        String mMonth = String.valueOf(c.get(Calendar.MONTH) + 1);// 获取当前月份
-        String mDay = String.valueOf(c.get(Calendar.DAY_OF_MONTH));// 获取当前月份的日期号码
-        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK));
-        if ("1".equals(mWay)) {
-            mWay = "天";
-        } else if ("2".equals(mWay)) {
-            mWay = "一";
-        } else if ("3".equals(mWay)) {
-            mWay = "二";
-        } else if ("4".equals(mWay)) {
-            mWay = "三";
-        } else if ("5".equals(mWay)) {
-            mWay = "四";
-        } else if ("6".equals(mWay)) {
-            mWay = "五";
-        } else if ("7".equals(mWay)) {
-            mWay = "六";
-        }
-        return mYear + "年" + mMonth + "月" + mDay + "日" + "\t\t星期" + mWay;
-    }
 }

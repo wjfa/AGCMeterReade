@@ -2,11 +2,7 @@ package com.guanchao.app.fragmet;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
@@ -17,32 +13,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.guanchao.app.ArtificialPhotoActivity;
+import com.guanchao.app.GoodsApplyActivity;
 import com.guanchao.app.LoginActivity;
 import com.guanchao.app.MainActivity;
 import com.guanchao.app.NoticeaAnounceActivity;
 import com.guanchao.app.ProblemFeedbackActivity;
 import com.guanchao.app.R;
 import com.guanchao.app.ServiceFaultActivity;
-import com.guanchao.app.utils.ImageUtils;
+import com.guanchao.app.SignClockActivity;
+import com.guanchao.app.utils.StatusBarUtil;
 import com.jorge.circlelibrary.ImageCycleView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
-
 import java.io.File;
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.R.attr.path;
-import static com.guanchao.app.MainActivity.selected;
-
 /**
  * 首页
  */
@@ -83,7 +74,6 @@ public class FristFragment extends Fragment {
                 if (iv_header != null && uri != null) {
                     iv_header.setImageURI(uri);
                 }
-
             }
         }
     };*/
@@ -128,7 +118,6 @@ public class FristFragment extends Fragment {
         }
 
         // 子线程，开启子线程去下载或者去缓存目录找图片，并且返回图片在缓存目录的地址
-        ;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -147,8 +136,6 @@ public class FristFragment extends Fragment {
                 }
             }
         }).start();*/
-
-
         initCarsuelView(imageDescList, urlList);//轮播图
     }
 
@@ -199,10 +186,10 @@ public class FristFragment extends Fragment {
                 getActivity().finish();
                 break;
             case R.id.tv_user_message://打卡签到
-                //startActivity(new Intent(getActivity(),ServiceFaultActivity.class));
+                startActivity(new Intent(getActivity(),SignClockActivity.class));
                 break;
             case R.id.tv_artifical_photo://物资申请
-                // startActivity(new Intent(getActivity(),ArtificialPhotoActivity.class));
+                 startActivity(new Intent(getActivity(),GoodsApplyActivity.class));
                 break;
 
             case R.id.tv_noticea://通知公告

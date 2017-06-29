@@ -17,6 +17,7 @@ import com.guanchao.app.network.UICallBack;
 import com.guanchao.app.network.parser.Parser;
 import com.guanchao.app.utils.ActivityUtils;
 import com.guanchao.app.utils.SharePreferencesUtils;
+import com.guanchao.app.utils.StatusBarUtil;
 import com.guanchao.app.utils.SystemBarCompat;
 import com.guanchao.app.utils.SystemStatusCompat;
 
@@ -55,9 +56,13 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword.setText("123456");
         //SystemStatusCompat.compat(this);
 //         SystemStatusCompat.compat(this, getResources().getColor(R.color.color_yes_click));
-        SystemStatusCompat.setStatusBarBg(this, R.color.white);
-        //设置状态栏字体的颜色
-        SystemBarCompat.setFlymeStatusBarDarkIcon(this, true);
+//        SystemStatusCompat.setStatusBarBg(this, R.color.white);
+//        //设置状态栏字体的颜色
+//        SystemBarCompat.setFlymeStatusBarDarkIcon(this, true);
+        //设置状态栏背景颜色
+        StatusBarUtil.setStatusBgColor(this, getResources().getColor(R.color.white),false);
+        //设置状态栏字体的颜色true  深色  false 白色
+        StatusBarUtil.StatusBarTestColorMode(this, true);
     }
 
     @OnClick(R.id.btn_login)
@@ -112,6 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                         User watchSh = new User(id);
                         SharePreferencesUtils.setUser(watchSh);
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        overridePendingTransition(R.anim.dialog_enter_anim_top_bottom,R.anim.translate_right_to_left);
                         finish();
                      //   activityUtils.showToast(watch.getMessage());
                     } else {

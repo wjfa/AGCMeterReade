@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.guanchao.app.utils.StatusBarUtil;
 import com.guanchao.app.utils.SystemBarCompat;
 import com.guanchao.app.utils.SystemStatusCompat;
 
@@ -55,15 +56,12 @@ public class LogoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo);
-
-        //设置状态栏颜色
-        SystemStatusCompat.setStatusBarBg(this, R.color.white);
-        //设置状态栏字体的颜色
-        SystemBarCompat.setFlymeStatusBarDarkIcon(this,true);
         ButterKnife.bind(this);
+        //设置状态栏背景颜色
+        StatusBarUtil.setStatusBgColor(this, getResources().getColor(R.color.white),false);
+        //设置状态栏字体的颜色true  深色  false 白色
+        StatusBarUtil.StatusBarTestColorMode(this, true);
         initData();
-
-
     }
 
     //添加图片到list里面
@@ -106,6 +104,7 @@ public class LogoActivity extends AppCompatActivity {
             if (state == ViewPager.SCROLL_STATE_IDLE) {
                 isSelect = true;
                 startActivity(new Intent(LogoActivity.this, LoginActivity.class));
+                overridePendingTransition(R.anim.scale1,R.anim.translate_right_to_left);
                 finish();
             }
 
@@ -116,6 +115,7 @@ public class LogoActivity extends AppCompatActivity {
     public void onClick() {
         isSelect = true;
         startActivity(new Intent(LogoActivity.this, LoginActivity.class));
+        overridePendingTransition(R.anim.scale1,R.anim.translate_right_to_left);
         finish();
 
     }
@@ -143,6 +143,7 @@ public class LogoActivity extends AppCompatActivity {
             public void onFinish() {
                 if (isSelect == false) {//如果滑动或点击页面
                     startActivity(new Intent(LogoActivity.this, LoginActivity.class));
+                    overridePendingTransition(R.anim.scale1,R.anim.translate_right_to_left);
                     finish();
                 } else {
 

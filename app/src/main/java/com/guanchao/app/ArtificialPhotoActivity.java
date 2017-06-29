@@ -166,8 +166,6 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                     String nowStr = num + "";
                     edtNewDosage.setText(nowStr);
                 }
-
-
             }
         }
 
@@ -189,9 +187,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
             //将处理过的图片显示在界面上，并保存到本地
             imageView.setImageBitmap(photo);
             uploadPic(photo);
-
         }
-
     }
 
     @OnClick({R.id.ig_back, R.id.img_aretificl_photo, R.id.edt_artific_now_amouter, R.id.tv_artific_select, R.id.tv_artific_get_position, R.id.tv_artific_photo_collect, R.id.btn_aretific_ok})
@@ -200,7 +196,6 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
             case R.id.ig_back://返回
                 finish();
                 break;
-
            /* case R.id.edt_artific_now_amouter:
                 break;*/
             case R.id.tv_artific_select://用户选择

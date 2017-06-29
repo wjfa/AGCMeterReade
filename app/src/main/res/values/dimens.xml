@@ -17,4 +17,5 @@
     <dimen name="artficl_means_size">16sp</dimen>
     <!--主页-->
     <dimen name="frist_main_size">16sp</dimen>
+
 </resources>

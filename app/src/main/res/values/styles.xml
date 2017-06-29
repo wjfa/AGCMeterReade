@@ -12,8 +12,15 @@
 
     </style>
 
-    <style name="app_wrap_content">
-        <item name="android:layout_height">wrap_content</item>
-    </style>
 
+    <!--设置弹出全屏对话框展示-->
+    <style name="processDialog" >
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->
+        <item name="android:backgroundDimEnabled">true</item><!--模糊-->
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
 </resources>

@@ -4,8 +4,8 @@
     android:id="@+id/activity_frist_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="com.guanchao.app.fragmet.FristFragment">
+
 
     <LinearLayout
         android:id="@+id/ln1"
@@ -169,7 +169,8 @@
                     android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:enabled="false"/>
             </RelativeLayout>
 
             <!--分割线-->
@@ -210,7 +211,8 @@
                     android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:enabled="false"/>
             </RelativeLayout>
         </RelativeLayout>
 
@@ -251,7 +253,8 @@
                     android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:enabled="false"/>
             </RelativeLayout>
 
             <!--分割线-->
@@ -294,6 +297,7 @@
                     android:id="@+id/edt_artific_phone"
                     android:background="@null"
                     android:singleLine="true"
+                    android:enabled="false"
                     android:focusable="false"/>
             </RelativeLayout>
         </RelativeLayout>
@@ -330,7 +334,8 @@
                     android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:enabled="false"/>
             </RelativeLayout>
         </RelativeLayout>
 
@@ -371,7 +376,8 @@
                     android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:enabled="false"/>
             </RelativeLayout>
 
             <!--分割线-->
@@ -410,6 +416,8 @@
                     android:layout_toRightOf="@+id/tv7"
                     android:textColor="#27A5F9"
                     android:textSize="@dimen/artficl_means_size"
+                    android:paddingRight="3dp"
+                    android:textCursorDrawable="@drawable/shape_cursor_color"
                     android:background="@null"
                     android:singleLine="true"/>
             </RelativeLayout>
@@ -451,7 +459,9 @@
                     android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:enabled="false"
+                    />
             </RelativeLayout>
 
             <!--分割线-->
@@ -492,7 +502,8 @@
                     android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:enabled="false"/>
             </RelativeLayout>
         </RelativeLayout>
         <!--经纬度-->
@@ -532,7 +543,8 @@
                     android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:enabled="false"/>
                 <EditText
                     android:id="@+id/edt_artific_Latitude"
                     android:layout_width="match_parent"
@@ -542,7 +554,8 @@
                     android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
                     android:singleLine="true"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:enabled="false"/>
                 </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
@@ -578,8 +591,10 @@
                     android:layout_toRightOf="@+id/tv14"
                     android:textSize="@dimen/artficl_means_size"
                     android:background="@null"
+
                     android:singleLine="true"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:enabled="false"/>
             </RelativeLayout>
         </RelativeLayout>
 
@@ -615,6 +630,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_toRightOf="@+id/tv15"
                     android:textSize="@dimen/artficl_means_size"
+                    android:textCursorDrawable="@drawable/shape_cursor_color"
                     android:background="@null"/>
 
                 <View
@@ -636,7 +652,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:text="保存"
+        android:text="提交"
         android:textColor="#ffffff"
         android:textSize="20sp"
         android:enabled="false"

@@ -11,6 +11,7 @@ import com.guanchao.app.fragmet.FristFragment;
 import com.guanchao.app.fragmet.RepairsFragment;
 import com.guanchao.app.fragmet.ServiceRepairsFragment;
 import com.guanchao.app.fragmet.WatchFragment;
+import com.guanchao.app.utils.StatusBarUtil;
 
 import me.majiajie.pagerbottomtabstrip.MaterialMode;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
@@ -32,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //设置状态栏背景颜色
+        StatusBarUtil.setStatusBgColor(this, getResources().getColor(R.color.color_main_select),false);
+        //设置状态栏字体的颜色true  深色  false 白色
+        StatusBarUtil.StatusBarTestColorMode(this, true);
         initFragment();
         initBottom();
 

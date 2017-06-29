@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@android:anim/linear_interpolator">
-    <translate
-        android:duration="2000"
-        android:fromXDelta="100%"
-        android:interpolator="@android:anim/linear_interpolator"
-        android:repeatCount="infinite"
-        android:repeatMode="restart"
-        android:toXDelta="0%" />
+    android:interpolator="@android:anim/decelerate_interpolator">
+    <scale
+        android:duration="1000"
+        android:fromXScale="2.0"
+        android:fromYScale="2.0"
+        android:pivotX="50%p"
+        android:pivotY="50%p"
+        android:toXScale="1.0"
+        android:toYScale="1.0" />
+
+    <!-- 实现zoom_enter即类似iphone退出时的效果 -->
 </set>

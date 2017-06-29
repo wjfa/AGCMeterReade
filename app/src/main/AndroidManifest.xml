@@ -51,7 +51,7 @@
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".ServiceFaultActivity" />
         <activity android:name=".ArtificialPhotoActivity" />
         <activity android:name=".UserSelectActivity" />
@@ -63,7 +63,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProblemFeedbackActivity"></activity>
+        <activity android:name=".ProblemFeedbackActivity" />
+        <activity android:name=".GoodsApplyActivity" />
+        <activity android:name=".SignClockActivity" />
+
+        <service
+            android:name=".service.MyMusicService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

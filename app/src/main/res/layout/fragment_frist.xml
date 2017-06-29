@@ -22,7 +22,7 @@
             android:layout_gravity="center"
             android:textColor="#ffffff"
             android:textSize="@dimen/toolbar_title_size"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="15dp"/>
         <TextView
             android:id="@+id/tv_first_unlogin"
             android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
             android:layout_gravity="right"
             android:drawableLeft="@drawable/ic_login_user2"
             android:text=" 退出登录"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:textColor="#ffffff"
             android:layout_marginRight="6dp"/>
     </android.support.v7.widget.Toolbar>

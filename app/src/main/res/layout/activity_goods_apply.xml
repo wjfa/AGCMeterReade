@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_goods_apply"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#a8cb94"
+    tools:context="com.guanchao.app.GoodsApplyActivity">
+
+    <!--toolbar标题-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#27A5F9"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <TextView
+            android:id="@+id/ig_back"
+            android:layout_width="66dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/ic_back"
+            android:gravity="center_vertical"
+            android:text="返回"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/toolbar_back_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="物资申请"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/toolbar_title_size" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/leeee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/tvv1"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@drawable/ic_tag"
+                    android:gravity="center_vertical"
+                    android:text="物资名称："
+                    android:textColor="#000000"
+                    android:textSize="@dimen/artficl_means_size" />
+
+                <EditText
+                    android:id="@+id/edt_goods_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tvv1"
+                    android:background="@drawable/shape_border4"
+                    android:gravity="center_vertical"
+                    android:textCursorDrawable="@drawable/shape_cursor_color"
+                    android:paddingLeft="5dp"
+                    android:textSize="@dimen/artficl_means_size" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tvv2"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@drawable/ic_tag"
+                    android:gravity="center_vertical"
+                    android:text="申请人："
+                    android:textColor="#000000"
+                    android:textSize="@dimen/artficl_means_size" />
+
+                <EditText
+                    android:id="@+id/edt_goods_apply"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tvv2"
+                    android:background="@drawable/shape_border4"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:textCursorDrawable="@drawable/shape_cursor_color"
+                    android:textSize="@dimen/artficl_means_size" />
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tvv3"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@drawable/ic_tag"
+                    android:gravity="center_vertical"
+                    android:text="申请时间："
+                    android:textColor="#000000"
+                    android:textSize="@dimen/artficl_means_size" />
+
+                <EditText
+                    android:id="@+id/edt_goods_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tvv3"
+                    android:background="@drawable/shape_border4"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:textCursorDrawable="@drawable/shape_cursor_color"
+                    android:textSize="@dimen/artficl_means_size" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tvv4"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@drawable/ic_tag"
+                    android:gravity="center_vertical"
+                    android:text="单位："
+                    android:textColor="#000000"
+                    android:textSize="@dimen/artficl_means_size" />
+
+                <EditText
+                    android:id="@+id/edt_goods_unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/tvv4"
+                    android:background="@drawable/shape_border4"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:textCursorDrawable="@drawable/shape_cursor_color"
+                    android:textSize="@dimen/artficl_means_size" />
+            </RelativeLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/leeee"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp">
+
+
+        <TextView
+            android:id="@+id/tv5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="备注："
+            android:textColor="#000000"
+            android:textSize="@dimen/artficl_means_size" />
+
+        <EditText
+            android:id="@+id/edt_goods_note"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv5"
+            android:background="@drawable/shape_border4"
+            android:gravity="top"
+            android:padding="7dp"
+            android:textCursorDrawable="@drawable/shape_cursor_color"
+            android:textSize="@dimen/artficl_means_size"></EditText>
+
+        <TextView
+            android:id="@+id/tv_goods_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/edt_goods_note"
+            android:layout_alignRight="@id/edt_goods_note"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:hint="还可输入25字"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_goods_commit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_commit_height"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/rey3"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/color_no_click"
+        android:enabled="false"
+        android:text="提交"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+</RelativeLayout>
