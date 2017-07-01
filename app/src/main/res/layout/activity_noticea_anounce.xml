@@ -36,12 +36,30 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <!--//app:ptr_resistance="1.7"：设置下拉的阻尼系数，值越大感觉越难下拉-->
+    <!--//ptr_ratio_of_header_height_to_refresh：设置超过头部的多少时，释放可以执行刷新操作-->
+    <!--//ptr_duration_to_close：设置下拉回弹的时间-->
+    <!--//ptr_duration_to_close_header：设置刷新完成，头部回弹时间，注意和前一个进行区别-->
+    <!--//ptr_keep_header_when_refresh：设置刷新的时候是否保持头部-->
+    <!--//ptr_pull_to_fresh：设置下拉过程中执行刷新，我们一般设置为false-->
+
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/material_style_ptr_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        cube_ptr:ptr_duration_to_close="300"
+        cube_ptr:ptr_duration_to_close_header="2000"
+        cube_ptr:ptr_keep_header_when_refresh="true"
+        cube_ptr:ptr_pull_to_fresh="false"
+        cube_ptr:ptr_ratio_of_header_height_to_refresh="0.8"
+        cube_ptr:ptr_resistance="1.7"
+        android:layout_below="@+id/toolbar">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyView_notice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
         android:background="#dbdbd8"></android.support.v7.widget.RecyclerView>
-
-
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 </RelativeLayout>

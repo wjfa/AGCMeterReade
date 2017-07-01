@@ -51,6 +51,7 @@ public class ProblemFeedbackActivity extends AppCompatActivity {
 
         edtTitle.addTextChangedListener(textWatcher);
         edtDetails.addTextChangedListener(textWatcher);
+        edtPhone.addTextChangedListener(textWatcher);
 
     }
     TextWatcher textWatcher=new TextWatcher() {
@@ -62,12 +63,13 @@ public class ProblemFeedbackActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            if (edtTitle.length()!=0||edtDetails.length()!=0||edtPhone.length()!=0){
-                btnProblemOk.setEnabled(true);
-                btnProblemOk.setBackgroundColor(getResources().getColor(R.color.color_yes_click));
-            }else {
+            if (edtTitle.length()==0||edtDetails.length()==0||edtPhone.length()==0){
                 btnProblemOk.setEnabled(false);
                 btnProblemOk.setBackgroundColor(getResources().getColor(R.color.color_no_click));
+            }else {
+                btnProblemOk.setEnabled(true);
+                btnProblemOk.setBackgroundColor(getResources().getColor(R.color.color_yes_click));
+
             }
         }
 

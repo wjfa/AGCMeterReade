@@ -158,6 +158,7 @@ public class ActivityUtils {
         }
     }
 
+    //打开浏览器
     public void startBrowser(String url) {
         if (getActivity() == null) return;
         Intent intent = new Intent();
@@ -219,16 +220,39 @@ public class ActivityUtils {
                 .setExpanded(true)
                 .setCancelable(false)
                 .create();
-
         dialogPlus.show();
     }
 
-
     /**
-     * 获取系统当前时间 以及转换成星期几
+     * 获取系统当前时间
+     *
+     * @param time
+     * @return
+     */
+    public String setCurrentTime(String time) {
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        if (time == "年月日时分秒") {//获取年 月 日 时 分 秒
+            String time1 = new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss").format(curDate);
+            return time1;
+        } else if (time == "年月日") {//年 月 日
+            String time2 = new SimpleDateFormat("yyyy年MM月dd日").format(curDate);
+            return time2;
+        } else if (time == "时分") {//时 分
+//            HH：返回的是24小时制的时间
+//            hh：返回的是12小时制的时间
+            String time3 = new SimpleDateFormat("HH:mm").format(curDate);
+            return time3;
+        } else if (time == "年月") {
+            String time4 = new SimpleDateFormat("yyyy-MM").format(curDate);
+            return time4;
+        }
+        return null;
+    }
+    /**
+     * 获取系统当前时间转换成星期几
      * @return  isDlack  是否显示年月日
      */
-    public static String StringDataDay(boolean isDlack) {
+    public  String StringDataDay(boolean isDlack) {
 
         final Calendar c = Calendar.getInstance();
         c.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));

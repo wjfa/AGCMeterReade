@@ -9,24 +9,24 @@
     <RelativeLayout
         android:id="@+id/rel_notice"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="120dp"
         android:layout_marginTop="3dp"
         android:background="@drawable/sel_background">
 
         <ImageView
             android:id="@+id/img_notice_photo"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@mipmap/ic_watch_icon"/>
+            android:layout_marginLeft="8dp"
+            android:src="@mipmap/a"/>
 
         <TextView
             android:id="@+id/tv_item_notice_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/img_notice_photo"
-            android:layout_marginLeft="13dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
            android:layout_marginTop="-10dp"
             android:layout_toRightOf="@+id/img_notice_photo"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/tv_item_notice_title"
             android:layout_below="@+id/tv_item_notice_title"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="3dp"
             android:text="\u3000\u3000内容少杀杀杀所所生水水水水水水水水水水水水水水水水水水三少时诵诗书是是是搜索世少是是是是是时诵对对对到达"
             android:layout_marginRight="15dp"
             android:textColor="#888888"
@@ -50,19 +50,19 @@
             android:maxLines="3"
             android:ellipsize="end" />
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/tv_item_notice_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="5dp"
             android:layout_below="@+id/tv_item_notive_content"
             android:layout_alignLeft="@+id/tv_item_notive_content"
             android:text="点击查看详情"
             android:drawableLeft="@drawable/ic_left_more"
             android:drawableRight="@drawable/ic_right_more"
             android:textColor="#333333"
-            android:textSize="16sp" />
+            android:textSize="16sp" />-->
 
         <TextView
             android:id="@+id/tv_item_notice_time"
@@ -70,9 +70,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center_vertical"
             android:layout_below="@+id/tv_item_notive_content"
             android:text="2017-12-8"
             android:textColor="#333333"

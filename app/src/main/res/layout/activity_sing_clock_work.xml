@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_sing_clock_work"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.guanchao.app.SingClockWorkActivity">
+
+
+    <!--toolbar标题-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#27A5F9"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <TextView
+            android:id="@+id/ig_back"
+            android:layout_width="66dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/ic_back"
+            android:gravity="center_vertical"
+            android:text="返回"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/toolbar_back_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="加班考勤"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/toolbar_title_size" />
+    </android.support.v7.widget.Toolbar>
+
+
+    <RelativeLayout
+        android:id="@+id/rt1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:background="#780bb6"
+        android:padding="30dp">
+
+        <TextView
+            android:id="@+id/tv_work_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="星期一"
+            android:textColor="#ffffff"
+            android:textSize="25sp" />
+
+        <!-- <TextView
+             android:id="@+id/tv_sign_time"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/tv_sign_week"
+             android:layout_marginTop="3dp"
+             android:gravity="center_vertical"
+             android:text="09:20:54"
+             android:textColor="#192676"
+             android:textSize="16sp" />-->
+
+
+        <TextView
+            android:id="@+id/tv_work_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_work_week"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="2017年7月1日"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/vw"
+        android:layout_width="match_parent"
+        android:layout_height="2.5dp"
+        android:layout_below="@+id/rt1"
+        android:background="#b5b5b4"></View>
+
+    <RelativeLayout
+        android:id="@+id/rt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vw">
+
+        <ImageView
+            android:id="@+id/img_work_up"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/ic_go_work" />
+
+        <TextView
+            android:id="@+id/tv_work_go_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/img_work_up"
+            android:text="开始加班"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/btn_work_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/shape_color_go_work"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="加班签到"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/vw1"
+        android:layout_width="match_parent"
+        android:layout_height="2.5dp"
+        android:layout_below="@+id/rt2"
+        android:background="#b5b5b4"></View>
+
+
+    <RelativeLayout
+        android:id="@+id/rt3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vw1">
+
+        <ImageView
+            android:id="@+id/img_work_down"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/ic_down_work" />
+
+        <TextView
+            android:id="@+id/tv_woek_down_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/img_work_down"
+            android:text="结束加班"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/btn_work_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/shape_color_go_work"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="下班签退"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/vw2"
+        android:layout_width="match_parent"
+        android:layout_height="2.5dp"
+        android:layout_below="@+id/rt3"
+        android:background="#b5b5b4"></View>
+
+</RelativeLayout>

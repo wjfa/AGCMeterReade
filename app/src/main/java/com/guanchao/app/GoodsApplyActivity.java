@@ -49,7 +49,12 @@ public class GoodsApplyActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         tvPrompt.setText("还可输入 " + MaxLen + "字");
+        edtName.addTextChangedListener(textWatcher);
+        edtApply.addTextChangedListener(textWatcher);
+        edtTime.addTextChangedListener(textWatcher);
+        edtUnit.addTextChangedListener(textWatcher);
         edtNote.addTextChangedListener(textWatcher);
+
     }
 
     TextWatcher textWatcher = new TextWatcher() {
@@ -60,6 +65,15 @@ public class GoodsApplyActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            if (edtName.length() == 0 || edtApply.length() == 0 || edtTime.length() == 0 || edtUnit.length() == 0) {
+                btnCommit.setEnabled(false);
+                btnCommit.setBackgroundColor(getResources().getColor(R.color.color_no_click));
+            } else {
+                btnCommit.setEnabled(true);
+                btnCommit.setBackgroundColor(getResources().getColor(R.color.color_yes_click));
+
+            }
 
             //实现输入数字的提示
             Editable note = edtNote.getText();
@@ -82,13 +96,7 @@ public class GoodsApplyActivity extends AppCompatActivity {
                 Selection.setSelection(note, selEndIndex);
             }
 
-            if (edtName.length() != 0 || edtApply.length() != 0 || edtTime.length() != 0 || edtUnit.length() != 0) {
-                btnCommit.setEnabled(true);
-                btnCommit.setBackgroundColor(getResources().getColor(R.color.color_yes_click));
-            } else {
-                btnCommit.setEnabled(false);
-                btnCommit.setBackgroundColor(getResources().getColor(R.color.color_no_click));
-            }
+
         }
 
         @Override

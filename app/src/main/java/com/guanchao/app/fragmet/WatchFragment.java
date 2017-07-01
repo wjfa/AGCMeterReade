@@ -49,7 +49,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-import static com.guanchao.app.utils.ActivityUtils.StringDataDay;
 
 /**
  * 抄表页面
@@ -79,11 +78,8 @@ public class WatchFragment extends Fragment {
         ButterKnife.bind(this, view);
         activityUtils = new ActivityUtils(getActivity());
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        String CurrtrnstrTime = formatter.format(curDate);
-        tvShowTime.setText(CurrtrnstrTime);
-
+        //获取当前时间
+        tvShowTime.setText(activityUtils.setCurrentTime("年月"));
 
         setWatchNetRequest();
         //设置一下actionbar
@@ -210,8 +206,7 @@ public class WatchFragment extends Fragment {
                 String timeFormat = format.format(date);
                 tvShowTime.setText(timeFormat);
                 //直接从对话框获取选择的时间
-                String netStr = getTime(date);
-                Log.e("设置时间", netStr + "");
+                Log.e("设置时间", getTime(date) + "");
             }
         })
                 .setCancelText("Cancel")
@@ -251,7 +246,7 @@ public class WatchFragment extends Fragment {
                         TextView currtenTime = (TextView) v.findViewById(R.id.tv_content_time);
                         ImageView ivCancel = (ImageView) v.findViewById(R.id.iv_cancel);
                         //设置当前时间转换成星期几
-                        currtenTime.setText("" + ActivityUtils.StringDataDay(true));
+                        currtenTime.setText("" + activityUtils.StringDataDay(true));
                         tvSubmit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

@@ -49,6 +49,8 @@ dependencies {
 
     //下拉刷新    下拉上拉均有
     compile 'com.huxq17.xrefreshview:xrefreshview:3.6.5'
+    compile 'in.srain.cube:ptr-load-more:1.0.2'  //下拉上拉均有
+
     //轮播图
     compile 'com.jorge.circleview:circlelibrary:1.1.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'//ImageLoader图片加载

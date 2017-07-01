@@ -39,10 +39,10 @@
         android:id="@+id/img_sign_icon"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_sign_icon"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/toolbar"
-        android:layout_alignParentStart="true" />
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_sign_icon" />
 
     <RelativeLayout
         android:id="@+id/rt1"
@@ -50,11 +50,11 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/img_sign_icon"
         android:layout_alignLeft="@+id/img_sign_icon"
-        android:background="#62c57a"
-        android:paddingTop="18dp"
+        android:background="#5a7ad9"
+        android:paddingBottom="16dp"
         android:paddingLeft="15dp"
-        android:paddingRight="22dp"
-        android:paddingBottom="16dp">
+        android:paddingRight="50dp"
+        android:paddingTop="18dp">
 
         <TextView
             android:id="@+id/tv_sign_week"
@@ -62,19 +62,19 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="星期一"
-            android:textColor="#000000"
-            android:textSize="18sp"/>
+            android:textColor="#ffffff"
+            android:textSize="23sp" />
 
-       <!-- <TextView
-            android:id="@+id/tv_sign_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_sign_week"
-            android:layout_marginTop="3dp"
-            android:gravity="center_vertical"
-            android:text="09:20:54"
-            android:textColor="#192676"
-            android:textSize="16sp" />-->
+        <!-- <TextView
+             android:id="@+id/tv_sign_time"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/tv_sign_week"
+             android:layout_marginTop="3dp"
+             android:gravity="center_vertical"
+             android:text="09:20:54"
+             android:textColor="#192676"
+             android:textSize="16sp" />-->
 
 
         <TextView
@@ -85,8 +85,8 @@
             android:layout_marginTop="3dp"
             android:gravity="center_vertical"
             android:text="2017年7月1日"
-            android:textColor="#000000"
-            android:textSize="16sp"/>
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
     </RelativeLayout>
 
 
@@ -97,154 +97,206 @@
         android:layout_below="@+id/rt1"
         android:background="#b5b5b4"></View>
 
+    <!--如需加班，请切换-->
     <RelativeLayout
-        android:id="@+id/rt2"
+        android:id="@+id/reltime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/vw">
-
-        <ImageView
-            android:id="@+id/img_sign_go"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:src="@mipmap/ic_go_work" />
-
-        <TextView
-            android:id="@+id/tv_sign_go_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_toRightOf="@+id/img_sign_go"
-            android:layout_alignTop="@id/img_sign_go"
-            android:layout_marginTop="6dp"
-            android:gravity="center_vertical"
-            android:text="上班时间"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tv_sign_go_time2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_toRightOf="@+id/img_sign_go"
-            android:layout_alignBottom="@+id/img_sign_go"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="6dp"
-            android:text="09:00"
-            android:textColor="#666666"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/btn_sign_go3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/shape_color_go_work"
-            android:gravity="center"
-            android:text="上班签到"
-            android:padding="10dp"
-            android:textColor="#ffffff"
-            android:textSize="16sp" />
-
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/vw1"
-        android:layout_width="match_parent"
-        android:layout_height="2.5dp"
-        android:layout_below="@+id/rt2"
-        android:background="#b5b5b4"></View>
-
-
-    <RelativeLayout
-        android:id="@+id/rt3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/vw1">
-
-        <ImageView
-            android:id="@+id/img_sign_down"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:src="@mipmap/ic_down_work" />
-
-        <TextView
-            android:id="@+id/tv_sign_down_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_toRightOf="@+id/img_sign_down"
-            android:layout_alignTop="@+id/img_sign_down"
-            android:layout_marginTop="6dp"
-            android:gravity="center_vertical"
-            android:text="下班时间"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-        <TextView
-            android:id="@+id/tv_sign_down_time2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_toRightOf="@+id/img_sign_down"
-            android:layout_alignBottom="@+id/img_sign_down"
-            android:layout_marginBottom="6dp"
-            android:gravity="center_vertical"
-            android:text="18:00"
-            android:textColor="#666666"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/btn_sign_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/shape_color_go_work"
-            android:gravity="center"
-            android:text="下班签到"
-            android:padding="10dp"
-            android:textColor="#ffffff"
-            android:textSize="16sp" />
-
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/vw2"
-        android:layout_width="match_parent"
-        android:layout_height="2.5dp"
-        android:layout_below="@+id/rt3"
-        android:background="#b5b5b4"></View>
-
-
-    <TextView
-        android:id="@+id/btn_sign_position"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/sel_shape_border"
-        android:drawableRight="@drawable/ic_position"
-        android:gravity="center"
+        android:layout_below="@+id/vw"
         android:paddingBottom="10dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="10dp"
-        android:text="开启定位服务"
-        android:textColor="#000000"
-        android:textSize="18sp" />
+        android:paddingTop="20dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_work_overtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/shape_border7"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:text="如需加班，请切换到加班考勤 >"
+            android:textColor="#ea9518"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <!--今天是周末休息时间-->
+    <TextView
+        android:id="@+id/tv_week_overwork"
+        android:layout_below="@+id/reltime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/ic_smile_work"
+        android:gravity="center"
+        android:layout_marginTop="80dp"
+        android:padding="25dp"
+        android:textSize="30sp"
+        android:text="今天是周末休息时间哦"
+        android:visibility="gone"/>
+
+    <!--上班时间和下班时间打卡签到-->
+    <RelativeLayout
+        android:id="@+id/ryle_work"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reltime">
+
+        <RelativeLayout
+            android:id="@+id/rt2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_sign_go"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/ic_go_work" />
+
+            <TextView
+                android:id="@+id/tv_sign_go_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/img_sign_go"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="6dp"
+                android:layout_toRightOf="@+id/img_sign_go"
+                android:gravity="center_vertical"
+                android:text="上班时间"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_sign_go_time2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/img_sign_go"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="25dp"
+                android:layout_toRightOf="@+id/img_sign_go"
+                android:gravity="center_vertical"
+                android:text="09:00"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/btn_sign_go3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/shape_color_go_work"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="上班签到"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/vw1"
+            android:layout_width="match_parent"
+            android:layout_height="2.5dp"
+            android:layout_below="@+id/rt2"
+            android:background="#b5b5b4"></View>
+
+
+        <RelativeLayout
+            android:id="@+id/rt3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vw1">
+
+            <ImageView
+                android:id="@+id/img_sign_down"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/ic_down_work" />
+
+            <TextView
+                android:id="@+id/tv_sign_down_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/img_sign_down"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="6dp"
+                android:layout_toRightOf="@+id/img_sign_down"
+                android:gravity="center_vertical"
+                android:text="下班时间"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_sign_down_time2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/img_sign_down"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="25dp"
+                android:layout_toRightOf="@+id/img_sign_down"
+                android:gravity="center_vertical"
+                android:text="18:00"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/btn_sign_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/shape_color_go_work"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="下班签到"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+
+
+        <View
+            android:id="@+id/vw2"
+            android:layout_width="match_parent"
+            android:layout_height="2.5dp"
+            android:layout_below="@+id/rt3"
+            android:background="#b5b5b4"></View>
+
+
+        <TextView
+            android:id="@+id/btn_sign_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/sel_shape_border"
+            android:drawableRight="@drawable/ic_position"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:text="开启定位服务"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+
 
 
 </RelativeLayout>
