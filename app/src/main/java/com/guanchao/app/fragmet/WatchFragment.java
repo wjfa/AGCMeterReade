@@ -49,7 +49,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-
 /**
  * 抄表页面
  */
@@ -86,6 +85,10 @@ public class WatchFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
+
+
+
+
 
         return view;
     }
@@ -129,7 +132,7 @@ public class WatchFragment extends Fragment {
         timeControls = time;
         //将2017-08替换为201708格式
         String newStrTime = timeControls.replace("-", "");
-        Log.e("获取控件时间", newStrTime);
+        // Log.e("获取控件时间", newStrTime);
         //获取本地保存的数据
         User watchId = SharePreferencesUtils.getUser();
         String cbUserID = watchId.getId();
@@ -138,10 +141,10 @@ public class WatchFragment extends Fragment {
         OkHttpClientEM.getInstance().watchTask(cbUserID, newStrTime).enqueue(new UICallBack() {
             @Override
             public void onFailureUI(Call call, IOException e) {
-                if (relRefresh.getVisibility()==View.VISIBLE){
+                if (relRefresh.getVisibility() == View.VISIBLE) {
                     relRefresh.setVisibility(View.GONE);
                 }
-                activityUtils.showDialog("抄表任务列表","网络异常，请重试！");
+                activityUtils.showDialog("抄表任务列表", "网络异常，请重试！");
             }
 
             @Override
@@ -150,7 +153,7 @@ public class WatchFragment extends Fragment {
                 //解析json
                 parserWatchList = Parser.parserWatch(json);
                 if (parserWatchList.getSuccess() == true) {
-                    if (relRefresh.getVisibility()==View.VISIBLE){
+                    if (relRefresh.getVisibility() == View.VISIBLE) {
                         relRefresh.setVisibility(View.GONE);
                     }
                     //将信息存储到本地
@@ -166,21 +169,21 @@ public class WatchFragment extends Fragment {
                     //设置监听
                     watchAdapter.setonNewItemClickListener(newItemClickListener);
                     if (parserWatchList.getData().size() == 0) {
-                        if (relRefresh.getVisibility()==View.VISIBLE){
+                        if (relRefresh.getVisibility() == View.VISIBLE) {
                             relRefresh.setVisibility(View.GONE);
                         }
-                        activityUtils.showDialog("抄表任务列表","该月份无抄表任务记录");
+                        activityUtils.showDialog("抄表任务列表", "该月份无抄表任务记录");
                     } else {
-                        if (relRefresh.getVisibility()==View.VISIBLE){
+                        if (relRefresh.getVisibility() == View.VISIBLE) {
                             relRefresh.setVisibility(View.GONE);
                         }
                         //activityUtils.showToast(parserWatchList.getMessage());
                     }
                 } else {
-                    if (relRefresh.getVisibility()==View.VISIBLE){
+                    if (relRefresh.getVisibility() == View.VISIBLE) {
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showDialog("抄表任务列表",parserWatchList.getMessage());
+                    activityUtils.showDialog("抄表任务列表", parserWatchList.getMessage());
                 }
 
             }
@@ -201,12 +204,12 @@ public class WatchFragment extends Fragment {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
 
-                //可根据需要自行截取数据显示在控件上  yyyy-MM-dd HH:mm:ss  或yyyy-MM-dd
+                //可根据需要自行截取对话框中的数据显示在控件上  yyyy-MM-dd HH:mm:ss  或yyyy-MM-dd
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
                 String timeFormat = format.format(date);
                 tvShowTime.setText(timeFormat);
                 //直接从对话框获取选择的时间
-                Log.e("设置时间", getTime(date) + "");
+                //  Log.e("设置时间", getTime(date) + "");
             }
         })
                 .setCancelText("Cancel")
@@ -228,7 +231,7 @@ public class WatchFragment extends Fragment {
                 .setCancelColor(Color.WHITE)
                 .gravity(Gravity.CENTER)//设置控件显示位置 default is center*/
                 .isDialog(true)//设置显示位置(屏幕中心)
-                .setOutSideCancelable(false)
+                .setOutSideCancelable(false)//点击外侧不关闭
 
                 //.setLabel("年", "月", "日", "", "", "") //设置空字符串以隐藏单位提示   hide label
                 // 六种选择模式，年月日时分秒，年月日，时分，月日时分，年月，年月日时分
@@ -244,7 +247,8 @@ public class WatchFragment extends Fragment {
                     public void customLayout(View v) {
                         final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
                         TextView currtenTime = (TextView) v.findViewById(R.id.tv_content_time);
-                        ImageView ivCancel = (ImageView) v.findViewById(R.id.iv_cancel);
+                        TextView tvCancel = (TextView) v.findViewById(R.id.tv_cance);
+                        RelativeLayout relShow = (RelativeLayout) v.findViewById(R.id.rel_time_dialog);
                         //设置当前时间转换成星期几
                         currtenTime.setText("" + activityUtils.StringDataDay(true));
                         tvSubmit.setOnClickListener(new View.OnClickListener() {
@@ -253,25 +257,35 @@ public class WatchFragment extends Fragment {
                                 pvCustomTime.returnData();
                                 //获取控件时间
                                 timeControls = tvShowTime.getText().toString();
-                                Log.e("获取控件时间", timeControls + "");
+                                //  Log.e("获取控件时间", timeControls + "");
                                 //刷新适配器   网络请求
                                 setWatchNetRequest();
+                                if (pvCustomTime.isShowing()) {
+                                    pvCustomTime.dismiss();
+                                }
                             }
                         });
-                        ivCancel.setOnClickListener(new View.OnClickListener() {
+                        tvCancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 pvCustomTime.dismiss();
+
+                            }
+                        });
+                        //不设置点击对话框的状态栏会关闭对话框
+                        relShow.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (pvCustomTime.isShowing()) {
+                                    pvCustomTime.show();
+                                }
                             }
                         });
                     }
                 })
+
                 .build();
-
-        if (pvCustomTime != null) {
-            pvCustomTime.show();
-        }
-
+        pvCustomTime.show();
 
     }
 
@@ -280,6 +294,7 @@ public class WatchFragment extends Fragment {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
         return format.format(date);
     }
+
 
 
 }

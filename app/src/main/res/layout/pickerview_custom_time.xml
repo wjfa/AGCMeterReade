@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rel_time_dialog"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/color_main_select">
@@ -14,13 +15,13 @@
             android:layout_height="0.5dp"
             android:background="#aaa" />
 
-        <ImageView
-            android:id="@+id/iv_cancel"
-            android:layout_width="60dp"
-            android:layout_height="35dp"
+        <TextView
+            android:id="@+id/tv_cance"
+            android:layout_width="80dp"
+            android:layout_height="45dp"
             android:layout_centerVertical="true"
-            android:padding="8dp"
-            android:src="@drawable/ic_shout_down" />
+            android:paddingLeft="22dp"
+            android:drawableLeft="@drawable/ic_shout_down" />
 
         <TextView
             android:id="@+id/tv_content_time"
@@ -40,14 +41,11 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="完成"
-            android:gravity="center"
+            android:paddingRight="18dp"
+            android:gravity="center|right"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#aaa" />
     </RelativeLayout>
 
 

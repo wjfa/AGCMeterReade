@@ -69,11 +69,6 @@ public class RepairsFragment extends Fragment {
         edtUserPhone.addTextChangedListener(textWatcher);
         edtUserAddres.addTextChangedListener(textWatcher);
         edtUserContext.addTextChangedListener(textWatcher);
-//        // 取控件当前的布局参数
-//        ViewGroup.LayoutParams layoutParams = tvContext.getLayoutParams();
-//        layoutParams.height = 420;// 当控件的高强制设成300象素
-//        tvContext.setLayoutParams(layoutParams);// 使设置好的布局参数应用到控件
-
     }
 
     TextWatcher textWatcher=new TextWatcher() {
@@ -81,7 +76,6 @@ public class RepairsFragment extends Fragment {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
         }
-
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -93,22 +87,6 @@ public class RepairsFragment extends Fragment {
                 btnOk.setEnabled(true);
                 btnOk.setBackgroundColor(getResources().getColor(R.color.color_yes_click));
             }
-            /*if (edtUserContext.length()!=0){
-                tvContext.setHint("");
-
-            }else {
-                tvContext.setHint("暂无报修内容");
-            }
-            if (edtUserContext.length()>250) {//当输入的长度>180时设置控件高度300px像素
-                ViewGroup.LayoutParams layoutParams2 = edtUserContext.getLayoutParams();
-                layoutParams2.height = 420;// 当控件的高强制设成300象素
-                edtUserContext.setLayoutParams(layoutParams2);// 使设置好的布局参数应用到控件
-            }*//*else {
-                ViewGroup.LayoutParams layoutParams2 = edtUserContext.getLayoutParams();
-                layoutParams2.height = R.style.app_wrap_content;// 当控件的高强制设成300象素
-                edtUserContext.setLayoutParams(layoutParams2);// 使设置好的布局参数应用到控件
-            }*/
-
         }
         @Override
         public void afterTextChanged(Editable s) {
@@ -164,5 +142,11 @@ public class RepairsFragment extends Fragment {
                 }
             });
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        ButterKnife.bind(getActivity()).unbind();
+        super.onDestroy();
     }
 }

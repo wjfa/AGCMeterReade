@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
+    android:fitsSystemWindows="true"
     tools:context="com.guanchao.app.SignClockActivity">
 
     <!--toolbar标题-->
@@ -258,11 +259,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/shape_color_go_work"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="下班签到"
-                android:textColor="#ffffff"
+                android:text="未签到"
+                android:textColor="@color/diablo"
                 android:textSize="16sp" />
 
         </RelativeLayout>
@@ -279,11 +279,12 @@
 
         <TextView
             android:id="@+id/btn_sign_position"
+            android:layout_below="@+id/rt3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="60dp"
             android:background="@drawable/sel_shape_border"
             android:drawableRight="@drawable/ic_position"
             android:gravity="center"

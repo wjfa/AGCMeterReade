@@ -4,6 +4,7 @@
     android:id="@+id/activity_sing_clock_work"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.guanchao.app.SingClockWorkActivity">
 
 
@@ -172,11 +173,10 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/shape_color_go_work"
             android:gravity="center"
             android:padding="10dp"
-            android:text="下班签退"
-            android:textColor="#ffffff"
+            android:text="未开始"
+            android:textColor="@color/diablo"
             android:textSize="16sp" />
 
     </RelativeLayout>

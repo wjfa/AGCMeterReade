@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.guanchao.app.adapter.NoticeaAnAdapter;
+import com.guanchao.app.utils.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +52,14 @@ public class NoticeaAnounceActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
 
+        //设置状态栏背景颜色
+        StatusBarUtil.setStatusBgColor(this, getResources().getColor(R.color.textCursorDrawable), false);
+        //设置状态栏字体的颜色true  深色  false 白色
+        StatusBarUtil.StatusBarTestColorMode(this, false);
+
         for (int i = 0; i < 10; i++) {
             notiList.add("" + i);
         }
-
         noticeaAnAdapter = new NoticeaAnAdapter(this, notiList);
         recylerView.setAdapter(noticeaAnAdapter);
         recylerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -62,7 +67,6 @@ public class NoticeaAnounceActivity extends AppCompatActivity {
         //设置监听
         noticeaAnAdapter.setonNewItemClickListener(newItemClickListener);
         setPtrRefresh();
-
 
         mPtrFrameLayout.postDelayed(new Runnable() {
             @Override

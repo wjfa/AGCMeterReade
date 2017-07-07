@@ -28,6 +28,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.dfqin.grantor.PermissionListener;
+import com.github.dfqin.grantor.PermissionsUtil;
 import com.guanchao.app.entery.BaseEntity;
 import com.guanchao.app.entery.ImgUpdate;
 import com.guanchao.app.entery.ServiceRepair;
@@ -96,11 +98,16 @@ public class ServiceFaultActivity extends AppCompatActivity {
     private Uri tempUri;
     private ActivityUtils activityUtils;
     //private boolean isSelectPhoto;//判断是否设置图片在控件上
-    private int controlsStaute;//设置控件状态
+    private int controlsStaute;//设置点击三个照片的控件状态
+    private int IMAGEVIEWSTATUS;//设置点击相机或相册的状态
     protected static final int TAKE_PICTURES = 1;//相机请求码
     protected static final int CHOOSE_PICTURES = 2;//相册请求码
     private static final int CROP_PICTURE = 3;//图片裁剪后按确认
     public static String imgPath = "", repairsBefore = "", repairsIN = "", repairsAfter = "";//图片路径   设置图片路径
+
+    private String imgFilePath;
+    private File tempFile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +115,6 @@ public class ServiceFaultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_service_fault);
         ButterKnife.bind(this);
         activityUtils = new ActivityUtils(this);
-        //相机允许权限
-        photoCamertPermissions();
         initControls();
     }
 
@@ -283,48 +288,52 @@ public class ServiceFaultActivity extends AppCompatActivity {
     /**
      * 相册和相机访问权限
      */
-    private void photoCamertPermissions() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            int checkCallPhonePermission = ContextCompat.checkSelfPermission(ServiceFaultActivity.this, Manifest.permission.CAMERA);
-            // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义)
-            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(ServiceFaultActivity.this, new String[]{Manifest.permission.CAMERA}, 222);
+    private void requestCemera(String camera, final String granted, final String denied) {
 
-                Log.e("权限1", "photoCamertPermissions: " );
-                return;
-            } else {
+        if (PermissionsUtil.hasPermission(this, camera)) {
+            //权限允许成功的操作
+            if (IMAGEVIEWSTATUS==1){
 
-                Log.e("权限2", "photoCamertPermissions: " );
-                //setShowDialogPlus();
-            }
-        } else {
-            Log.e("权限3", "photoCamertPermissions: " );
-            //setShowDialogPlus();
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            //就像onActivityResult一样这个地方就是判断你是从哪来的。
-            case 222:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//允许
-                    Log.e("权限4", "photoCamertPermissions: " );
-                    //setShowDialogPlus();
-
-                    break;
+                //调用相机拍照
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                    imgFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/imagePortrait.jpg";
+                    tempFile = new File(imgFilePath);
+                    tempUri = Uri.fromFile(tempFile);
+                    Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    String pathName = "HeadPortrait.jpg";
+                    tempUri = Uri.fromFile(new File(Environment
+                            .getExternalStorageDirectory() + "/" + pathName));
+                    // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
+                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
+                    startActivityForResult(openCameraIntent, TAKE_PICTURES);
                 } else {
-                    // Permission Denied
-                    Toast.makeText(ServiceFaultActivity.this, "很遗憾，你把相机权限禁用了", Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(ServiceFaultActivity.this, "未找到存储卡，无法存储照片！",
+                            Toast.LENGTH_SHORT).show();
                 }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            }else if (IMAGEVIEWSTATUS==2){
+                //调用本地相册
+                Intent openAlbumIntent = new Intent(
+                        Intent.ACTION_PICK);
+                openAlbumIntent.setType("image/*");//图片类型
+                startActivityForResult(openAlbumIntent, CHOOSE_PICTURES);
+            }
+
+            //Toast.makeText(ArtificialPhotoActivity.this, "可以访问摄像头", Toast.LENGTH_LONG).show();
+        } else {
+            PermissionsUtil.requestPermission(this, new PermissionListener() {
+                @Override
+                public void permissionGranted(@NonNull String[] permissions) {
+                    Toast.makeText(ServiceFaultActivity.this, granted, Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void permissionDenied(@NonNull String[] permissions) {
+                    Toast.makeText(ServiceFaultActivity.this, denied, Toast.LENGTH_LONG).show();
+                }
+            }, new String[]{camera});
         }
     }
-
 
     /**
      * 拍照  对话框显示:弹出对话框不会有黑屏现象（AlertDialog会出现）
@@ -339,22 +348,23 @@ public class ServiceFaultActivity extends AppCompatActivity {
                     public void onClick(DialogPlus dialog, View view) {
                         switch (view.getId()) {
                             case R.id.tv_camera://相机
-                                Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                String pathName = "HeadPortrait.jpg";
-                                tempUri = Uri.fromFile(new File(Environment
-                                        .getExternalStorageDirectory() + "/" + pathName));
-                                // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
-                                openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
-                                startActivityForResult(openCameraIntent, TAKE_PICTURES);
+                                /**
+                                 * 动态获取访问摄像头
+                                 */
+                                IMAGEVIEWSTATUS = 1;
+                                requestCemera(Manifest.permission.CAMERA,  "用户成功授权访问相机","用户残忍拒绝访问相机");
+
                                 if (dialog.isShowing()) {
                                     dialog.dismiss();
                                 }
                                 break;
                             case R.id.tv_photo://相册
-                                Intent openAlbumIntent = new Intent(
-                                        Intent.ACTION_PICK);
-                                openAlbumIntent.setType("image/*");//图片类型
-                                startActivityForResult(openAlbumIntent, CHOOSE_PICTURES);
+                                /**
+                                 * 动态获取访问本地的照片 媒体文件内容和文件的权限
+                                 */
+                                IMAGEVIEWSTATUS = 2;
+                                requestCemera(Manifest.permission.WRITE_EXTERNAL_STORAGE,  "用户成功授权访问本地照片和媒体文件","用户残忍拒绝访问本地照片和媒体文件");
+
                                 if (dialog.isShowing()) {
                                     dialog.dismiss();
                                 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#a8cb94"
+    android:fitsSystemWindows="true"
     tools:context="com.guanchao.app.GoodsApplyActivity">
 
     <!--toolbar标题-->

@@ -8,11 +8,23 @@
     <color name="color_main_no_select">#707070</color>
     <color name="color_frist_textdrwable">#d4d9d3</color>
     <!--点击变暗-->
-    <color name="color_dianji_bg">#b5b5b4</color>
+    <color name="color_dianji_bg">#e7e7e6</color>
+    <!--点击变暗-->
+    <color name="dialog_bg">#f2f2f1</color>
     <!--edittext光标颜色-->
     <color name="textCursorDrawable">#27A5F9</color>
 
     <color name="yellow">#dfd514</color>
+    <color name="red">#f00f00</color>
+    <color name="blue">#36ab60</color>
+    <color name="green">#3785c7</color>
+
+
+    <color name="color_no">#acb</color>
+    <color name="color_yes">#89BC51</color>
+    <color name="color_ok">#e32333</color>
+
+
     <color name="lavenderblush">#0000</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>

@@ -35,6 +35,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.dfqin.grantor.PermissionListener;
+import com.github.dfqin.grantor.PermissionsUtil;
 import com.guanchao.app.entery.BaseEntity;
 import com.guanchao.app.entery.ImgUpdate;
 import com.guanchao.app.entery.UserSelcetWatchMessage;
@@ -58,6 +60,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
+
+import static com.guanchao.app.R.mipmap.a;
+
 /**
  * 人工拍照页面
  */
@@ -109,7 +114,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
     RelativeLayout relRefresh;//刷新页面
     private boolean isSet = false;
     private static int REQUEST_CODE = 100;
-    private int IMAGEVIEWSTATUS;//设置控件状态
+    private int IMAGEVIEWSTATUS;//设置点击相机或相册的状态
     private static final int SCALE = 5;//照片缩小比例
     protected static final int TAKE_PICTURE = 1;//相机请求码
     protected static final int CHOOSE_PICTURE = 2;//相册请求码
@@ -206,13 +211,10 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                 activityUtils.showToast("获取位置成功");
                 break;
             case R.id.img_aretificl_photo://拍照
-                IMAGEVIEWSTATUS = 1;
-                photoCamertPermissions();//相机权限
+                setShowDialogPlus();
                 break;
             case R.id.tv_artific_photo_collect://拍照
-                IMAGEVIEWSTATUS = 1;
-                photoCamertPermissions();//相机权限
-
+                setShowDialogPlus();
                 break;
             case R.id.btn_aretific_ok://保存
                 okHttpWaterLatLtude();//设置水表经纬度 网络请求
@@ -233,7 +235,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                 if (relRefresh.getVisibility() == View.VISIBLE) {
                     relRefresh.setVisibility(View.GONE);
                 }
-                activityUtils.showDialog("图片上传","网络异常，请稍后重试");
+                activityUtils.showDialog("图片上传", "网络异常，请稍后重试");
             }
 
             @Override
@@ -252,7 +254,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                     if (relRefresh.getVisibility() == View.VISIBLE) {
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showDialog("图片上传",imgUpdate.getMessage());
+                    activityUtils.showDialog("图片上传", imgUpdate.getMessage());
                 }
             }
         });
@@ -276,7 +278,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                     if (relRefresh.getVisibility() == View.VISIBLE) {
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showDialog("水表经纬度","网络异常，请稍后重试");
+                    activityUtils.showDialog("水表经纬度", "网络异常，请稍后重试");
                 }
 
                 @Override
@@ -291,7 +293,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                         if (relRefresh.getVisibility() == View.VISIBLE) {
                             relRefresh.setVisibility(View.GONE);
                         }
-                        activityUtils.showDialog("水表经纬度",entity.getMessage());
+                        activityUtils.showDialog("水表经纬度", entity.getMessage());
                     }
                 }
             });
@@ -312,9 +314,9 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                 || edtPhone.getText().toString().length() == 0 || edtAddres.getText().toString().length() == 0 || edtOldtReade.getText().toString().length() == 0
                 || edtWaterNumber.getText().toString().length() == 0 || edtLongitude.getText().toString().length() == 0
                 || edtLatude.getText().toString().length() == 0 || edtInstallPosition.getText().toString().length() == 0) {
-            activityUtils.showDialog("人工拍照","信息不完整");
+            activityUtils.showDialog("人工拍照", "信息不完整");
         } else if (waterReading.length() == 0 || edtNewDosage.getText().toString().length() == 0 || edtRemark.getText().toString().length() == 0) {
-            activityUtils.showDialog("人工拍照","请补全信息");
+            activityUtils.showDialog("人工拍照", "请补全信息");
         } else {
             relRefresh.setVisibility(View.VISIBLE);
             OkHttpClientEM.getInstance().peoplePhoto(taskId, waterId, waterReading, remark, fileId).enqueue(new UICallBack() {
@@ -323,7 +325,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                     if (relRefresh.getVisibility() == View.VISIBLE) {
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showDialog("人工拍照","网络异常，请稍后重试");
+                    activityUtils.showDialog("人工拍照", "网络异常，请稍后重试");
                 }
 
                 @Override
@@ -340,7 +342,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                         if (relRefresh.getVisibility() == View.VISIBLE) {
                             relRefresh.setVisibility(View.GONE);
                         }
-                        activityUtils.showDialog("人工拍照",entity.getMessage());
+                        activityUtils.showDialog("人工拍照", entity.getMessage());
                     }
 
                 }
@@ -352,52 +354,47 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
     /**
      * 相册和相机访问权限
      */
-    private void photoCamertPermissions() {
-        //如果是Android  6.0以上版本
-        if (Build.VERSION.SDK_INT >= 23) {
-            int checkCallPhonePermission = ContextCompat.checkSelfPermission(ArtificialPhotoActivity.this, Manifest.permission.CAMERA);
-            // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义)
-            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(ArtificialPhotoActivity.this, new String[]{Manifest.permission.CAMERA}, 222);
+    private void requestCemera(String camera, final String granted, final String denied) {
 
-                // Log.e("权限1", "photoCamertPermissions: " );
-                return;
-            } else {
-
-                //Log.e("权限2", "photoCamertPermissions: " );
-                setShowDialogPlus();
-            }
-        } else {//否则
-            //Log.e("权限3", "photoCamertPermissions: " );
-            setShowDialogPlus();
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            //就像onActivityResult一样这个地方就是判断你是从哪来的。
-            case 222:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//允许
-                    Log.e("权限4", "photoCamertPermissions: ");
-                    setShowDialogPlus();
-
-                    break;
+        if (PermissionsUtil.hasPermission(this, camera)) {
+            //权限允许成功的操作
+            if (IMAGEVIEWSTATUS==1){
+                //调用相机拍照
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                    imgFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/imagePortrait.jpg";
+                    tempFile = new File(imgFilePath);
+                    tempUri = Uri.fromFile(tempFile);
+                    Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    //指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
+                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
+                    startActivityForResult(openCameraIntent, TAKE_PICTURE);
                 } else {
-                    // Permission Denied
-                    Toast.makeText(ArtificialPhotoActivity.this, "很遗憾，你把相机权限禁用了", Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(ArtificialPhotoActivity.this, "未找到存储卡，无法存储照片！",
+                            Toast.LENGTH_SHORT).show();
                 }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            }else if (IMAGEVIEWSTATUS==2){
+                //调用本地相册
+                Intent openAlbumIntent = new Intent(
+                        Intent.ACTION_PICK);
+                openAlbumIntent.setType("image/*");//图片类型
+                startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
+            }
+
+            //Toast.makeText(ArtificialPhotoActivity.this, "可以访问摄像头", Toast.LENGTH_LONG).show();
+        } else {
+            PermissionsUtil.requestPermission(this, new PermissionListener() {
+                @Override
+                public void permissionGranted(@NonNull String[] permissions) {
+                    Toast.makeText(ArtificialPhotoActivity.this, granted, Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void permissionDenied(@NonNull String[] permissions) {
+                    Toast.makeText(ArtificialPhotoActivity.this, denied, Toast.LENGTH_LONG).show();
+                }
+            }, new String[]{camera});
         }
-    }
-
-    private void openCamear() {
-
-
     }
 
     /**
@@ -414,28 +411,23 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                     public void onClick(DialogPlus dialog, View view) {
                         switch (view.getId()) {
                             case R.id.tv_camera://相机
-                                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                                    imgFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/imagePortrait.jpg";
-                                    tempFile = new File(imgFilePath);
-                                    tempUri = Uri.fromFile(tempFile);
-                                    Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                    //指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
-                                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
-                                    startActivityForResult(openCameraIntent, TAKE_PICTURE);
-                                } else {
-                                    Toast.makeText(ArtificialPhotoActivity.this, "未找到存储卡，无法存储照片！",
-                                            Toast.LENGTH_SHORT).show();
-                                }
+                                /**
+                                 * 动态获取访问摄像头
+                                 */
+                                IMAGEVIEWSTATUS = 1;
+                                requestCemera(Manifest.permission.CAMERA,  "用户成功授权访问相机","用户残忍拒绝访问相机");
 
                                 if (dialog.isShowing()) {
                                     dialog.dismiss();
                                 }
                                 break;
                             case R.id.tv_photo://相册
-                                Intent openAlbumIntent = new Intent(
-                                        Intent.ACTION_PICK);
-                                openAlbumIntent.setType("image/*");//图片类型
-                                startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
+                                /**
+                                 * 动态获取访问本地的照片 媒体文件内容和文件的权限
+                                 */
+                                IMAGEVIEWSTATUS = 2;
+                                requestCemera(Manifest.permission.WRITE_EXTERNAL_STORAGE,  "用户成功授权访问本地照片和媒体文件","用户残忍拒绝访问本地照片和媒体文件");
+
                                 if (dialog.isShowing()) {
                                     dialog.dismiss();
                                 }

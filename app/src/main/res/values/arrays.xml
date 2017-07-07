@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="url">
+        <item>http://www.chinadaily.com.cn/hqgj/jryw/201111/ae8a18be37c0c1cf17b8b9ed3ae4704f.jpg</item>
+        <item>http://img62.gkzhan.com/9/20140514/635356583091575827975.jpg</item>
+        <item>http://a1.att.hudong.com/18/00/01300001234740130562000839970.jpg</item>
+        <item>http://gd.people.com.cn/NMediaFile/2016/0408/LOCAL201604080923000120428122275.jpg</item>
+    </array>
+
+
+    <array name="title">
+        <item>业务员正在抄表1</item>
+        <item>业务员正在抄表2</item>
+        <item>领导正在开会及指导</item>
+        <item>一名业务员正在维修</item>
+    </array>
+</resources>

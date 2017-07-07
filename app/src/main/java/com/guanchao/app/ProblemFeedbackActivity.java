@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.guanchao.app.utils.StatusBarUtil;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -48,6 +50,11 @@ public class ProblemFeedbackActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
+
+        //设置状态栏背景颜色
+        StatusBarUtil.setStatusBgColor(this, getResources().getColor(R.color.textCursorDrawable), false);
+        //设置状态栏字体的颜色true  深色  false 白色
+        StatusBarUtil.StatusBarTestColorMode(this, false);
 
         edtTitle.addTextChangedListener(textWatcher);
         edtDetails.addTextChangedListener(textWatcher);

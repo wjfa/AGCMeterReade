@@ -17,12 +17,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.LogTime;
 import com.guanchao.app.R;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 
 import java.lang.ref.WeakReference;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -167,27 +169,6 @@ public class ActivityUtils {
         intent.setData(uri);
         getActivity().startActivity(intent);
     }
-    /**
-     * 掉此方法输入所要转换的时间输入例如（"2014年06月14日16时09分00秒"）返回时间戳
-     *
-     * @param time
-     * @return
-     */
-    public String data(String time) {
-        SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd HH：mm：ss",
-                Locale.CHINA);
-        Date date;
-        String times = null;
-        try {
-            date = sdr.parse(time);
-            long l = date.getTime();
-            String stf = String.valueOf(l);
-            times = stf.substring(0, 10);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return times;
-    }
 
     /**
      * 自定义的消息弹窗,用来消息提示,不做其它用途
@@ -213,7 +194,11 @@ public class ActivityUtils {
                 .setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
-                        dialog.dismiss();
+                        switch (view.getId()){
+                            case R.id.tv_foot_yes:
+                                dialog.dismiss();
+                                break;
+                        }
                     }
                 })
                 .setGravity(Gravity.CENTER)
@@ -230,21 +215,35 @@ public class ActivityUtils {
      * @return
      */
     public String setCurrentTime(String time) {
+/*
+   格式："MM/dd/yy h:mmaa" -> "04/06/70 3:23am"
+        "MMM dd, yyyy h:mmaa" -> "Apr 6, 1970 3:23am"
+        "MMMM dd, yyyy h:mmaa" -> "April 6, 1970 3:23am"
+        "E, MMMM dd, yyyy h:mmaa" -> "Mon, April 6, 19703:23am&
+        "EEEE, MMMM dd, yyyy h:mmaa" -> "Monday, April 6, 1970 3:23am"
+        "'Noteworthy day: 'M/d/yy" -> "Noteworthy day: 4/6/70"
+*/
+
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         if (time == "年月日时分秒") {//获取年 月 日 时 分 秒
             String time1 = new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss").format(curDate);
             return time1;
         } else if (time == "年月日") {//年 月 日
-            String time2 = new SimpleDateFormat("yyyy年MM月dd日").format(curDate);
+            //yyyy-MM-dd  返回的是2017-8-8
+            //yyyy-M-d  返回的是2017-08-08
+            String time2 = new SimpleDateFormat("yyyy年M月d日").format(curDate);
             return time2;
+        }else if (time == "年-月-日") {//年 月 日
+            String time3 = new SimpleDateFormat("yyyy-MM-dd").format(curDate);
+            return time3;
         } else if (time == "时分") {//时 分
 //            HH：返回的是24小时制的时间
 //            hh：返回的是12小时制的时间
-            String time3 = new SimpleDateFormat("HH:mm").format(curDate);
-            return time3;
-        } else if (time == "年月") {
-            String time4 = new SimpleDateFormat("yyyy-MM").format(curDate);
+            String time4 = new SimpleDateFormat("HH:mm").format(curDate);
             return time4;
+        } else if (time == "年月") {
+            String time5 = new SimpleDateFormat("yyyy-MM").format(curDate);
+            return time5;
         }
         return null;
     }
@@ -275,12 +274,30 @@ public class ActivityUtils {
         } else if ("7".equals(mWay)) {
             mWay = "六";
         }
-
         if (isDlack){
             return mYear + "年" + mMonth + "月" + mDay + "日" + "\t\t星期" + mWay;
         }else {
             return "星期" + mWay;
         }
 
+    }
+
+    /**
+     * 比较两个日期的大小(将时间转换成时间戳比较)
+     * 输入所要转换的时间输入例如（"2014-06-14-16-09-00"）返回时间戳
+     */
+    private long compareDateTime(String timeString) {
+        //  HH：返回的是24小时制的时间
+        //  hh：返回的是12小时制的时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date d;
+        long LogTime = 0;
+        try {
+            d = sdf.parse(timeString);
+            LogTime = d.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return LogTime;
     }
 }

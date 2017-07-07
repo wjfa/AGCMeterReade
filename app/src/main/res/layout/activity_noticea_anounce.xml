@@ -4,6 +4,7 @@
     android:id="@+id/activity_noticea_anounce"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.guanchao.app.NoticeaAnounceActivity">
 
 
@@ -60,6 +61,8 @@
         android:id="@+id/recyView_notice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#dbdbd8"></android.support.v7.widget.RecyclerView>
+        android:background="#dbdbd8">
+    </android.support.v7.widget.RecyclerView>
+
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 </RelativeLayout>

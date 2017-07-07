@@ -57,7 +57,7 @@ public class StatusBarUtil {
      *
      * @param activity
      * @param colorId  直接使用资源ID，即R.color.xxx
-     * @param isFollow 是否保持沉浸式状态  背景颜色是默认的
+     * @param isFollow 是否保持沉浸式状态  背景颜色是默认系统颜色
      */
     public static void setStatusBgColor(Activity activity, int colorId, boolean isFollow) {
 

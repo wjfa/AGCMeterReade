@@ -239,6 +239,7 @@
                     android:background="@null"
                     android:focusable="false"
                     android:textSize="@dimen/artficl_means_size"
+                    android:textColor="#333333"
                     android:enabled="false"/>
             </RelativeLayout>
 
@@ -278,6 +279,7 @@
                     android:background="@null"
                     android:focusable="false"
                     android:textSize="@dimen/artficl_means_size"
+                    android:textColor="#333333"
                     android:enabled="false"/>
             </RelativeLayout>
         </RelativeLayout>
@@ -314,9 +316,9 @@
                     android:layout_toRightOf="@+id/tv3"
                     android:background="@null"
                     android:paddingRight="8dp"
-                    android:textColor="#000000"
                     android:textSize="@dimen/artficl_means_size"
                     android:enabled="false"
+                    android:textColor="#333333"
                     android:focusable="false"/>
             </RelativeLayout>
         </RelativeLayout>
@@ -348,6 +350,7 @@
                 android:background="@null"
                 android:focusable="false"
                 android:enabled="false"
+                android:textColor="#333333"
                 android:textSize="@dimen/artficl_means_size" />
         </RelativeLayout>
         <!--报修内容-->
@@ -369,12 +372,14 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/shape_border"
-            android:paddingBottom="12dp"
+            android:paddingBottom="15dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:paddingTop="12dp"
+            android:paddingTop="10dp"
             android:textSize="@dimen/artficl_means_size"
             android:focusable="false"
+            android:gravity="top"
+            android:textColor="#333333"
             android:enabled="false"/>
 
         <!--维修内容-->
@@ -400,7 +405,7 @@
                 android:layout_marginTop="10dp"
                 android:padding="7dp"
                 android:background="@drawable/shape_border"
-                android:hint="暂无维修内容,请输入！"
+                android:hint="暂无维修内容！"
                 android:gravity="top"
                 android:textSize="@dimen/artficl_means_size"
                 android:textCursorDrawable="@drawable/shape_cursor_color"/>

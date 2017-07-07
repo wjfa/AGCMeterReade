@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_frist_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,12 +37,33 @@
             android:layout_marginRight="6dp"/>
     </android.support.v7.widget.Toolbar>
 
-    <!--轮播图-->
-    <com.jorge.circlelibrary.ImageCycleView
-        android:id="@+id/cyaleview_route_driver"
+    <!--注：这些属性设置只是为了圆形指示器有用   对数字指示器无效果
+     delay_time	integer	轮播间隔时间，默认2000
+     scroll_time	integer	轮播滑动执行时间，默认800
+     is_auto_play	boolean	是否自动轮播，默认true
+     title_background	color	reference
+     title_textcolor	color	标题字体颜色
+     title_textsize	dimension	标题字体大小
+     title_height	dimension	标题栏高度
+     indicator_width	dimension	指示器圆形按钮的宽度
+     indicator_height	dimension	指示器圆形按钮的高度
+     indicator_margin	dimension	指示器之间的间距
+     indicator_drawable_selected	reference	指示器选中效果
+     indicator_drawable_unselected	reference	指示器未选中效果
+     image_scale_type	enum	和imageview的ScaleType作用一样
+ -->
+
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.5"></com.jorge.circlelibrary.ImageCycleView>
+        android:layout_height="wrap_content"
+        app:title_textcolor="#ff0"
+        app:indicator_margin="5dp"
+        app:indicator_drawable_unselected="@color/color_no"
+        app:indicator_drawable_selected="@color/color_ok"/>
+
     <RelativeLayout
         android:layout_weight="1"
         android:layout_marginBottom="5dp"
@@ -128,10 +150,11 @@
                 android:gravity="center"
                 android:background="@drawable/sel_frist_text"/>
             <TextView
+                android:id="@+id/tv_qrcode"
                 android:layout_width="60dp"
                 android:layout_height="100dp"
                 android:drawableTop="@mipmap/ic_main6"
-                android:text="便利服务"
+                android:text="扫码读表"
                 android:layout_weight="1"
                 android:textColor="#000000"
                 android:textSize="@dimen/frist_main_size"

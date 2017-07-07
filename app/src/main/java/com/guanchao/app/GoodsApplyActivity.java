@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.guanchao.app.utils.StatusBarUtil;
+
 import org.w3c.dom.Text;
 
 import butterknife.BindView;
@@ -47,6 +49,11 @@ public class GoodsApplyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_apply);
         ButterKnife.bind(this);
+
+        //设置状态栏背景颜色
+        StatusBarUtil.setStatusBgColor(this, getResources().getColor(R.color.textCursorDrawable), false);
+        //设置状态栏字体的颜色true  深色  false 白色
+        StatusBarUtil.StatusBarTestColorMode(this, false);
 
         tvPrompt.setText("还可输入 " + MaxLen + "字");
         edtName.addTextChangedListener(textWatcher);
