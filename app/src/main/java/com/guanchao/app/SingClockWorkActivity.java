@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.guanchao.app.service.MyMusicService;
 import com.guanchao.app.utils.ActivityUtils;
 import com.guanchao.app.utils.SaveUtils;
-import com.guanchao.app.utils.StatusBarUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,8 +26,6 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.guanchao.app.R.id.view;
 
 public class SingClockWorkActivity extends AppCompatActivity {
 
@@ -65,11 +62,11 @@ public class SingClockWorkActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-        //设置状态栏背景颜色
+       /* //设置状态栏背景颜色
         StatusBarUtil.setStatusBgColor(this, getResources().getColor(R.color.textCursorDrawable), false);
         //设置状态栏字体的颜色true  深色  false 白色
         StatusBarUtil.StatusBarTestColorMode(this, false);
-
+*/
         activityUtils = new ActivityUtils(this);
         saveUtils = new SaveUtils(this);
         //获取日期转换成星期
@@ -231,7 +228,7 @@ public class SingClockWorkActivity extends AppCompatActivity {
      */
     private void openDialogSign() {
         dialogSign = new Dialog(this, R.style.processDialog);
-        dialogSign.setContentView(LayoutInflater.from(this).inflate(R.layout.dialog_icon, null));
+        dialogSign.setContentView(LayoutInflater.from(this).inflate(R.layout.dialog_go_work, null));
         dialogSign.getWindow().setGravity(Gravity.FILL);
         dialogSign.show();
         //设置延时多少秒关闭效果

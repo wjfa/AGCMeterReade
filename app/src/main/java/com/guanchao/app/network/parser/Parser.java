@@ -1,15 +1,21 @@
 package com.guanchao.app.network.parser;
 
+import android.content.Entity;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.guanchao.app.entery.BaseEntity;
+import com.guanchao.app.entery.GoodsApply;
+import com.guanchao.app.entery.GoodsApplyModel;
 import com.guanchao.app.entery.ImgUpdate;
+import com.guanchao.app.entery.NoticeAnounce;
 import com.guanchao.app.entery.ServiceRepair;
 import com.guanchao.app.entery.User;
 import com.guanchao.app.entery.UserSelcetWatchMessage;
 import com.guanchao.app.entery.UserSelect;
 import com.guanchao.app.entery.Watch;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -123,7 +129,55 @@ public class Parser {
         return entity;
 
     }
+    //用户通知
+    public static NoticeAnounce parserNoticeAnounce(String json){
+        Gson gson = new Gson();
+        NoticeAnounce entity = gson.fromJson(json, new TypeToken< NoticeAnounce>() {
+        }.getType());
+        return entity;
 
+    }
+    //上班签到和下班签退
+    public static BaseEntity parserSignClickWork(String json){
+        Gson gson = new Gson();
+        BaseEntity entity = gson.fromJson(json, new TypeToken< BaseEntity>() {
+        }.getType());
+        return entity;
+
+    }
+    //上班签到和下班签退
+    public static BaseEntity parserProblemFeedBack(String json){
+        Gson gson = new Gson();
+        BaseEntity entity = gson.fromJson(json, new TypeToken< BaseEntity>() {
+        }.getType());
+        return entity;
+
+    }
+
+    //物资申请（物品）
+    public static List<GoodsApply> parserGoodsApply(String json){
+        Gson gson = new Gson();
+        List<GoodsApply> entity = gson.fromJson(json, new TypeToken< List<GoodsApply>>() {
+        }.getType());
+
+        return entity;
+    }
+    //物资申请（物品）
+    public static List<GoodsApplyModel> parserGoodsApplyModel(String json){
+        Gson gson = new Gson();
+        List<GoodsApplyModel> entity = gson.fromJson(json, new TypeToken< List<GoodsApplyModel>>() {
+        }.getType());
+
+        return entity;
+    }
+    //上班签到和下班签退
+    public static BaseEntity parserGoodsApplyCommit(String json){
+        Gson gson = new Gson();
+        BaseEntity entity = gson.fromJson(json, new TypeToken< BaseEntity>() {
+        }.getType());
+        return entity;
+
+    }
 }
 /*class GsonUtils {
     //将Json数据解析成相应的映射对象

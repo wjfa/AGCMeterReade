@@ -51,7 +51,7 @@ public class RepairsFragment extends Fragment {
     Button btnOk;
     @BindView(R.id.rel_repairs_ref)
     RelativeLayout relRefresh;//刷新页面
-    public static int stutesOK;//点击保存后设置跳转到维修页面
+    public static int stutesCommitOK;//点击保存后设置跳转到维修页面
     private ActivityUtils activityUtils;
 
     @Nullable
@@ -125,13 +125,13 @@ public class RepairsFragment extends Fragment {
                     //{"data":null,"message":"报修成功","success":true}
                     BaseEntity baseEntity = Parser.parserUserRepairs(json);
                     if (baseEntity.getSuccess()==true){
-                        stutesOK=1;//设置点击保存后跳转到维修页面
+                        stutesCommitOK=1;//设置点击保存后跳转到维修页面  MainActivity用到
                         if (relRefresh.getVisibility()==View.VISIBLE){
                             relRefresh.setVisibility(View.GONE);
                         }
                         startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().finish();
-                        //activityUtils.showToast(baseEntity.getMessage());
+                        activityUtils.showToast("提交成功");
                     }else {
                         if (relRefresh.getVisibility()==View.VISIBLE){
                             relRefresh.setVisibility(View.GONE);

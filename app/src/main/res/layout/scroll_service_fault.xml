@@ -405,7 +405,7 @@
                 android:layout_marginTop="10dp"
                 android:padding="7dp"
                 android:background="@drawable/shape_border"
-                android:hint="暂无维修内容！"
+                android:hint="暂无维修内容"
                 android:gravity="top"
                 android:textSize="@dimen/artficl_means_size"
                 android:textCursorDrawable="@drawable/shape_cursor_color"/>

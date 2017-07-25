@@ -33,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //设置状态栏背景颜色
+       /* //设置状态栏背景颜色
         StatusBarUtil.setStatusBgColor(this, getResources().getColor(R.color.color_main_select),false);
         //设置状态栏字体的颜色true  深色  false 白色
-        StatusBarUtil.StatusBarTestColorMode(this, true);
+        StatusBarUtil.StatusBarTestColorMode(this, true);*/
         initFragment();
         initBottom();
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         }else if (FristFragment.select == getIntent().getIntExtra("repairs", 2)) {
             setReplaceFragment(repairsFragment);
             mNavigationController.setSelect(2);
-        }else if (FristFragment.select == getIntent().getIntExtra("service_repairs", 3)||RepairsFragment.stutesOK==1) {
+        }else if (FristFragment.select == getIntent().getIntExtra("service_repairs", 3)||RepairsFragment.stutesCommitOK==1) {
             setReplaceFragment(serviceRepairsFragment);
             mNavigationController.setSelect(3);
         }

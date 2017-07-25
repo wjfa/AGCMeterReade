@@ -23,7 +23,9 @@ import com.guanchao.app.GoodsApplyActivity;
 import com.guanchao.app.LoginActivity;
 import com.guanchao.app.MainActivity;
 import com.guanchao.app.NoticeaAnounceActivity;
+import com.guanchao.app.OperationManualActivity;
 import com.guanchao.app.ProblemFeedbackActivity;
+import com.guanchao.app.QrCodeFristActivity;
 import com.guanchao.app.QrCodeScanActivity;
 import com.guanchao.app.R;
 import com.guanchao.app.SignClockActivity;
@@ -101,7 +103,7 @@ public class FristFragment extends Fragment{
      */
     private void setLunBoTu() {
         //设置轮播图尺寸
-        banner.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getScreenHeight(getActivity()) * 3 / 11));
+        banner.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getScreenHeight(getActivity()) * 3 / 9));
         //轮播图属性设置
         banner.setImages(MyApplication.images) //设置图片集合（刚打开不会空白）
                 .setImageLoader(new GlideImageLoader())//设置图片加载器
@@ -149,7 +151,7 @@ public class FristFragment extends Fragment{
                 startActivity(new Intent(getActivity(), MainActivity.class).putExtra("watch", select));
                 getActivity().finish();
                 break;
-            case R.id.tv_repairs://b报修
+            case R.id.tv_repairs://报修
                 select = 2;
                 startActivity(new Intent(getActivity(), MainActivity.class).putExtra("repairs", select));
                 getActivity().finish();
@@ -165,16 +167,15 @@ public class FristFragment extends Fragment{
             case R.id.tv_artifical_photo://物资申请
                 startActivity(new Intent(getActivity(), GoodsApplyActivity.class));
                 break;
-            case R.id.tv_noticea://通知公告
-                startActivity(new Intent(getActivity(), NoticeaAnounceActivity.class));
-                break;
+
             case R.id.tv_qrcode://二维码扫描
                 /**
                  * 动态获取访问相机  Manifest.permission.CAMERA
                  */
+
                 if (PermissionsUtil.hasPermission(getActivity(), Manifest.permission.CAMERA)) {
                     //成功跳转  成功允许时的操作
-                    startActivity(new Intent(getActivity(), QrCodeScanActivity.class));
+                    startActivity(new Intent(getActivity(), QrCodeFristActivity.class));
                     // Toast.makeText(QrCodeScanActivity.this, "可以访问摄像头", Toast.LENGTH_LONG).show();
                 } else {
                     PermissionsUtil.requestPermission(getActivity(), new PermissionListener() {
@@ -189,6 +190,12 @@ public class FristFragment extends Fragment{
                         }
                     }, new String[]{Manifest.permission.CAMERA});
                 }
+                break;
+            case R.id.tv_noticea://通知公告
+                startActivity(new Intent(getActivity(), NoticeaAnounceActivity.class));
+                break;
+            case R.id.tv_operation:
+                startActivity(new Intent(getActivity(), OperationManualActivity.class));
                 break;
             case R.id.tv_problem_feedback://问题反馈
                 startActivity(new Intent(getActivity(), ProblemFeedbackActivity.class));

@@ -25,11 +25,11 @@
     </android.support.v7.widget.Toolbar>
 
 
-    <ScrollView
+    <com.guanchao.app.utils.ReboundScrollView
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include layout="@layout/scroll_repairs" ></include>
-    </ScrollView>
+    </com.guanchao.app.utils.ReboundScrollView>
 </RelativeLayout>

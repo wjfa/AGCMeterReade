@@ -100,7 +100,9 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/shape_border2"
                 android:textCursorDrawable="@drawable/shape_cursor_color"
-                android:paddingLeft="15dp" />
+                android:paddingLeft="15dp"
+                android:inputType="phone"
+                android:digits="1234567890"/>
         </LinearLayout>
 
         <LinearLayout
@@ -171,11 +173,11 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_marginTop="15dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
             android:layout_marginBottom="15dp"
             android:padding="7dp"
-            android:hint="暂无报修内容，请输入！"
+            android:hint="暂无报修内容"
             android:gravity="top"
             android:textCursorDrawable="@drawable/shape_cursor_color"
             android:background="@drawable/shape_border"
@@ -190,7 +192,7 @@
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         android:layout_marginLeft="18dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="18dp"
         android:layout_marginBottom="10dp"
         android:background="@color/color_no_click"
         android:enabled="false"

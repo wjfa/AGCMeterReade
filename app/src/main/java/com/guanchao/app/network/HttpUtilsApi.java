@@ -35,5 +35,23 @@ public class HttpUtilsApi {
     //维修故障
     public static final String serviceFault="dtcb/repair/repair?";
 
+    //通知公告
+    public static final String noticeAnounce="dtcb/notice/noticeList?";
+    //上班签到
+    public static final String signClickGoWork="dtcb/attendance/sign?";
+    //下班签退
+    public static final String signClickDownWork="dtcb/attendance/leave?";
+
+    //问题反馈
+    public static final String problemFeedback="dtcb/feedback/feedback?";
+
+    //物资申请(货物)
+    public static final String goodsApplyGoods="dtcb/goodsType/queryAllGoodsType";
+
+    //物资申请(型号)
+    public static final String goodsApplyModel="dtcb/goods/queryGoodsByTypeId?";
+    //物资申请
+    public static final String goodsApplyCommit="dtcb/goodsApply/save?";
+
 
 }

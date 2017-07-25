@@ -23,4 +23,10 @@
         <item name="android:backgroundDimEnabled">true</item><!--模糊-->
         <item name="android:backgroundDimAmount">0.5</item>
     </style>
+
+    <!--popWindow弹出动画-->
+    <style name="dialogWindowAnim_style">
+        <item name="android:windowEnterAnimation">@anim/dialog_enter_anim_top_bottom</item>
+        <item name="android:windowExitAnimation">@anim/dialog_exit_anim_top_bottom</item>
+    </style>
 </resources>

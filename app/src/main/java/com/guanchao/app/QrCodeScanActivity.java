@@ -14,17 +14,34 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andview.refreshview.XRefreshViewFooter;
 import com.github.dfqin.grantor.PermissionListener;
 import com.github.dfqin.grantor.PermissionsUtil;
+import com.guanchao.app.adapter.UserSelectAdapter;
+import com.guanchao.app.entery.BaseEntity;
+import com.guanchao.app.entery.UserSelcetWatchMessage;
+import com.guanchao.app.entery.UserSelect;
+import com.guanchao.app.entery.Watch;
+import com.guanchao.app.network.OkHttpClientEM;
+import com.guanchao.app.network.UICallBack;
+import com.guanchao.app.network.parser.Parser;
+import com.guanchao.app.utils.ActivityUtils;
+import com.guanchao.app.utils.SharePreferencesUtils;
 import com.guanchao.app.utils.StatusBarUtil;
+
+import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +50,7 @@ import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder;
 import cn.bingoogolapple.qrcode.zxing.ZXingView;
+import okhttp3.Call;
 
 
 /**
@@ -72,6 +90,9 @@ public class QrCodeScanActivity extends AppCompatActivity {
     public static int QrCode;
     private Sensor sensor;
 
+    public static final int QrResult_Artifcial = 400;//二维码扫描数据传送到到人工拍照
+    private ActivityUtils activityUtils;
+    private String watermeterId;//水表id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +101,12 @@ public class QrCodeScanActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-
-        //设置状态栏背景颜色
+        activityUtils = new ActivityUtils(this);
+       /* //设置状态栏背景颜色
         StatusBarUtil.setStatusBgColor(this, getResources().getColor(R.color.textCursorDrawable), false);
         //设置状态栏字体的颜色true  深色  false 白色
         StatusBarUtil.StatusBarTestColorMode(this, false);
-
+*/
         mQRCodeView = (ZXingView) findViewById(R.id.qc_code_zxingview);
         initQRCode();
         //获得感应器服务
@@ -124,12 +145,27 @@ public class QrCodeScanActivity extends AppCompatActivity {
             // relPressBar.setVisibility(View.VISIBLE);
             //扫描成功振动效果
             setVibrator();
-            QrCode = 1;
-            startActivity(new Intent(QrCodeScanActivity.this, QrCodeShowMsgActivity.class).putExtra("qcResult", result));
-            mQRCodeView.startSpot();//扫描成功是否继续识别
-            finish();//必须要finish 不然该页面不关闭相机一直开着
-        }
+//            Log.e("扫描结果", "onScanQRCodeSuccess: "+result);
+            //用户查询 网络请求 为了获取水表watermeterId
+            okHttpUserSelect(result);
+            //选择用户 网络请求 获取信息  需要睡眠一段时间，否则可能先请求
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                        okHttpUserSelectWatch(watermeterId);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+//            QrCode = 1;
+//            startActivity(new Intent(QrCodeScanActivity.this, QrCodeShowMsgActivity.class).putExtra("qcResult", result));
+//            finish();//必须要finish 不然该页面不关闭相机一直开着
 
+            mQRCodeView.startSpot();//扫描成功是否在此二维码页面继续识别
+        }
         @Override
         public void onScanQRCodeOpenCameraError() {
             //返回到主页面
@@ -140,6 +176,112 @@ public class QrCodeScanActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * 用户选择   网络请求
+     */
+    private void okHttpUserSelect(String customerNo) {
+        //获取存储本地的抄表区域areaId
+        Watch userWatch = SharePreferencesUtils.getUserWatch();
+        String areaId = userWatch.getAreaId();
+        // relRefresh.setVisibility(View.VISIBLE);
+        OkHttpClientEM.getInstance().userSelectQrCode(areaId, customerNo).enqueue(new UICallBack() {
+            @Override
+            public void onFailureUI(Call call, IOException e) {
+//                if (relRefresh.getVisibility() == View.VISIBLE) {
+//                    relRefresh.setVisibility(View.GONE);
+//                }
+                activityUtils.showDialog("用户选择", "网络异常，请稍后重试");
+            }
+
+            @Override
+            public void onResponseUI(Call call, String json) {
+//                Log.e("用户选择", "onResponseUI: " + json);
+                BaseEntity<UserSelect> entity = Parser.parserUserSelect(json);
+                if (entity.getSuccess() == true) {
+//                    if (relRefresh.getVisibility() == View.VISIBLE) {
+//                        relRefresh.setVisibility(View.GONE);
+//                    }
+                    List<UserSelect.ListBean> listBean = entity.getData().getList();
+                    //如果返回的list为空 则提示
+                    if (listBean.size() == 0) {
+                        activityUtils.showDialog("抄表信息", "该户不是本组用户，请您扫描本组的用户");
+                        return;
+                    } else {
+                        for (int i = 0; i < listBean.size(); i++) {
+                            //获取水表id
+                            watermeterId = listBean.get(i).getWatermeterId();
+                        }
+                    }
+
+                    Log.e("获取水表id", "onResponseUI: " + watermeterId + "  " + json);
+                    // activityUtils.showToast("扫描成功");
+                } else {
+//                    if (relRefresh.getVisibility() == View.VISIBLE) {
+//                        relRefresh.setVisibility(View.GONE);
+//                    }
+                    activityUtils.showDialog("用户选择", entity.getMessage());
+                }
+
+            }
+        });
+    }
+
+    /**
+     * 用户选择后抄表页面获取用户信息  网络请求
+     */
+    private void okHttpUserSelectWatch(final String watermeterId) {
+//        relRefresh.setVisibility(View.VISIBLE);
+        //如果水表Id为空则返回
+        if (watermeterId == null) {
+            return;
+        } else {
+            OkHttpClientEM.getInstance().userSelectWatchInform(watermeterId).enqueue(new UICallBack() {
+                @Override
+                public void onFailureUI(Call call, IOException e) {
+//                if (relRefresh.getVisibility() == View.VISIBLE) {
+//                    relRefresh.setVisibility(View.GONE);
+//                }
+                    activityUtils.showDialog("获取用户信息", "网络异常，请稍后重试");
+                }
+
+                @Override
+                public void onResponseUI(Call call, String json) {
+                Log.e("用户二维码扫描", "onResponseUI: " + watermeterId);
+                    BaseEntity<UserSelcetWatchMessage> entity = Parser.parserUserSelectWatchMsg(json);
+                    if (entity.getSuccess() == true) {
+//                    if (relRefresh.getVisibility() == View.VISIBLE) {
+//                        relRefresh.setVisibility(View.GONE);
+//                    }
+                        UserSelcetWatchMessage userWatchMsg = entity.getData();
+                        String customerNo = userWatchMsg.getCustomerNo();
+                        String customerName = userWatchMsg.getName();
+                        String houseNumber = userWatchMsg.getHouseNumber();
+                        String phone = userWatchMsg.getMobile();
+                        String address = userWatchMsg.getAddress();
+                        String oldReading = userWatchMsg.getReading();
+                        String watermeterNo = userWatchMsg.getWatermeterNo();
+
+                        String location = userWatchMsg.getLocation();
+                        String longitude = (String) userWatchMsg.getLongitude();
+                        String latitude = (String) userWatchMsg.getLatitude();
+
+                        UserSelcetWatchMessage userSelcetWatchMessage = new UserSelcetWatchMessage(customerNo, customerName, houseNumber, phone, address, oldReading, watermeterNo, location, longitude, latitude);
+                        //返回结果 跳转到人工拍照页面 把信息带过去
+                        setResult(QrResult_Artifcial, new Intent().putExtra("QRCodeResult", userSelcetWatchMessage));
+                        finish();
+                        Log.e("解析成功", "onResponseUI: " + userSelcetWatchMessage + "          " + json);
+
+                    } else {
+//                    if (relRefresh.getVisibility() == View.VISIBLE) {
+//                        relRefresh.setVisibility(View.GONE);
+//                    }
+                        activityUtils.showDialog("获取用户信息", entity.getMessage());
+                    }
+                }
+            });
+        }
+
+    }
 
     @OnClick({R.id.close_flashlight, R.id.scan_barcode, R.id.tv_back, R.id.choose_qrcde_from_gallery})
     public void onClick(View view) {
@@ -152,7 +294,7 @@ public class QrCodeScanActivity extends AppCompatActivity {
                  * 动态获取访问本地的照片  媒体文件内容和文件的权限  Manifest.permission.WRITE_EXTERNAL_STORAGE
                  */
 
-                if (PermissionsUtil.hasPermission(QrCodeScanActivity.this,  Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                if (PermissionsUtil.hasPermission(QrCodeScanActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     //成功跳转到本地相册  成功允许时的操作
                     startActivityForResult(BGAPhotoPickerActivity.newIntent(this, null, 1, null, false), QRCODE_FROM_GALLERY);
                     // Toast.makeText(QrCodeScanActivity.this, "可以访问摄像头", Toast.LENGTH_LONG).show();
@@ -167,7 +309,7 @@ public class QrCodeScanActivity extends AppCompatActivity {
                         public void permissionDenied(@NonNull String[] permissions) {
                             Toast.makeText(QrCodeScanActivity.this, "用户残忍拒绝访问本地照片和媒体文件", Toast.LENGTH_LONG).show();
                         }
-                    }, new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE});
+                    }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
                 }
 
                 break;
@@ -217,7 +359,6 @@ public class QrCodeScanActivity extends AppCompatActivity {
             new AsyncTask<Void, Void, String>() {
                 @Override
                 protected String doInBackground(Void... params) {
-
                     return QRCodeDecoder.syncDecodeQRCode(picturePath);
                 }
 
@@ -262,7 +403,7 @@ public class QrCodeScanActivity extends AppCompatActivity {
                 // 获取光线强度
                 float value = event.values[0];
                 //判断光度强度值在什么范围内  打开灯光
-                if (value >= SensorManager.LIGHT_NO_MOON && value <= SensorManager.LIGHT_CLOUDY) {
+                if (value >= SensorManager.LIGHT_NO_MOON && value <= SensorManager.LIGHT_FULLMOON) {
                     mQRCodeView.openFlashlight();//开灯
                     tvlight.setSelected(true);
                     tvlight.setText("关灯");

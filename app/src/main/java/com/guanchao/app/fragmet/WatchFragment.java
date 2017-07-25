@@ -69,6 +69,10 @@ public class WatchFragment extends Fragment {
     private TimePickerView pvCustomTime;
     private String timeControls;
     private BaseEntity<List<Watch>> parserWatchList;
+    public static String  newStrTime;//设置静态的， 后面的用户选择会用到
+    public static String taskId;
+    public static String households;
+    public static String finisheNumber;
 
     @Nullable
     @Override
@@ -80,20 +84,24 @@ public class WatchFragment extends Fragment {
         //获取当前时间
         tvShowTime.setText(activityUtils.setCurrentTime("年月"));
 
-        setWatchNetRequest();
         //设置一下actionbar
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
 
-
-
-
-
+        setWatchNetRequest();
         return view;
     }
 
-    public static String taskId;
+    @Override
+    public void onResume() {
+        super.onResume();
+        /*获取焦点是更新适配器请求   因为跳转到人工拍照页面没有finish该页面只是被遮挡住了，
+        当返回到该页面会重新获取焦点，但是不重新创建*/
+        setWatchNetRequest();
+
+    }
+
     //item监听
     private WatchAdapter.onNewItemClickListener newItemClickListener = new WatchAdapter.onNewItemClickListener() {
 
@@ -101,9 +109,14 @@ public class WatchFragment extends Fragment {
         public void onNewItemClick(View view, int postion) {
             //将信息存储到本地（或者设置为静态变量start）
             String areaId = parserWatchList.getData().get(postion).getAreaId();
-            taskId = parserWatchList.getData().get(postion).getTaskId();//设置为静态变量static  后面人工拍照需要用
+//            Log.e("ddddddddddddddddd", "onNewItemClick: "+areaId );
+            taskId = parserWatchList.getData().get(postion).getTaskId();//设置为静态变量static  后面人工拍照请求需要用
             Watch watch = new Watch(areaId);
             SharePreferencesUtils.setWatch(watch);
+
+            /*户数和已抄数   后面用户筛选用得到*/
+            households = parserWatchList.getData().get(postion).getHouseholds();
+            finisheNumber = parserWatchList.getData().get(postion).getFinished();
             //实现效果
             //Toast.makeText(getActivity(), "点击了" + postion, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), ArtificialPhotoActivity.class));
@@ -131,7 +144,7 @@ public class WatchFragment extends Fragment {
         String time = tvShowTime.getText().toString();
         timeControls = time;
         //将2017-08替换为201708格式
-        String newStrTime = timeControls.replace("-", "");
+        newStrTime = timeControls.replace("-", "");
         // Log.e("获取控件时间", newStrTime);
         //获取本地保存的数据
         User watchId = SharePreferencesUtils.getUser();
@@ -149,7 +162,7 @@ public class WatchFragment extends Fragment {
 
             @Override
             public void onResponseUI(Call call, String json) {
-                Log.e("抄表", json);
+//                Log.e("抄表", json);
                 //解析json
                 parserWatchList = Parser.parserWatch(json);
                 if (parserWatchList.getSuccess() == true) {

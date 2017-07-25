@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.guanchao.app.utils.SharePreferencesUtils;
 import com.guanchao.app.utils.StatusBarUtil;
 import com.guanchao.app.utils.SystemBarCompat;
 import com.guanchao.app.utils.SystemStatusCompat;
@@ -47,6 +48,7 @@ public class LogoActivity extends AppCompatActivity {
             switch (msg.what) {
                 case 1:
                     createTimer(5);//倒计时
+
                     break;
             }
         }
@@ -103,9 +105,16 @@ public class LogoActivity extends AppCompatActivity {
         public void onPageScrollStateChanged(int state) {
             if (state == ViewPager.SCROLL_STATE_IDLE) {
                 isSelect = true;
-                startActivity(new Intent(LogoActivity.this, LoginActivity.class));
-                overridePendingTransition(R.anim.scale1,R.anim.translate_right_to_left);
-                finish();
+                //如果登入页面'忘记密码'选择  直接跳转到主页面
+                if (SharePreferencesUtils.getCheckBox(LogoActivity.this)==true){
+                    startActivity(new Intent(LogoActivity.this,MainActivity.class));
+                    finish();
+                }else {
+                    startActivity(new Intent(LogoActivity.this, LoginActivity.class));
+                    overridePendingTransition(R.anim.scale1,R.anim.translate_right_to_left);
+                    finish();
+                }
+
             }
 
         }
@@ -114,9 +123,17 @@ public class LogoActivity extends AppCompatActivity {
     @OnClick(R.id.rel_jump)
     public void onClick() {
         isSelect = true;
-        startActivity(new Intent(LogoActivity.this, LoginActivity.class));
-        overridePendingTransition(R.anim.scale1,R.anim.translate_right_to_left);
-        finish();
+        //如果登入页面'忘记密码'选择  直接跳转到主页面
+        if (SharePreferencesUtils.getCheckBox(LogoActivity.this)==true){
+            startActivity(new Intent(LogoActivity.this,MainActivity.class));
+            finish();
+        }else {
+            startActivity(new Intent(LogoActivity.this, LoginActivity.class));
+            overridePendingTransition(R.anim.scale1,R.anim.translate_right_to_left);
+            finish();
+        }
+
+
 
     }
 
@@ -142,9 +159,15 @@ public class LogoActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 if (isSelect == false) {//如果滑动或点击页面
-                    startActivity(new Intent(LogoActivity.this, LoginActivity.class));
-                    overridePendingTransition(R.anim.scale1,R.anim.translate_right_to_left);
-                    finish();
+                    //如果登入页面'忘记密码'选择 直接跳转到主页面
+                    if (SharePreferencesUtils.getCheckBox(LogoActivity.this)==true){
+                        startActivity(new Intent(LogoActivity.this,MainActivity.class));
+                        finish();
+                    }else {
+                        startActivity(new Intent(LogoActivity.this, LoginActivity.class));
+                        overridePendingTransition(R.anim.scale1,R.anim.translate_right_to_left);
+                        finish();
+                    }
                 } else {
 
                     return;

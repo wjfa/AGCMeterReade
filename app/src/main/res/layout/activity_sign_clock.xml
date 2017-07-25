@@ -45,51 +45,6 @@
         android:scaleType="fitXY"
         android:src="@mipmap/ic_sign_icon" />
 
-    <RelativeLayout
-        android:id="@+id/rt1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/img_sign_icon"
-        android:layout_alignLeft="@+id/img_sign_icon"
-        android:background="#5a7ad9"
-        android:paddingBottom="16dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="50dp"
-        android:paddingTop="18dp">
-
-        <TextView
-            android:id="@+id/tv_sign_week"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="星期一"
-            android:textColor="#ffffff"
-            android:textSize="23sp" />
-
-        <!-- <TextView
-             android:id="@+id/tv_sign_time"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_below="@+id/tv_sign_week"
-             android:layout_marginTop="3dp"
-             android:gravity="center_vertical"
-             android:text="09:20:54"
-             android:textColor="#192676"
-             android:textSize="16sp" />-->
-
-
-        <TextView
-            android:id="@+id/tv_sign_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_sign_week"
-            android:layout_marginTop="3dp"
-            android:gravity="center_vertical"
-            android:text="2017年7月1日"
-            android:textColor="#ffffff"
-            android:textSize="16sp" />
-    </RelativeLayout>
-
 
     <View
         android:id="@+id/vw"
@@ -105,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/vw"
         android:paddingBottom="10dp"
-        android:paddingTop="20dp"
+        android:paddingTop="30dp"
         android:visibility="gone">
 
         <TextView
@@ -135,7 +90,7 @@
         android:layout_marginTop="80dp"
         android:padding="25dp"
         android:textSize="30sp"
-        android:text="今天是周末休息时间哦"
+        android:text="今天是周末休息日哦"
         android:visibility="gone"/>
 
     <!--上班时间和下班时间打卡签到-->
@@ -298,6 +253,81 @@
     </RelativeLayout>
 
 
+
+    <!--加载页面-->
+    <RelativeLayout
+        android:id="@+id/rel_sign_work"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:background="@drawable/shape_login_rel">
+
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifView_login"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-15px"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_login_r"></pl.droidsonroids.gif.GifImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="请稍后..."
+            android:textColor="#fff"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="50dp"
+        android:paddingTop="18dp"
+        android:layout_alignBottom="@+id/img_sign_icon"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/tv_sign_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="星期一"
+            android:textColor="#333333"
+            android:textSize="23sp" />
+
+        <!-- <TextView
+             android:id="@+id/tv_sign_time"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/tv_sign_week"
+             android:layout_marginTop="3dp"
+             android:gravity="center_vertical"
+             android:text="09:20:54"
+             android:textColor="#192676"
+             android:textSize="16sp" />-->
+
+
+        <TextView
+            android:id="@+id/tv_sign_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_sign_week"
+            android:layout_marginTop="3dp"
+            android:gravity="center_vertical"
+            android:text="2017年7月1日"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

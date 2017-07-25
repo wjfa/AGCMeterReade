@@ -10,11 +10,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.audiofx.LoudnessEnhancer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -35,6 +41,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.github.dfqin.grantor.PermissionListener;
 import com.github.dfqin.grantor.PermissionsUtil;
 import com.guanchao.app.entery.BaseEntity;
@@ -55,13 +65,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-import static com.guanchao.app.R.mipmap.a;
 
 /**
  * 人工拍照页面
@@ -112,21 +123,41 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
     Button btnOk;
     @BindView(R.id.rel_artficl_ref)
     RelativeLayout relRefresh;//刷新页面
-    private boolean isSet = false;
     private static int REQUEST_CODE = 100;
     private int IMAGEVIEWSTATUS;//设置点击相机或相册的状态
-    private static final int SCALE = 5;//照片缩小比例
     protected static final int TAKE_PICTURE = 1;//相机请求码
     protected static final int CHOOSE_PICTURE = 2;//相册请求码
     private static final int CROP_SMALL_PICTURE = 3;//图片裁剪后按确认
-    private static final int GETPICTURE = 4;//图片复制
     public static String imagePath = "", portraitPath = "";//图片路径   设置图片路径
     private ActivityUtils activityUtils;
     private Uri tempUri;
     private String fileId;
-    private boolean isSelectPhoto;//是否已经设置图片在控件上
+    private boolean isSelectPhoto = false;//是否已经设置图片在控件上
     private String imgFilePath;
     private File tempFile;
+    private final int QrCodeRequest = 500;//跳转二维码扫描请求吗
+
+    //定位
+    private AMapLocationClient locationClient = null;
+    //声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = null;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            //设置到经纬度控件上
+            Bundle data = msg.getData();
+            double longitude = data.getDouble("mLongitude");
+            double lantitude = data.getDouble("mLantitude");
+            edtLongitude.setText(longitude + "");
+            edtLatude.setText(lantitude + "");
+            //判断经纬度控件不为空  上传
+            if (edtLongitude.length()!=0&&edtLatude.length()!=0){
+                okHttpWaterLatLtude();//获取地理位置经纬度  网络上传
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +172,8 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
         edtNewReade.addTextChangedListener(textWatcher);
         //edtNewDosage.addTextChangedListener(textWatcher);
         edtRemark.addTextChangedListener(textWatcher);
+
+
     }
 
     TextWatcher textWatcher = new TextWatcher() {
@@ -152,7 +185,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            if (edtHouseName.length() == 0 || edtNewReade.length() == 0 || edtRemark.length() == 0 || isSelectPhoto == false) {// isSelectPhoto:false  未设置图片在控件上
+            if (edtHouseName.length() == 0 || edtNewReade.length() == 0 || edtRemark.length() == 0) {// isSelectPhoto:false  未设置图片在控件上
                 btnOk.setEnabled(false);
                 btnOk.setBackgroundColor(getResources().getColor(R.color.color_no_click));
             } else {
@@ -179,6 +212,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
 
         }
     };
+
 
     /**
      * 获取剪切后的图片意图展示在控件上并保持到本地
@@ -208,7 +242,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.tv_artific_get_position://获取位置
-                activityUtils.showToast("获取位置成功");
+                locationPermission();//获取地理位置权限（定位）
                 break;
             case R.id.img_aretificl_photo://拍照
                 setShowDialogPlus();
@@ -217,8 +251,8 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                 setShowDialogPlus();
                 break;
             case R.id.btn_aretific_ok://保存
-                okHttpWaterLatLtude();//设置水表经纬度 网络请求
                 okHttpPeoplePhoto();//人工拍照 网络请求
+
                 break;
         }
     }
@@ -227,7 +261,6 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
      * 图片上传 网络请求
      */
     private void okHttpPhotoUpdate(String filePath) {
-
         relRefresh.setVisibility(View.VISIBLE);
         OkHttpClientEM.getInstance().photoUpdate(filePath).enqueue(new UICallBack() {
             @Override
@@ -249,7 +282,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                     ImgUpdate imgData = imgUpdate.getData();
                     //获取文件ID
                     fileId = imgData.getFileId();
-                    // activityUtils.showToast(imgUpdate.getMessage());
+                    activityUtils.showToast("图片获取并上传成功");
                 } else {
                     if (relRefresh.getVisibility() == View.VISIBLE) {
                         relRefresh.setVisibility(View.GONE);
@@ -268,9 +301,11 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
         String watermeterId = UserSelectActivity.watermeterId;
         String longtude = edtLongitude.getText().toString().trim();
         String latude = edtLatude.getText().toString().trim();
+        Log.e("位置上传", "onResponseUI: " + longtude + "        " + latude);
+
         relRefresh.setVisibility(View.VISIBLE);
-        if ("".equals(longtude) || "".equals(latude)) {
-            return;
+        if ("null".equals(longtude) || "null".equals(latude)) {
+            activityUtils.showDialog("水表经纬度", "水表经纬度不能为空");
         } else {
             OkHttpClientEM.getInstance().setWaterLatLtude(watermeterId, longtude, latude).enqueue(new UICallBack() {
                 @Override
@@ -288,12 +323,12 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                         if (relRefresh.getVisibility() == View.VISIBLE) {
                             relRefresh.setVisibility(View.GONE);
                         }
-                        // activityUtils.showToast(entity.getMessage());//查询成功
+                        activityUtils.showToast("获取位置信息成功");
                     } else {
                         if (relRefresh.getVisibility() == View.VISIBLE) {
                             relRefresh.setVisibility(View.GONE);
                         }
-                        activityUtils.showDialog("水表经纬度", entity.getMessage());
+                        activityUtils.showDialog("位置信息", entity.getMessage());
                     }
                 }
             });
@@ -310,13 +345,10 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
         String waterReading = edtNewReade.getText().toString().trim();
         String remark = edtRemark.getText().toString().trim();
 
-        if (edtHouseNumber.getText().toString().length() == 0 || edtHouseName.getText().toString().length() == 0 || edtDoorNumber.getText().toString().length() == 0
-                || edtPhone.getText().toString().length() == 0 || edtAddres.getText().toString().length() == 0 || edtOldtReade.getText().toString().length() == 0
-                || edtWaterNumber.getText().toString().length() == 0 || edtLongitude.getText().toString().length() == 0
-                || edtLatude.getText().toString().length() == 0 || edtInstallPosition.getText().toString().length() == 0) {
-            activityUtils.showDialog("人工拍照", "信息不完整");
-        } else if (waterReading.length() == 0 || edtNewDosage.getText().toString().length() == 0 || edtRemark.getText().toString().length() == 0) {
+        if (waterReading.length() == 0 || edtNewDosage.getText().toString().length() == 0 || edtRemark.getText().toString().length() == 0) {
             activityUtils.showDialog("人工拍照", "请补全信息");
+        } else if (isSelectPhoto == false) {
+            activityUtils.showDialog("人工拍照", "请对水表的度数进行拍照");
         } else {
             relRefresh.setVisibility(View.VISIBLE);
             OkHttpClientEM.getInstance().peoplePhoto(taskId, waterId, waterReading, remark, fileId).enqueue(new UICallBack() {
@@ -330,14 +362,33 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponseUI(Call call, String json) {
+                    Log.e("人工拍照", "onResponseUI: "+json );
                     BaseEntity entity = Parser.parserPeoplePhoto(json);
                     if (entity.getSuccess() == true) {
                         if (relRefresh.getVisibility() == View.VISIBLE) {
                             relRefresh.setVisibility(View.GONE);
                         }
+                        /*提交成功 清空还原初始控件*/
+                        imgPhoto.setImageResource(R.drawable.ic_photo_kuang);
+                        imgPhoto.setBackground(getResources().getDrawable(R.drawable.shape_border3));
+                        tvlPrompt.setText("请对准您要拍照的物品");
+                        edtHouseNumber.setText("");
+                        edtHouseName.setText("");
+                        edtDoorNumber.setText("");
+                        edtPhone.setText("");
+                        edtAddres.setText("");
+                        edtOldtReade.setText("");
+                        edtNewReade.setText("");
+                        edtWaterNumber.setText("");
+                        edtNewDosage.setText("");
+                        edtLongitude.setText("");
+                        edtLatude.setText("");
+                        edtInstallPosition.setText("");
+                        edtRemark.setText("");
+
                         //跳转
 //                        startActivity(new Intent(ArtificialPhotoActivity.this,WatchFragment.class));
-                        activityUtils.showToast(entity.getMessage());//抄表成功
+                        activityUtils.showToast("提交成功");//抄表成功
                     } else {
                         if (relRefresh.getVisibility() == View.VISIBLE) {
                             relRefresh.setVisibility(View.GONE);
@@ -352,13 +403,104 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
     }
 
     /**
-     * 相册和相机访问权限
+     * 定位
+     */
+    //初始化定位系统
+    public void initLocation() {
+        //初始化client
+        locationClient = new AMapLocationClient(this.getApplicationContext());
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //获取一次定位结果：
+        mLocationOption.setOnceLocation(true);  //该方法默认为false。true表示启动单次定位，false表示使用默认的连续定位策略
+        //获取最近3s内精度最高的一次定位结果：
+        mLocationOption.setOnceLocationLatest(true);//设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
+//        mLocationOption.setInterval(1000);
+        mLocationOption.setNeedAddress(true); //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+        mLocationOption.setWifiActiveScan(false);//设置是否强制刷新WIFI，默认为true，强制刷新。
+        mLocationOption.setHttpTimeOut(1000);  //设置定位时间，单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
+        mLocationOption.setLocationCacheEnable(true);//可选，设置是否使用缓存定位，默认为true
+        //设置定位参数
+        locationClient.setLocationOption(mLocationOption);
+
+        // 启动定位
+        locationClient.startLocation();
+        // 设置定位监听
+        locationClient.setLocationListener(locationListener);
+    }
+
+    AMapLocationListener locationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if (null != aMapLocation) {
+                //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
+                if (aMapLocation.getErrorCode() == 0) {
+//                    activityUtils.showToast("定位成功");
+                    activityUtils.showToast("高德地图: " + "定位成功" +"    返回值： "+aMapLocation.getErrorCode()+ "\n" + "经    度    : " + aMapLocation.getLongitude() + "纬    度    : " + aMapLocation.getLatitude()
+                            + "\n" + "地    址    : " + aMapLocation.getAddress() + "\n" + "兴趣点    : " + aMapLocation.getPoiName());
+
+                    Log.e("", "onLocationChanged: " + "定位成功" +"    返回值： "+aMapLocation.getErrorCode()+ "\n" + "经    度    : " + aMapLocation.getLongitude() + "纬    度    : " + aMapLocation.getLatitude()
+                            + "\n" + "地    址    : " + aMapLocation.getAddress() + "\n" + "兴趣点    : " + aMapLocation.getPoiName());
+
+                    Message msg = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("mLongitude", aMapLocation.getLongitude());
+                    bundle.putDouble("mLantitude",  aMapLocation.getLatitude());
+                    msg.setData(bundle);
+                    handler.sendMessage(msg);
+
+                } else {
+                    //定位失败
+                    activityUtils.showToast("定位失败" + "\n" + "错误码:" + aMapLocation.getErrorCode() + "\n" + "错误信息:" + aMapLocation.getErrorInfo() + "\n"
+                            + "错误描述:" + aMapLocation.getLocationDetail() + "\n");
+                }
+
+            } else {
+                activityUtils.showToast("定位失败");
+            }
+        }
+    };
+
+    /**
+     * 动态获取访问您的地理位置权限
+     */
+    private void locationPermission() {
+        /**
+         * 动态获取访问相机  Manifest.permission.CAMERA
+         */
+        if (PermissionsUtil.hasPermission(ArtificialPhotoActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            //成功允许时的操作
+            /*定位权限  定位和水表经纬度放在一起*/
+            initLocation();//定位初始化
+        } else {
+            PermissionsUtil.requestPermission(ArtificialPhotoActivity.this, new PermissionListener() {
+                @Override//接受
+                public void permissionGranted(@NonNull String[] permissions) {
+                    initLocation();//定位初始化
+                    Toast.makeText(ArtificialPhotoActivity.this, "用户成功授权访问你的地理位置", Toast.LENGTH_LONG).show();
+                }
+
+                @Override//拒绝
+                public void permissionDenied(@NonNull String[] permissions) {
+                    Toast.makeText(ArtificialPhotoActivity.this, "用户残忍拒访问你的地理位置", Toast.LENGTH_LONG).show();
+                }
+            }, new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
+        }
+    }
+
+
+    /**
+     * 相册和相机访问权限 对话框
      */
     private void requestCemera(String camera, final String granted, final String denied) {
 
         if (PermissionsUtil.hasPermission(this, camera)) {
             //权限允许成功的操作
-            if (IMAGEVIEWSTATUS==1){
+            if (IMAGEVIEWSTATUS == 1) {
                 //调用相机拍照
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                     imgFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/imagePortrait.jpg";
@@ -373,7 +515,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
 
-            }else if (IMAGEVIEWSTATUS==2){
+            } else if (IMAGEVIEWSTATUS == 2) {
                 //调用本地相册
                 Intent openAlbumIntent = new Intent(
                         Intent.ACTION_PICK);
@@ -403,19 +545,46 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
 
     private void setShowDialogPlus() {
         DialogPlus dialog = DialogPlus.newDialog(this)
-                .setContentHolder(new ViewHolder(LayoutInflater.from(this).inflate(R.layout.dialog_context, null)))
+                .setContentHolder(new ViewHolder(LayoutInflater.from(this).inflate(R.layout.dialog_context_artifical, null)))
                 .setFooter(R.layout.dialog_footer)
                 .setGravity(Gravity.BOTTOM)
                 .setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(DialogPlus dialog, View view) {
                         switch (view.getId()) {
+                            case R.id.tv_qrcode://扫二微码
+                                /**
+                                 * 动态获取访问相机  Manifest.permission.CAMERA
+                                 */
+                                if (PermissionsUtil.hasPermission(ArtificialPhotoActivity.this, Manifest.permission.CAMERA)) {
+                                    //成功跳转二维码扫描  成功允许时的操作
+                                    startActivityForResult(new Intent(ArtificialPhotoActivity.this, QrCodeScanActivity.class), QrCodeRequest);
+                                    if (dialog.isShowing()) {
+                                        dialog.dismiss();
+                                    }
+                                    // Toast.makeText(QrCodeScanActivity.this, "可以访问摄像头", Toast.LENGTH_LONG).show();
+                                } else {
+                                    PermissionsUtil.requestPermission(ArtificialPhotoActivity.this, new PermissionListener() {
+                                        @Override//接受
+                                        public void permissionGranted(@NonNull String[] permissions) {
+                                            Toast.makeText(ArtificialPhotoActivity.this, "用户成功授权访问相机", Toast.LENGTH_LONG).show();
+                                        }
+
+                                        @Override//拒绝
+                                        public void permissionDenied(@NonNull String[] permissions) {
+                                            Toast.makeText(ArtificialPhotoActivity.this, "用户残忍拒绝访问相机", Toast.LENGTH_LONG).show();
+                                        }
+                                    }, new String[]{Manifest.permission.CAMERA});
+                                }
+
+                                break;
+
                             case R.id.tv_camera://相机
                                 /**
                                  * 动态获取访问摄像头
                                  */
                                 IMAGEVIEWSTATUS = 1;
-                                requestCemera(Manifest.permission.CAMERA,  "用户成功授权访问相机","用户残忍拒绝访问相机");
+                                requestCemera(Manifest.permission.CAMERA, "用户成功授权访问相机", "用户残忍拒绝访问相机");
 
                                 if (dialog.isShowing()) {
                                     dialog.dismiss();
@@ -426,7 +595,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                                  * 动态获取访问本地的照片 媒体文件内容和文件的权限
                                  */
                                 IMAGEVIEWSTATUS = 2;
-                                requestCemera(Manifest.permission.WRITE_EXTERNAL_STORAGE,  "用户成功授权访问本地照片和媒体文件","用户残忍拒绝访问本地照片和媒体文件");
+                                requestCemera(Manifest.permission.WRITE_EXTERNAL_STORAGE, "用户成功授权访问本地照片和媒体文件", "用户残忍拒绝访问本地照片和媒体文件");
 
                                 if (dialog.isShowing()) {
                                     dialog.dismiss();
@@ -447,6 +616,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //选择用户返回数据
         if (requestCode == REQUEST_CODE && resultCode == UserSelectActivity.RESULT_CODE) {
             //将返回的数据设置在控件上
             UserSelcetWatchMessage userWatchMsg = (UserSelcetWatchMessage) data.getSerializableExtra("UserWatchMessage");
@@ -484,7 +654,7 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                         setImageToView(data, imgPhoto); // 让刚才选择裁剪得到的图片显示在界面上
                         portraitPath = imagePath;
                         Log.e("路径2：", "uploadPic: " + "从本地获取照片" + portraitPath);
-                        //   okHttpPhotoUpdate(portraitPath);//将图片上传服务器
+                        okHttpPhotoUpdate(portraitPath);//将图片上传服务器
                         isSelectPhoto = true;//是否已经设置图片在控件上
                         tvlPrompt.setText("");
                     }
@@ -492,8 +662,26 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
                     break;
             }
         }
-    }
+        /**
+         * 将QrCodeScanActivity页面二维码扫描网络请求的信息 发送过来设置在控件上
+         */
+        //二维码扫描用户返回数据
+        if (requestCode == QrCodeRequest && resultCode == QrCodeScanActivity.QrResult_Artifcial) {
+            //将返回的数据设置在控件上
+            UserSelcetWatchMessage userWatchMsg = (UserSelcetWatchMessage) data.getSerializableExtra("QRCodeResult");
+            edtHouseNumber.setText(userWatchMsg.getCustomerNo());
+            edtHouseName.setText(userWatchMsg.getName());
+            edtDoorNumber.setText(userWatchMsg.getHouseNumber());
+            edtPhone.setText(userWatchMsg.getMobile());
+            edtAddres.setText(userWatchMsg.getAddress());
+            edtOldtReade.setText(userWatchMsg.getReading());
+            edtWaterNumber.setText(userWatchMsg.getWatermeterNo());
+            edtInstallPosition.setText(userWatchMsg.getLocation());
+            edtLongitude.setText(userWatchMsg.getLongitude() + "");
+            edtLatude.setText(userWatchMsg.getLatitude() + "");
+        }
 
+    }
     /**
      * 后续要改为上传到服务器
      */
@@ -550,5 +738,27 @@ public class ArtificialPhotoActivity extends AppCompatActivity {
         matrix.postScale(scaleWidth, scaleHeight);
         Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
         return newbmp;
+    }
+
+    @Override
+    protected void onStop() {
+        // 停止定位
+        locationClient.stopLocation();
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (null != locationClient) {
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            locationClient.onDestroy();
+            locationClient = null;
+            mLocationOption = null;
+        }
+        super.onDestroy();
     }
 }

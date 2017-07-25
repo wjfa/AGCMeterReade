@@ -38,12 +38,14 @@ import com.guanchao.app.network.UICallBack;
 import com.guanchao.app.network.parser.Parser;
 import com.guanchao.app.utils.ActivityUtils;
 import com.guanchao.app.utils.ImageUtils;
+import com.guanchao.app.utils.SharePreferencesUtils;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.ViewHolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,8 +53,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+import static android.R.attr.path;
 import static com.guanchao.app.ArtificialPhotoActivity.CHOOSE_PICTURE;
 import static com.guanchao.app.ArtificialPhotoActivity.TAKE_PICTURE;
+
 /**
  * 故障维修
  */
@@ -100,14 +104,21 @@ public class ServiceFaultActivity extends AppCompatActivity {
     //private boolean isSelectPhoto;//判断是否设置图片在控件上
     private int controlsStaute;//设置点击三个照片的控件状态
     private int IMAGEVIEWSTATUS;//设置点击相机或相册的状态
-    protected static final int TAKE_PICTURES = 1;//相机请求码
-    protected static final int CHOOSE_PICTURES = 2;//相册请求码
-    private static final int CROP_PICTURE = 3;//图片裁剪后按确认
-    public static String imgPath = "", repairsBefore = "", repairsIN = "", repairsAfter = "";//图片路径   设置图片路径
+    //判断图片是否展示（来设置按顺序拍照，不然会提示）
+    private boolean isPicShow1 = false;
+    private boolean isPicShow2 = false;
+    private boolean isPicShow3 = false;
+    protected static final int TAKE_PICTURES_fault = 1;//相机请求码
+    protected static final int CHOOSE_PICTURES_fault = 2;//相册请求码
+    private static final int CROP_PICTURE_fault = 3;//图片裁剪后按确认
+    public static String imgPathm = "", repairsBefore = "", repairsIN = "", repairsAfter = "";//图片路径   设置图片路径
 
     private String imgFilePath;
     private File tempFile;
-
+    private String beforePicId;//维修前图片id
+    private String inPicId;//维修中图片id
+    private String afterPicId;//维修后图片id
+    private static int isCommitSucess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,10 +140,6 @@ public class ServiceFaultActivity extends AppCompatActivity {
         edtRepairsContent.setText(serviceRepair.getCallContent());
 
         edtServiceContent.addTextChangedListener(textWatcher);
-       /* // 取控件当前的布局参数
-        ViewGroup.LayoutParams layoutParams = tvSContent.getLayoutParams();
-        layoutParams.height = 380;// 当控件的高强制设成300象素
-        tvSContent.setLayoutParams(layoutParams);// 使设置好的布局参数应用到控件*/
     }
 
     private TextWatcher textWatcher = new TextWatcher() {
@@ -156,17 +163,6 @@ public class ServiceFaultActivity extends AppCompatActivity {
                 btnServiceOk.setEnabled(false);
                 btnServiceOk.setBackgroundColor(getResources().getColor(R.color.color_no_click));
             }
-            /*if (edtServiceContent.length() != 0) {
-                tvSContent.setHint("");
-
-            } else {
-                tvSContent.setHint("暂无维修内容");
-            }
-            if (edtServiceContent.length() > 220) {//当输入的长度>180时设置控件高度300px像素
-                ViewGroup.LayoutParams layoutParams2 = edtServiceContent.getLayoutParams();
-                layoutParams2.height = 380;// 当控件的高强制设成300象素
-                edtServiceContent.setLayoutParams(layoutParams2);// 使设置好的布局参数应用到控件
-            }*/
         }
     };
 
@@ -196,12 +192,22 @@ public class ServiceFaultActivity extends AppCompatActivity {
                 setShowDialogPlus();
                 break;
             case R.id.img_photo_now://维修中
-                controlsStaute = 2;
-                setShowDialogPlus();
+                if (isPicShow1 == true) {//必须第一个拍过照片才可以拍第二张
+                    controlsStaute = 2;
+                    setShowDialogPlus();
+                } else {
+                    activityUtils.showDialog("上传图片", "请先进行维修前拍照");
+                }
+
                 break;
             case R.id.img_photo_after://维修后
-                controlsStaute = 3;
-                setShowDialogPlus();
+                if (isPicShow1 == true && isPicShow2 == true) {//同理
+                    controlsStaute = 3;
+                    setShowDialogPlus();
+                } else {
+                    activityUtils.showDialog("上传图片", "请先进行维修前和维修中拍照");
+                }
+
                 break;
             case R.id.btn_service_ok://保存
                 okHttpServiceFault();
@@ -212,32 +218,39 @@ public class ServiceFaultActivity extends AppCompatActivity {
     /**
      * 图片上传　　网络请求
      */
-    private void okHttpPhotoUpdate(List<File> path) {
+    private void okHttpPhotoUpdate(String path) {
         relRefresh.setVisibility(View.VISIBLE);
-        OkHttpClientEM.getInstance().photoUpdate2(path).enqueue(new UICallBack() {
+        OkHttpClientEM.getInstance().photoUpdate(path).enqueue(new UICallBack() {
             @Override
             public void onFailureUI(Call call, IOException e) {
-                if (relRefresh.getVisibility()==View.VISIBLE){
+                if (relRefresh.getVisibility() == View.VISIBLE) {
                     relRefresh.setVisibility(View.GONE);
                 }
-                activityUtils.showDialog("图片上传","网络异常，请稍后重试");
+                activityUtils.showDialog("图片上传", "网络异常，请稍后重试");
             }
 
             @Override
             public void onResponseUI(Call call, String json) {
-                Log.e("图片上传2", "onResponseUI: " + json);
+                Log.e("图片上传", "onResponseUI: " + json);
                 BaseEntity<ImgUpdate> imgUpdate = Parser.parserImgUpdate(json);
                 if (imgUpdate.getSuccess() == true) {
-                    if (relRefresh.getVisibility()==View.VISIBLE){
+                    if (relRefresh.getVisibility() == View.VISIBLE) {
                         relRefresh.setVisibility(View.GONE);
                     }
-                    //获取文件ID
-                    //activityUtils.showToast(imgUpdate.getMessage());
+                    //获取文件ID 后面提交维修时需要
+                    if (controlsStaute == 1) {
+                        beforePicId = imgUpdate.getData().getFileId();
+                    } else if (controlsStaute == 2) {
+                        inPicId = imgUpdate.getData().getFileId();
+                    } else if (controlsStaute == 3) {
+                        afterPicId = imgUpdate.getData().getFileId();
+                    }
+                    activityUtils.showToast("图片上传成功");
                 } else {
-                    if (relRefresh.getVisibility()==View.VISIBLE){
+                    if (relRefresh.getVisibility() == View.VISIBLE) {
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showDialog("图片上传",imgUpdate.getMessage());
+                    activityUtils.showDialog("图片上传", imgUpdate.getMessage());
                 }
             }
         });
@@ -247,38 +260,41 @@ public class ServiceFaultActivity extends AppCompatActivity {
      * 维修故障　　网络请求
      */
     private void okHttpServiceFault() {
-        //获取维修ID
-        String id = serviceRepair.getId();
-        String beforePic = serviceRepair.getRepairBeforePic() + "";
-        String inPic = serviceRepair.getRepairInPic() + "";
-        String afterPic = serviceRepair.getRepairAfterPic() + "";
+        String id = SharePreferencesUtils.getUser().getId();
         String repairsContent = edtServiceContent.getText().toString().trim();
-        relRefresh.setVisibility(View.VISIBLE);
-        if (repairsContent.length() != 0) {
-            OkHttpClientEM.getInstance().serviceFault(id, beforePic, inPic, afterPic, repairsContent).enqueue(new UICallBack() {
+        if (isPicShow1 == false || isPicShow2 == false || isPicShow3 == false) {
+            activityUtils.showDialog("故障维修", "请对维修前,中,后的维修情况进行拍照");
+        } else {
+            relRefresh.setVisibility(View.VISIBLE);
+            OkHttpClientEM.getInstance().serviceFault(id, beforePicId, inPicId, afterPicId, repairsContent).enqueue(new UICallBack() {
                 @Override
                 public void onFailureUI(Call call, IOException e) {
-                    if (relRefresh.getVisibility()==View.VISIBLE){
+                    if (relRefresh.getVisibility() == View.VISIBLE) {
                         relRefresh.setVisibility(View.GONE);
                     }
-                    activityUtils.showDialog("故障维修","网络异常，请稍后重试  " + "");
+                    activityUtils.showDialog("故障维修", "网络异常，请稍后重试  " + "");
                 }
 
                 @Override
                 public void onResponseUI(Call call, String json) {
+                    Log.e("故障维修", "onResponseUI: " + json);
                     BaseEntity entity = Parser.parserServiceFault(json);
                     if (entity.getSuccess() == true) {
-                        if (relRefresh.getVisibility()==View.VISIBLE){
+                        isCommitSucess = 1;
+
+                        if (relRefresh.getVisibility() == View.VISIBLE) {
                             relRefresh.setVisibility(View.GONE);
                         }
+                       /*提交成功 返回上一页*/
+                        finish();
 //                        startActivity(new Intent(ServiceFaultActivity.this,ServiceRepairsFragment.class));
 //                        finish();
                         activityUtils.showToast(entity.getMessage());
                     } else {
-                        if (relRefresh.getVisibility()==View.VISIBLE){
+                        if (relRefresh.getVisibility() == View.VISIBLE) {
                             relRefresh.setVisibility(View.GONE);
                         }
-                        activityUtils.showDialog("故障维修",entity.getMessage());
+                        activityUtils.showDialog("故障维修", entity.getMessage());
                     }
                 }
             });
@@ -292,7 +308,7 @@ public class ServiceFaultActivity extends AppCompatActivity {
 
         if (PermissionsUtil.hasPermission(this, camera)) {
             //权限允许成功的操作
-            if (IMAGEVIEWSTATUS==1){
+            if (IMAGEVIEWSTATUS == 1) {
 
                 //调用相机拍照
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -305,18 +321,18 @@ public class ServiceFaultActivity extends AppCompatActivity {
                             .getExternalStorageDirectory() + "/" + pathName));
                     // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
                     openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
-                    startActivityForResult(openCameraIntent, TAKE_PICTURES);
+                    startActivityForResult(openCameraIntent, TAKE_PICTURES_fault);
                 } else {
                     Toast.makeText(ServiceFaultActivity.this, "未找到存储卡，无法存储照片！",
                             Toast.LENGTH_SHORT).show();
                 }
 
-            }else if (IMAGEVIEWSTATUS==2){
+            } else if (IMAGEVIEWSTATUS == 2) {
                 //调用本地相册
                 Intent openAlbumIntent = new Intent(
                         Intent.ACTION_PICK);
                 openAlbumIntent.setType("image/*");//图片类型
-                startActivityForResult(openAlbumIntent, CHOOSE_PICTURES);
+                startActivityForResult(openAlbumIntent, CHOOSE_PICTURES_fault);
             }
 
             //Toast.makeText(ArtificialPhotoActivity.this, "可以访问摄像头", Toast.LENGTH_LONG).show();
@@ -352,7 +368,7 @@ public class ServiceFaultActivity extends AppCompatActivity {
                                  * 动态获取访问摄像头
                                  */
                                 IMAGEVIEWSTATUS = 1;
-                                requestCemera(Manifest.permission.CAMERA,  "用户成功授权访问相机","用户残忍拒绝访问相机");
+                                requestCemera(Manifest.permission.CAMERA, "用户成功授权访问相机", "用户残忍拒绝访问相机");
 
                                 if (dialog.isShowing()) {
                                     dialog.dismiss();
@@ -363,7 +379,7 @@ public class ServiceFaultActivity extends AppCompatActivity {
                                  * 动态获取访问本地的照片 媒体文件内容和文件的权限
                                  */
                                 IMAGEVIEWSTATUS = 2;
-                                requestCemera(Manifest.permission.WRITE_EXTERNAL_STORAGE,  "用户成功授权访问本地照片和媒体文件","用户残忍拒绝访问本地照片和媒体文件");
+                                requestCemera(Manifest.permission.WRITE_EXTERNAL_STORAGE, "用户成功授权访问本地照片和媒体文件", "用户残忍拒绝访问本地照片和媒体文件");
 
                                 if (dialog.isShowing()) {
                                     dialog.dismiss();
@@ -396,30 +412,28 @@ public class ServiceFaultActivity extends AppCompatActivity {
                     }
 
                     break;
-                case CROP_PICTURE://图片裁剪后  按确认
+                case CROP_PICTURE_fault://图片裁剪后  按确认
                     if (data != null) {
                         if (controlsStaute == 1) {
+                            isPicShow1 = true;
                             setImageToView(data, imgPhotoBefore); // 让刚才选择裁剪得到的图片显示在界面上
-                            repairsBefore = imgPath;
+                            repairsBefore = imgPathm;
+                            okHttpPhotoUpdate(repairsBefore);//将图片上传服务器
                             tvPrmopt1.setText("");
                             // Log.e("图片路径", "onActivityResult: "+repairsBefore );
                         } else if (controlsStaute == 2) {
+                            isPicShow2 = true;
                             setImageToView(data, imgPhotoNow);
-                            repairsIN = imgPath;
+                            repairsIN = imgPathm;
+                            okHttpPhotoUpdate(repairsIN);//将图片上传服务器
                             tvPrmopt2.setText("");
                         } else if (controlsStaute == 3) {
+                            isPicShow3 = true;
                             setImageToView(data, imgPhotoAfter);
-                            repairsAfter = imgPath;
+                            repairsAfter = imgPathm;
                             tvPrmopt3.setText("");
                             //isSelectPhoto=true;
-                            //设置第三张图片后上传
-                            // TODO: 2017/6/18 判断三张图片都存在后上传
-                            //图片文件集合
-//                            List<File> fileList = new ArrayList<>();
-//                            fileList.add(new File(repairsBefore));
-//                            fileList.add(new File(repairsIN));
-//                            fileList.add(new File(repairsAfter));
-                            //okHttpPhotoUpdate(fileList);//将图片上传服务器
+                            okHttpPhotoUpdate(repairsAfter);//将图片上传服务器
                         }
 
                         // Log.e("路径2：", "uploadPic: " + portraitPath);
@@ -438,10 +452,10 @@ public class ServiceFaultActivity extends AppCompatActivity {
         // 上传至服务器
         //imagePath指的是从相册或相机中选取照片点击“确定”时将裁剪的图片复制一份到指定的路径
 
-        imgPath = ImageUtils.savePhoto(this,bitmap, Environment
+        imgPathm = ImageUtils.savePhoto(this, bitmap, Environment
                 .getExternalStorageDirectory().getAbsolutePath(), String
                 .valueOf(System.currentTimeMillis()));
-        Log.e("路径：", "uploadPic: " + imgPath);
+        Log.e("路径：", "uploadPic: " + imgPathm);
 
     }
 
@@ -464,7 +478,7 @@ public class ServiceFaultActivity extends AppCompatActivity {
             intent.putExtra("outputX", 150);
             intent.putExtra("outputY", 150);
             intent.putExtra("return-data", true);
-            startActivityForResult(intent, CROP_PICTURE);
+            startActivityForResult(intent, CROP_PICTURE_fault);
         }
     }
 }

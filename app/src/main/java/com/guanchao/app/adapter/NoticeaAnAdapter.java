@@ -11,9 +11,15 @@ import android.widget.TextView;
 
 import com.guanchao.app.R;
 import com.guanchao.app.entery.BaseEntity;
+import com.guanchao.app.entery.NoticeAnounce;
 import com.guanchao.app.entery.Watch;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.id.list;
+import static android.R.string.no;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
  * Created by 王建法 on 2017/6/14.
@@ -21,17 +27,31 @@ import java.util.List;
 
 public class NoticeaAnAdapter extends RecyclerView.Adapter<NoticeaAnAdapter.MyViewHolder> {
 
-    private List<String> noticeaList;
+    private List<NoticeAnounce.ListBean> noticeaList = new ArrayList<>();
     private Context context;
 
-    public NoticeaAnAdapter(Context context, List<String> noticeaList) {
-        this.noticeaList = noticeaList;
+    public NoticeaAnAdapter(Context context, List<NoticeAnounce.ListBean> noticeaList) {
         this.context = context;
+        this.noticeaList = noticeaList;
+
+
     }
 
-    public void addDate(int pos,String data){
-        noticeaList.add(pos,data);
+    public void addDate(int pos, NoticeAnounce.ListBean data) {
+        noticeaList.add(pos, data);
+        //更新，不是notifyDataSetChanged();
         notifyItemChanged(pos);
+        notifyItemInserted(pos);
+        notifyItemRangeChanged(pos, noticeaList.size());
+    }
+
+    //添加数据并判断是否清空
+    public void appendData(NoticeAnounce.ListBean data, boolean isClearOld) {
+        if (data == null)
+            return;
+        if (isClearOld)
+            noticeaList.clear();
+        noticeaList.add(noticeaList.size(), data);
     }
 
     @Override
@@ -44,11 +64,15 @@ public class NoticeaAnAdapter extends RecyclerView.Adapter<NoticeaAnAdapter.MyVi
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         // TODO: 2017/3/15 先对整体布局进行点击监听
 
-        holder.tvTitle.setText("标题：  " + noticeaList.get(position));
-       /* holder.tvPosition.setText("区域：" + watch.getAreaName());
-        holder.tvHouseNumber.setText("户数：" + watch.getHouseholds());
-        holder.tvCopied.setText("已抄：" + watch.getFinished());
-*/
+        NoticeAnounce.ListBean noticeAnounce = noticeaList.get(position);
+        String title = noticeAnounce.getTitle();
+        String content = noticeAnounce.getContent();
+        String createDate = noticeAnounce.getCreateDate();
+        NoticeAnounce.ListBean bean = new NoticeAnounce.ListBean(title, content, createDate);
+        holder.tvTitle.setText(bean.getTitle());
+        holder.tvContent.setText(bean.getContent());
+        holder.tvTime.setText(bean.getCreateDate());
+
 
         if (myListener != null) {
             //点击监听
@@ -71,7 +95,7 @@ public class NoticeaAnAdapter extends RecyclerView.Adapter<NoticeaAnAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        return noticeaList.size();
+        return noticeaList.size()==0?0:noticeaList.size();
     }
 
     /**

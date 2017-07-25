@@ -10,11 +10,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.guanchao.app.LoginActivity;
 import com.guanchao.app.R;
 import com.guanchao.app.ServiceFaultActivity;
 import com.guanchao.app.adapter.ServiceAdapter;
@@ -59,11 +61,18 @@ public class ServiceRepairsFragment extends Fragment {
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
 
-
         okHttpService();//维修列表  请求
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        /*获取焦点是更新适配器请求   因为跳转到人工拍照页面没有finish该页面只是被遮挡住了，
+        当返回到该页面会重新获取焦点，但是不重新创建*/
+        okHttpService();//维修列表  请求
+
+    }
 
     //item监听
     int pos;
@@ -116,6 +125,7 @@ public class ServiceRepairsFragment extends Fragment {
 
             @Override
             public void onResponseUI(Call call, String json) {
+                Log.e("维修任务", "onResponseUI: "+json );
                 BaseEntity<List<ServiceRepair>> entity = Parser.parserServiceList(json);
                 if (entity.getSuccess() == true) {
                     if (relRefresh.getVisibility()==View.VISIBLE){

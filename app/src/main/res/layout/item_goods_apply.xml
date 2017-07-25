@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical"
+    tools:context="com.guanchao.app.fragmet.FristFragment">
+
+
+        <TextView
+            android:id="@+id/tv_apply_item"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="item"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="#555555"
+            android:background="@drawable/shape_border5"/>
+
+</LinearLayout>

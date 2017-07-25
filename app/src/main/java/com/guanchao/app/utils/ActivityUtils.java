@@ -260,7 +260,7 @@ public class ActivityUtils {
         String mDay = String.valueOf(c.get(Calendar.DAY_OF_MONTH));// 获取当前月份的日期号码
         String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK));
         if ("1".equals(mWay)) {
-            mWay = "天";
+            mWay = "日";
         } else if ("2".equals(mWay)) {
             mWay = "一";
         } else if ("3".equals(mWay)) {

@@ -49,7 +49,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
                 holder.icon.setImageResource(R.mipmap.ic_no_complete);
             } else {
                 holder.icon.setImageResource(R.mipmap.ic_complete);
-
             }
         }
         holder.people.setText("报修人：" + service.getCallMan());
